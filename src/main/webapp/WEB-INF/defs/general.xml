@@ -8,8 +8,21 @@
 	</definition>
 	
 	<definition name="index" extends="common">
-		<put-attribute name="title" value="Movie App Project" />
+		<put-attribute name="title" value="Movie Pick" />
 		<put-attribute name="body" value="/WEB-INF/jsp/index.jsp" />
+		<put-attribute name="current" value="index" />
+	</definition>
+	
+	<definition name="users" extends="common">
+		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="body" value="/WEB-INF/jsp/users.jsp" />
+		<put-attribute name="current" value="users" />
+	</definition>
+	
+	<definition name="user-detail" extends="common">
+		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="body" value="/WEB-INF/jsp/user-detail.jsp" />
+		<put-attribute name="current" value="users" />
 	</definition>
 
 </tiles-definitions>
