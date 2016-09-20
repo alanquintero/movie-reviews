@@ -4,6 +4,7 @@
 		<class>com.alanquintero.mp.entity.User</class>
 		<class>com.alanquintero.mp.entity.Role</class>
 		<class>com.alanquintero.mp.entity.Movie</class>
-		<class>com.alanquintero.mp.entity.Blog</class>
+		<class>com.alanquintero.mp.entity.Profile</class>
+		<class>com.alanquintero.mp.entity.Review</class>
 	</persistence-unit>
 </persistence>

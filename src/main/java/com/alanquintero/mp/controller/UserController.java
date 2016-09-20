@@ -30,7 +30,7 @@ public class UserController {
 	
 	@RequestMapping("/users/{id}")
 	public String userDetail(Model model, @PathVariable int id){
-		model.addAttribute("user", userService.getUser(id));
+		model.addAttribute("user", userService.getUserWithReviews(id));
 		return "user-detail";
 	}
 	

@@ -15,7 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -34,8 +34,8 @@ public class User {
 	@JoinTable
 	private List<Role> roles;
 
-	@OneToMany(mappedBy = "user")
-	private List<Blog> blogs;
+	@OneToOne(mappedBy = "user")
+	private Profile profile;
 
 	public Integer getId() {
 		return id;
@@ -77,12 +77,12 @@ public class User {
 		this.roles = roles;
 	}
 
-	public List<Blog> getBlogs() {
-		return blogs;
+	public Profile getProfile() {
+		return profile;
 	}
 
-	public void setBlogs(List<Blog> blogs) {
-		this.blogs = blogs;
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 
 }

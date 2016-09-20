@@ -10,8 +10,11 @@ package com.alanquintero.mp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.alanquintero.mp.entity.Blog;
+import com.alanquintero.mp.entity.Profile;
+import com.alanquintero.mp.entity.User;
 
-public interface BlogRepository extends JpaRepository<Blog, Integer>{
+public interface ProfileRepository extends JpaRepository<Profile, Integer>{
 
+	public Profile getProfileByUser(User user);
+	
 }

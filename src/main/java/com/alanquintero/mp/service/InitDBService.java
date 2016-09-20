@@ -18,11 +18,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alanquintero.mp.entity.Blog;
+import com.alanquintero.mp.entity.Profile;
+import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Role;
 import com.alanquintero.mp.entity.User;
-import com.alanquintero.mp.repository.BlogRepository;
+import com.alanquintero.mp.repository.ProfileRepository;
+import com.alanquintero.mp.repository.ReviewRepository;
 import com.alanquintero.mp.repository.MovieRepository;
 import com.alanquintero.mp.repository.RoleRepository;
 import com.alanquintero.mp.repository.UserRepository;
@@ -41,8 +43,12 @@ public class InitDBService {
 	private MovieRepository movieRepository;
 
 	@Autowired
-	private BlogRepository blogRepository;
+	private ProfileRepository profileRepository;
+	
+	@Autowired
+	private ReviewRepository reviewRepository;
 
+	
 	@PostConstruct
 	public void init() {
 		Role roleUser = new Role();
@@ -61,27 +67,25 @@ public class InitDBService {
 		userAdmin.setRoles(roles);
 		userRepository.save(userAdmin);
 		
-		Blog blogAlan = new Blog();
-		blogAlan.setName("Alan Quintero");
-		blogAlan.setUrl("https://mx.linkedin.com/in/alan-quintero-benítez-a7770a87");
-		blogAlan.setUser(userAdmin);
-		blogRepository.save(blogAlan);
+		Profile alanProfile = new Profile();
+		alanProfile.setQuote("Where we're going, we don't need roads.");
+		alanProfile.setUser(userAdmin);
+		profileRepository.save(alanProfile);
 		
 		Movie movie1 = new Movie();
 		movie1.setTitle("Back to the Future");
-		movie1.setRating(5);
-		movie1.setComment("It is my favorite movie");
-		movie1.setPublishedDate(new Date());
-		movie1.setBlog(blogAlan);
+		movie1.setRating(0.0);
+		movie1.setYear(1985);
+		movie1.setDescription("Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.");
 		movieRepository.save(movie1);
 		
-		Movie movie2 = new Movie();
-		movie2.setTitle("Star Wars");
-		movie2.setRating(5);
-		movie2.setComment("I love this movie");
-		movie2.setPublishedDate(new Date());
-		movie2.setBlog(blogAlan);
-		movieRepository.save(movie2);
+		Review review1 = new Review();
+		review1.setComment("I love this movie!");
+		review1.setPublishedDate(new Date());
+		review1.setRating(5);
+		review1.setMovie(movie1);
+		review1.setProfile(alanProfile);
+		reviewRepository.save(review1);
 		
 	}
 

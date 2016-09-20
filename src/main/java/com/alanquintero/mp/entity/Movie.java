@@ -8,14 +8,11 @@
  *******************************************************/
 package com.alanquintero.mp.entity;
 
-import java.util.Date;
-
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Movie {
@@ -26,18 +23,16 @@ public class Movie {
 
 	private String title;
 
+	private String description;
+
 	private String image;
 
-	private String comment;
+	private Integer year;
 
-	@Column(name = "published_date")
-	private Date publishedDate;
-	
-	private Integer rating;
-	
-	@ManyToOne
-	@JoinColumn(name = "blog_id")
-	private Blog blog;
+	private Double rating;
+
+	@OneToMany(mappedBy = "movie")
+	private List<Review> reviews;
 
 	public Integer getId() {
 		return id;
@@ -63,36 +58,36 @@ public class Movie {
 		this.image = image;
 	}
 
-	public String getComment() {
-		return comment;
+	public Integer getYear() {
+		return year;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setYear(Integer year) {
+		this.year = year;
 	}
 
-	public Date getPublishedDate() {
-		return publishedDate;
-	}
-
-	public void setPublishedDate(Date publishedDate) {
-		this.publishedDate = publishedDate;
-	}
-
-	public Blog getBlog() {
-		return blog;
-	}
-
-	public void setBlog(Blog blog) {
-		this.blog = blog;
-	}
-
-	public Integer getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public void setRating(Double rating) {
 		this.rating = rating;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
 }

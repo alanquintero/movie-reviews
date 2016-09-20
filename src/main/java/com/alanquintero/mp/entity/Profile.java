@@ -14,26 +14,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
-public class Blog {
+public class Profile {
 
 	@Id
 	@GeneratedValue
 	private Integer id;
 	
-	private String url;
+	private String quote;
 	
-	private String name;
+	private String image;
 	
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@OneToMany(mappedBy="blog")
-	private List<Movie> movies;
+	@OneToMany(mappedBy="profile")
+	private List<Review> reviews;
 
 	public Integer getId() {
 		return id;
@@ -43,20 +43,12 @@ public class Blog {
 		this.id = id;
 	}
 
-	public String getUrl() {
-		return url;
+	public String getQuote() {
+		return quote;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public void setQuote(String quote) {
+		this.quote = quote;
 	}
 
 	public User getUser() {
@@ -67,12 +59,20 @@ public class Blog {
 		this.user = user;
 	}
 
-	public List<Movie> getMovies() {
-		return movies;
+	public List<Review> getReview() {
+		return reviews;
 	}
 
-	public void setMovies(List<Movie> movies) {
-		this.movies = movies;
+	public void setReview(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 }
