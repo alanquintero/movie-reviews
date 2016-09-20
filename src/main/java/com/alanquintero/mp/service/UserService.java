@@ -13,6 +13,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.alanquintero.mp.entity.Movie;
@@ -25,6 +27,7 @@ import com.alanquintero.mp.repository.ReviewRepository;
 import com.alanquintero.mp.repository.UserRepository;
 
 @Service
+@Transactional
 public class UserService {
 
 	@Autowired
@@ -54,7 +57,7 @@ public class UserService {
 		User user = getUser(id);
 		Profile profile = profileRepository.getProfileByUser(user);
 		
-		List<Review> reviews = reviewRepository.getReviewsByProfile(profile);
+		List<Review> reviews = reviewRepository.getReviewsByProfile(profile, new PageRequest(0, 10, Direction.DESC, "publishedDate"));
 		for(Review review : reviews){
 			Movie movie = movieRepository.getMovieByReviews(review);
 			review.setMovie(movie);
@@ -63,6 +66,10 @@ public class UserService {
 		user.setProfile(profile);
 		
 		return user;
+	}
+	
+	public void saveUser(User user){
+		userRepository.save(user);
 	}
 	
 	

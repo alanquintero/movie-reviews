@@ -41,5 +41,7 @@
 
 	<jpa:repositories base-package="com.alanquintero.mp.repository"
 		entity-manager-factory-ref="emf" transaction-manager-ref="transactionManager" />
+		
+	<import resource="security.xml"/>
 
 </beans>
