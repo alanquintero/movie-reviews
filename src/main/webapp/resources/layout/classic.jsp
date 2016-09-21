@@ -7,6 +7,8 @@
 
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><tiles:getAsString name="title"></tiles:getAsString></title>
 
@@ -55,15 +57,27 @@
 					<ul class="nav navbar-nav">
 						<li class="${current == 'index' ? 'active' : ''}"><a
 							href="<spring:url value="/"/>">Home</a></li>
-						<li class="${current == 'users' ? 'active' : ''}"><a
-							href="<spring:url value="/users.html" />">Users</a></li>
-						<li class="${current == 'register' ? 'active' : ''}"><a
-							href="<spring:url value="/register.html" />">Register</a></li>
+						<security:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
+							<li class="${current == 'users' ? 'active' : ''}"><a
+								href="<spring:url value="/users.html" />">Users</a></li>
+						</security:authorize>
+						<security:authorize access="isAuthenticated()">
+							<li class="${current == 'profile' ? 'active' : ''}"><a
+								href="<spring:url value="/profile.html" />">My Profile</a></li>
+						</security:authorize>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li class="${current == 'login' ? 'active' : ''}"><a
-							href="<spring:url value="/login.html" />">Login</a></li>
-						<li><a href="../navbar-fixed-top/">Fixed top</a></li>
+						<security:authorize access="! isAuthenticated()">
+							<li class="${current == 'login' ? 'active' : ''}"><a
+								href="<spring:url value="/login.html" />">Login</a></li>
+						</security:authorize>
+						<security:authorize access="isAuthenticated()">
+							<li><a href="<spring:url value="/logout" />">Logout</a></li>
+						</security:authorize>
+						<security:authorize access="! isAuthenticated()">
+							<li class="${current == 'register' ? 'active' : ''}"><a
+								href="<spring:url value="/register.html" />">Register</a></li>
+						</security:authorize>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
