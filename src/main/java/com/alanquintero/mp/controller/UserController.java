@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,7 +53,14 @@ public class UserController {
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String doRegister(@ModelAttribute("user") User user){
 		userService.saveUser(user);
-		return "register";
+		return "redirect:/register.html?success=true";
+	}
+	
+	@RequestMapping("/profile")
+	public String profile(Model model, Principal principal){
+		String name = principal.getName();
+		model.addAttribute("user", userService.getUserWithReviews(name));
+		return "profile";
 	}
 	
 }

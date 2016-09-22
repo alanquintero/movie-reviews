@@ -9,6 +9,8 @@
 package com.alanquintero.mp.entity;
 
 import java.util.List;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,16 +22,19 @@ public class Movie {
 	@Id
 	@GeneratedValue
 	private Integer id;
-
+	
 	private String title;
 
-	private String description;
+	@Column(length = 500)
+	private String storyline;
 
 	private String image;
 
 	private Integer year;
 
 	private Double rating;
+	
+	private int vote;
 
 	@OneToMany(mappedBy = "movie")
 	private List<Review> reviews;
@@ -74,12 +79,12 @@ public class Movie {
 		this.rating = rating;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getStoryline() {
+		return storyline;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setStoryline(String storyline) {
+		this.storyline = storyline;
 	}
 
 	public List<Review> getReviews() {
@@ -88,6 +93,14 @@ public class Movie {
 
 	public void setReviews(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+
+	public int getVote() {
+		return vote;
+	}
+
+	public void setVote(int vote) {
+		this.vote = vote;
 	}
 
 }

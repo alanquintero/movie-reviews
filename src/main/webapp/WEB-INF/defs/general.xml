@@ -19,10 +19,10 @@
 		<put-attribute name="current" value="users" />
 	</definition>
 	
-	<definition name="user-detail" extends="common">
+	<definition name="profile" extends="common">
 		<put-attribute name="title" value="Movie Pick" />
-		<put-attribute name="body" value="/WEB-INF/views/jsp/user-detail.jsp" />
-		<put-attribute name="current" value="users" />
+		<put-attribute name="body" value="/WEB-INF/views/jsp/profile.jsp" />
+		<put-attribute name="current" value="profile" />
 	</definition>
 	
 	<definition name="register" extends="common">
@@ -35,6 +35,18 @@
 		<put-attribute name="title" value="Movie Pick" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/login.jsp" />
 		<put-attribute name="current" value="login" />
+	</definition>
+	
+	<definition name="user-detail" extends="common">
+		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="body" value="/WEB-INF/views/jsp/user-detail.jsp" />
+		<put-attribute name="current" value="users" />
+	</definition>
+	
+	<definition name="movie" extends="common">
+		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="body" value="/WEB-INF/views/jsp/movie.jsp" />
+		<put-attribute name="current" value="movie" />
 	</definition>
 
 </tiles-definitions>

@@ -8,6 +8,7 @@
  *******************************************************/
 package com.alanquintero.mp.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -15,15 +16,18 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.Review;
+import com.alanquintero.mp.entity.Role;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.repository.MovieRepository;
 import com.alanquintero.mp.repository.ProfileRepository;
 import com.alanquintero.mp.repository.ReviewRepository;
+import com.alanquintero.mp.repository.RoleRepository;
 import com.alanquintero.mp.repository.UserRepository;
 
 @Service
@@ -42,19 +46,21 @@ public class UserService {
 	@Autowired
 	private MovieRepository movieRepository;
 	
+	@Autowired
+	private RoleRepository roleRepository;
 	
 	
 	public List<User> getAllUsers(){
 		return userRepository.findAll();
 	}
 	
-	public User getUser(int id){
+	public User getUserById(int id){
 		return userRepository.findOne(id);
 	}
 	
 	@Transactional
 	public User getUserWithReviews(int id){
-		User user = getUser(id);
+		User user = getUserById(id);
 		Profile profile = profileRepository.getProfileByUser(user);
 		
 		List<Review> reviews = reviewRepository.getReviewsByProfile(profile, new PageRequest(0, 10, Direction.DESC, "publishedDate"));
@@ -69,7 +75,19 @@ public class UserService {
 	}
 	
 	public void saveUser(User user){
+		user.setEnabled(true);
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(roleRepository.findByName("ROLE_USER"));
+		user.setRoles(roles);
 		userRepository.save(user);
+	}
+	
+	@Transactional
+	public User getUserWithReviews(String name){
+		User user = userRepository.getUserByName(name);
+		return getUserWithReviews(user.getId());
 	}
 	
 	

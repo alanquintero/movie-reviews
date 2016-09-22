@@ -24,9 +24,11 @@ public class Review {
 	@GeneratedValue
 	private Integer id;
 
+	private String title;
+	
 	private String comment;
 
-	private Integer rating;
+	private int rating;
 
 	@Column(name = "published_date")
 	private Date publishedDate;
@@ -56,11 +58,11 @@ public class Review {
 		this.comment = comment;
 	}
 
-	public Integer getRating() {
+	public int getRating() {
 		return rating;
 	}
 
-	public void setRating(Integer rating) {
+	public void setRating(int rating) {
 		this.rating = rating;
 	}
 
@@ -87,6 +89,13 @@ public class Review {
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
-	
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
 }

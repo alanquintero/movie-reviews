@@ -5,6 +5,10 @@
 
 <form:form commandName="user" cssClass="form-horizontal">
 	
+	<c:if test="${param.success eq true }">
+		<div class="alert alert-success">Registration Successful!</div>
+	</c:if>
+	
 	<h3 class="text-center">Register <span class="label label-default">Free</span></h3>
 	
 	<div class="form-group">

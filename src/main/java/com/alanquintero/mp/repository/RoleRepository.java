@@ -14,4 +14,6 @@ import com.alanquintero.mp.entity.Role;
 
 public interface RoleRepository extends JpaRepository<Role, Integer>{
 
+	public Role findByName(String name);
+	
 }

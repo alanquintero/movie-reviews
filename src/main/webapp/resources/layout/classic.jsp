@@ -51,12 +51,18 @@
 							class="icon-bar"></span> <span class="icon-bar"></span> <span
 							class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Movie Pick</a>
+					<div class="${current == 'index' ? 'active' : ''}">
+						<a class="navbar-brand" href="<spring:url value="/"/>">Movie Pick</a>
+					</div>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
+					<form class="navbar-form navbar-left">
+            			<input type="text" class="form-control" placeholder="Search a movie">
+          			</form>
 					<ul class="nav navbar-nav">
-						<li class="${current == 'index' ? 'active' : ''}"><a
-							href="<spring:url value="/"/>">Home</a></li>
+						<li class="${current == 'movie' ? 'active' : ''}">
+							<a href="<spring:url value="/movie.html" />">Search</a>
+						</li>
 						<security:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
 							<li class="${current == 'users' ? 'active' : ''}"><a
 								href="<spring:url value="/users.html" />">Users</a></li>

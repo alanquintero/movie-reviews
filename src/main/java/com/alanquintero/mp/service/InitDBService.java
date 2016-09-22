@@ -68,27 +68,61 @@ public class InitDBService {
 		roles.add(roleAdmin);
 		roles.add(roleUser);
 		userAdmin.setRoles(roles);
+		userAdmin.setEnabled(true);
 		userRepository.save(userAdmin);
 		
-		Profile alanProfile = new Profile();
-		alanProfile.setQuote("Where we're going, we don't need roads.");
-		alanProfile.setUser(userAdmin);
-		profileRepository.save(alanProfile);
+		Profile adminProfile = new Profile();
+		adminProfile.setQuote("Where we're going, we don't need roads.");
+		adminProfile.setUser(userAdmin);
+		profileRepository.save(adminProfile);
 		
 		Movie movie1 = new Movie();
 		movie1.setTitle("Back to the Future");
-		movie1.setRating(0.0);
+		movie1.setRating(10.0);
 		movie1.setYear(1985);
-		movie1.setDescription("Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.");
+		movie1.setStoryline("Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.");
 		movieRepository.save(movie1);
 		
 		Review review1 = new Review();
+		review1.setTitle("Great movie!");
 		review1.setComment("I love this movie!");
 		review1.setPublishedDate(new Date());
-		review1.setRating(5);
+		review1.setRating(10);
 		review1.setMovie(movie1);
-		review1.setProfile(alanProfile);
+		review1.setProfile(adminProfile);
 		reviewRepository.save(review1);
+		
+		
+		User userTest = new User();
+		userTest .setName("test");
+		userTest .setPassword(encoder.encode("test"));
+		roles = new ArrayList<Role>();
+		roles.add(roleUser);
+		userTest.setRoles(roles);
+		userTest.setEnabled(true);
+		userRepository.save(userTest);
+		
+		Profile testProfile = new Profile();
+		testProfile.setQuote("Be the force be with you.");
+		testProfile.setUser(userTest);
+		profileRepository.save(testProfile);
+		
+		Movie movie2 = new Movie();
+		movie2.setTitle("Star Wars III - Revenge of the Sith");
+		movie2.setRating(9.0);
+		movie2.setYear(2005);
+		movie2.setStoryline("During the near end of the clone wars, Darth Sidious has revealed himself and is ready to execute the last part of his plan to rule the Galaxy. Sidious is ready for his new apprentice, Lord Vader, to step into action and kill the remaining Jedi. Vader, however, struggles to choose the dark side and save his wife or remain loyal to the Jedi order.");
+		movieRepository.save(movie2);
+		
+		Review review2 = new Review();
+		review2.setTitle("I am your father!");
+		review2.setComment("My favorite movie.");
+		review2.setPublishedDate(new Date());
+		review2.setRating(9);
+		review2.setMovie(movie2);
+		review2.setProfile(testProfile);
+		reviewRepository.save(review2);
+		
 		
 	}
 

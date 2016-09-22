@@ -36,6 +36,8 @@ public class User {
 
 	@OneToOne(mappedBy = "user")
 	private Profile profile;
+	
+	private boolean enabled;
 
 	public Integer getId() {
 		return id;
@@ -85,4 +87,12 @@ public class User {
 		this.profile = profile;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 }
