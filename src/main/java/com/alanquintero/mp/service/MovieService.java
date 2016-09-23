@@ -47,5 +47,19 @@ public class MovieService {
 		return movie;
 	}
 	
+	@Transactional
+	public List<Movie> searchMovie(String movie){
+		List<Movie> movies = movieRepository.findAllMovies( "%" + movie + "%");
+		
+		return movies;
+	}
+	
+	
+	@Transactional
+	public List<Movie> popularMovies(){
+		List<Movie> movies = movieRepository.findPopularMovies(new PageRequest(0, 10, Direction.DESC, "rating"));
+		
+		return movies;
+	}
 	
 }

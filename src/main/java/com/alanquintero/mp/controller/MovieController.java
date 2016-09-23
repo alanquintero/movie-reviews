@@ -35,9 +35,15 @@ public class MovieController {
 		return "movie";
 	}
 	
+	@RequestMapping(value="/result/{movie}")
+	public String searchMovie(Model model, @PathVariable String movie){
+		model.addAttribute("movie", movieService.searchMovie(movie));
+		return "result";
+	}
+	
 	@RequestMapping(value="/result")
-	public String doRegister(Model model, @PathVariable String movie){
-		//model.addAttribute("movie", movieService.getResultMovies(movie));
+	public String searchEmpty(Model model){
+		model.addAttribute("movie", movieService.popularMovies());
 		return "result";
 	}
 	

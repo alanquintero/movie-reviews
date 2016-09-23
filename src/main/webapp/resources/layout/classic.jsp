@@ -57,11 +57,11 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<form class="navbar-form navbar-left">
-            			<input type="text" class="form-control" placeholder="Search a movie">
+            			<input type="text" id="movie" class="form-control" placeholder="Search a movie">
           			</form>
 					<ul class="nav navbar-nav">
 						<li class="${current == 'movie' ? 'active' : ''}">
-							<a href="<spring:url value="/movie.html" />">Search</a>
+							<a id="searchLink" href="<spring:url value="/result.html" />">Search</a>
 						</li>
 						<security:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
 							<li class="${current == 'users' ? 'active' : ''}"><a
@@ -100,6 +100,15 @@
 		</p>
 
 	</div>
+	
+	<script>
+		var link = document.getElementById('searchLink');
+	    var input = document.getElementById('movie');
+	    input.onchange = input.onkeyup = function() {
+	        link.href= '/result/'+input.value+'.html';
+	    };
+		
+	</script>
 
 </body>
 </html>
