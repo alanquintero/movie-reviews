@@ -10,6 +10,7 @@ package com.alanquintero.mp.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,7 +27,7 @@ public class Movie {
 	private String title;
 
 	@Column(length = 500)
-	private String storyline;
+	private String synopsis;
 
 	private String image;
 
@@ -35,8 +36,10 @@ public class Movie {
 	private Double rating;
 	
 	private int vote;
+	
+	private String trailer;
 
-	@OneToMany(mappedBy = "movie")
+	@OneToMany(mappedBy = "movie", cascade=CascadeType.REMOVE)
 	private List<Review> reviews;
 
 	public Integer getId() {
@@ -79,12 +82,12 @@ public class Movie {
 		this.rating = rating;
 	}
 
-	public String getStoryline() {
-		return storyline;
+	public String getSynopsis() {
+		return synopsis;
 	}
 
-	public void setStoryline(String storyline) {
-		this.storyline = storyline;
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
 	}
 
 	public List<Review> getReviews() {
@@ -101,6 +104,14 @@ public class Movie {
 
 	public void setVote(int vote) {
 		this.vote = vote;
+	}
+
+	public String getTrailer() {
+		return trailer;
+	}
+
+	public void setTrailer(String trailer) {
+		this.trailer = trailer;
 	}
 
 }

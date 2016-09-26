@@ -89,6 +89,12 @@ public class UserService {
 		User user = userRepository.getUserByName(name);
 		return getUserWithReviews(user.getId());
 	}
-	
-	
+
+	/**
+	 * @param id
+	 */
+	public void deleteUser(int id) {
+		userRepository.delete(id);
+	}
+		
 }

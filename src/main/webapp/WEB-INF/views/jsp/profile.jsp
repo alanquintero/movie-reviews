@@ -2,6 +2,19 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="../../../resources/layout/taglib.jsp"%>
+<%@ include file="../../../resources/layout/remove.jsp"%>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".triggerRemove").click(function(e){
+			e.preventDefault();
+			$("#modalRemove .removeBtn").attr("href", $(this).attr("href"));
+			$("#removeModalLabel").text("Remove Review");
+			$("#confirmationMessage").text("Are you sure to delete this Review?");
+			$("#modalRemove").modal();
+		})
+	});
+</script>
 
 <div>
 
@@ -19,6 +32,7 @@
 				<th>Rating Given</th>
 				<th>Title Comment</th>
 				<th>Comment</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -26,13 +40,19 @@
 				<tr>
 					<td>
 						<a href="<spring:url value="/movie/${review.movie.id}.html" />">
-							${review.movie.title} <font color="gray">(${review.movie.year})</font>
+							<c:out value="${review.movie.title}" /> <font color="gray">(<c:out value="${review.movie.year}" />)</font>
 						</a>
 					</td>
 					<td> <fmt:formatDate type="date" value="${review.publishedDate}" /></td>
-					<td>${review.rating}</td>
-					<td><b>${review.title}</b></td>
-					<td>${review.comment}</td>
+					<td><c:out value="${review.rating}" /></td>
+					<td><b><c:out value="${review.title}" /></b></td>
+					<td><c:out value="${review.comment}" /></td>
+					<td>
+						<a href="<spring:url value="/profile/remove/${review.id}.html" />"
+						   class="btn btn-danger triggerRemove">
+						    Remove Review
+						</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

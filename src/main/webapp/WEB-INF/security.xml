@@ -6,6 +6,8 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
+	<global-method-security pre-post-annotations="enabled"/>
+
 	<http use-expressions="true" >
 		<csrf disabled="true" />
 		<intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
@@ -27,6 +29,7 @@
 				authorities-by-username-query="SELECT user.name, role.name from User
 												JOIN user_role ON user.id = user_role.users_id
 												JOIN role ON user_role.roles_id = role.id
+												JOIN profile ON user_role.roles_id = role.id
 												WHERE user.name = ?"
 				users-by-username-query="SELECT name, password, enabled FROM user WHERE name = ?"
 			/>

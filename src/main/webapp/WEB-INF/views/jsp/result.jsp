@@ -19,10 +19,10 @@
 				<tr>
 					<td>
 						<a href="<spring:url value="/movie/${movie.id}.html" />">
-							${movie.title} <font color="gray">(${movie.year})</font>
+							<c:out value="${movie.title}" /> <font color="gray">(<c:out value="${movie.year}" />)</font>
 						</a>
 					</td>
-					<td>${movie.rating}</td>
+					<td><c:out value="${movie.rating}" /></td>
 				</tr>
 			</c:forEach>
 		</tbody>

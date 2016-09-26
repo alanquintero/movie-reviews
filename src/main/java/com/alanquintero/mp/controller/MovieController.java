@@ -8,15 +8,20 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alanquintero.mp.entity.Movie;
+import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.service.MovieService;
+import com.alanquintero.mp.service.ReviewService;
 
 @Controller
 public class MovieController {
@@ -24,9 +29,17 @@ public class MovieController {
 	@Autowired
 	private MovieService movieService;
 	
+	@Autowired
+	private ReviewService reviewService;
+	
 	@ModelAttribute("movie")
 	public Movie contruct(){
 		return new Movie();
+	}
+	
+	@ModelAttribute("review")
+	public Review contructReview(){
+		return new Review();
 	}
 	
 	@RequestMapping("/movie/{id}")
@@ -45,6 +58,21 @@ public class MovieController {
 	public String searchEmpty(Model model){
 		model.addAttribute("movie", movieService.popularMovies());
 		return "result";
+	}
+	
+	@RequestMapping(value="/movie/{id}", method=RequestMethod.POST)
+	public String doAddReview(@ModelAttribute("review") Review review, Principal principal){
+		String name = principal.getName();
+		reviewService.saveReview(review, name);
+		return "redirect:/movie/{id}.html";
+	}
+	
+	@RequestMapping(value="/result/{movie}",  method=RequestMethod.POST)
+	public String doAddReviewResult(@ModelAttribute("review") Review review, Principal principal){
+		System.out.println("other here");
+		String name = principal.getName();
+		reviewService.saveReview(review, name);
+		return "redirect:/result/{movie}.html";
 	}
 	
 }

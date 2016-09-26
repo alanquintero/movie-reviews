@@ -80,7 +80,8 @@ public class InitDBService {
 		movie1.setTitle("Back to the Future");
 		movie1.setRating(10.0);
 		movie1.setYear(1985);
-		movie1.setStoryline("Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.");
+		movie1.setSynopsis("Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.");
+		movie1.setTrailer("https://www.youtube.com/embed/qvsgGtivCgs");
 		movieRepository.save(movie1);
 		
 		Review review1 = new Review();
@@ -91,7 +92,6 @@ public class InitDBService {
 		review1.setMovie(movie1);
 		review1.setProfile(adminProfile);
 		reviewRepository.save(review1);
-		
 		
 		User userTest = new User();
 		userTest .setName("test");
@@ -111,7 +111,8 @@ public class InitDBService {
 		movie2.setTitle("Star Wars III - Revenge of the Sith");
 		movie2.setRating(9.0);
 		movie2.setYear(2005);
-		movie2.setStoryline("During the near end of the clone wars, Darth Sidious has revealed himself and is ready to execute the last part of his plan to rule the Galaxy. Sidious is ready for his new apprentice, Lord Vader, to step into action and kill the remaining Jedi. Vader, however, struggles to choose the dark side and save his wife or remain loyal to the Jedi order.");
+		movie2.setSynopsis("During the near end of the clone wars, Darth Sidious has revealed himself and is ready to execute the last part of his plan to rule the Galaxy. Sidious is ready for his new apprentice, Lord Vader, to step into action and kill the remaining Jedi. Vader, however, struggles to choose the dark side and save his wife or remain loyal to the Jedi order.");
+		movie2.setTrailer("https://www.youtube.com/embed/5UnjrG_N8hU");
 		movieRepository.save(movie2);
 		
 		Review review2 = new Review();
@@ -122,7 +123,6 @@ public class InitDBService {
 		review2.setMovie(movie2);
 		review2.setProfile(testProfile);
 		reviewRepository.save(review2);
-		
 		
 	}
 

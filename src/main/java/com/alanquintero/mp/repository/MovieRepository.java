@@ -29,4 +29,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer>{
 	@Query("SELECT m FROM Movie m ")
 	public List<Movie> findPopularMovies(Pageable pageable);
 	
+	@Query("SELECT m FROM Movie m WHERE id = :id")
+	public Movie getMovieById(@Param("id") int id);
+	
 }

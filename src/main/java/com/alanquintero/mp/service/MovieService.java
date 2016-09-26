@@ -40,25 +40,20 @@ public class MovieService {
 	@Transactional
 	public Movie getMovieDetailsById(int id){
 		Movie movie = getMovieById(id);
-		
 		List<Review> reviews = reviewRepository.getReviewsByMovie(movie, new PageRequest(0, 15, Direction.DESC, "publishedDate"));
 		movie.setReviews(reviews);
-		
 		return movie;
 	}
 	
 	@Transactional
 	public List<Movie> searchMovie(String movie){
 		List<Movie> movies = movieRepository.findAllMovies( "%" + movie + "%");
-		
 		return movies;
 	}
-	
 	
 	@Transactional
 	public List<Movie> popularMovies(){
 		List<Movie> movies = movieRepository.findPopularMovies(new PageRequest(0, 10, Direction.DESC, "rating"));
-		
 		return movies;
 	}
 	
