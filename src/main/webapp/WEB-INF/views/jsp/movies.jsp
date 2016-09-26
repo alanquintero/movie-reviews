@@ -1,12 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+    
+<%@ include file="../../../resources/layout/taglib.jsp"%>
+<%@ include file="../../../resources/layout/remove.jsp"%>
 
-</body>
-</html>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".triggerRemove").click(function(e){
+			e.preventDefault();
+			$("#modalRemove .removeBtn").attr("href", $(this).attr("href"));
+			$("#removeModalLabel").text("Remove Movie");
+			$("#confirmationMessage").text("Are you sure to delete this Movie?");
+			$("#modalRemove").modal();
+		})
+	});
+</script>
+
+<div>
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr>
+				<th>Movie</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${movies}" var="movie">
+				<tr>
+					<td>
+						<a href="<spring:url value="/movie/${movie.id}.html" />">
+							<c:out value="${movie.title}" /> <font color="gray">(<c:out value="${movie.year}" />)</font> 
+							<c:out value=" ${movie.rating}" />
+						</a>
+					</td>
+					<td>
+						<a href="<spring:url value="/movies/remove/${movie.id}.html" />"
+						   class="btn btn-danger triggerRemove">
+						    Remove Movie
+						</a>
+					</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+</div>

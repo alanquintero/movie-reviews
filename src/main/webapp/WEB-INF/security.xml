@@ -6,33 +6,34 @@
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<global-method-security pre-post-annotations="enabled"/>
+	<global-method-security pre-post-annotations="enabled" />
 
-	<http use-expressions="true" >
+	<http use-expressions="true">
 		<csrf disabled="true" />
 		<intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/j_spring_security_check" access="hasRole('IS_AUTHENTICATED_ANONYMOUSLY')"/>
-        <intercept-url pattern="/login" access="hasRole('IS_AUTHENTICATED_ANONYMOUSLY')"/>
-        <intercept-url pattern="/profile**" access="hasRole('ROLE_USER')" />
-         <intercept-url pattern="/user-detail**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/movies**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/movies/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/j_spring_security_check" access="hasRole('IS_AUTHENTICATED_ANONYMOUSLY')" />
+		<intercept-url pattern="/login" access="hasRole('IS_AUTHENTICATED_ANONYMOUSLY')" />
+		<intercept-url pattern="/profile**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/user-detail**" access="hasRole('ROLE_ADMIN')" />
 		<form-login login-page="/login.html" />
 		<logout logout-url="/logout" />
 	</http>
 
 	<authentication-manager>
 		<authentication-provider>
-			
+
 			<password-encoder hash="bcrypt" />
-		
+
 			<jdbc-user-service data-source-ref="dataSource"
 				authorities-by-username-query="SELECT user.name, role.name from User
 												JOIN user_role ON user.id = user_role.users_id
 												JOIN role ON user_role.roles_id = role.id
 												JOIN profile ON user_role.roles_id = role.id
 												WHERE user.name = ?"
-				users-by-username-query="SELECT name, password, enabled FROM user WHERE name = ?"
-			/>
+				users-by-username-query="SELECT name, password, enabled FROM user WHERE name = ?" />
 		</authentication-provider>
 	</authentication-manager>
 

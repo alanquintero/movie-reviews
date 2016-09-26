@@ -67,6 +67,10 @@
 							<li class="${current == 'users' ? 'active' : ''}"><a
 								href="<spring:url value="/users.html" />">Users</a></li>
 						</security:authorize>
+						<security:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
+							<li class="${current == 'movies' ? 'active' : ''}"><a
+								href="<spring:url value="/movies.html" />">Movies</a></li>
+						</security:authorize>
 						<security:authorize access="isAuthenticated()">
 							<li class="${current == 'profile' ? 'active' : ''}"><a
 								href="<spring:url value="/profile.html" />">My Profile</a></li>

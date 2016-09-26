@@ -54,5 +54,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/jsp/result.jsp" />
 		<put-attribute name="current" value="movie" />
 	</definition>
+	
+	<definition name="movies" extends="common">
+		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="body" value="/WEB-INF/views/jsp/movies.jsp" />
+		<put-attribute name="current" value="movies" />
+	</definition>
 
 </tiles-definitions>

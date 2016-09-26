@@ -75,4 +75,16 @@ public class MovieController {
 		return "redirect:/result/{movie}.html";
 	}
 	
+	@RequestMapping("/movies")
+	public String getAllMovies(Model model){
+		model.addAttribute("movies",movieService.getAllMovies());
+		return "movies";
+	}
+	
+	@RequestMapping("/movies/remove/{id}")
+	public String removeMovie(@PathVariable int id){
+		movieService.deteleMovie(id);
+		return "redirect:/movies.html";
+	}
+	
 }

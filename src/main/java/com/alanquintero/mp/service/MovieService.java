@@ -15,6 +15,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.alanquintero.mp.entity.Movie;
@@ -56,5 +58,18 @@ public class MovieService {
 		List<Movie> movies = movieRepository.findPopularMovies(new PageRequest(0, 10, Direction.DESC, "rating"));
 		return movies;
 	}
+
+	public List<Movie> getAllMovies() {
+		return movieRepository.findAll();
+	}
+
+	/**
+	 * @param id
+	 */
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void deteleMovie(int id) {
+		movieRepository.delete(id);
+	}
+
 	
 }
