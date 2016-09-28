@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <!DOCTYPE html>
 <html>
 <head>
+
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
@@ -29,6 +30,12 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
+
+
+<spring:url value="/resources/core/jquery.autocomplete.min.js" var="jqueryAutoCompl" />
+<script src="${jqueryAutoCompl}"></script>
+	
+<link rel="stylesheet" type="text/css" href="/resources/css/searchResults.css" />
 
 </head>
 <body>
@@ -57,10 +64,10 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<form class="navbar-form navbar-left">
-            			<input type="text" id="movie" class="form-control" placeholder="Search a movie">
+            			<input type="text" id="movieInput" class="form-control" placeholder="Search a movie" >
           			</form>
 					<ul class="nav navbar-nav">
-						<li class="${current == 'movie' ? 'active' : ''}">
+						<li class="${current == 'result' ? 'active' : ''}">
 							<a id="searchLink" href="<spring:url value="/result.html" />">Search</a>
 						</li>
 						<security:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
@@ -107,10 +114,27 @@
 	
 	<script>
 		var link = document.getElementById('searchLink');
-	    var input = document.getElementById('movie');
+	    var input = document.getElementById('movieInput');
 	    input.onchange = input.onkeyup = function() {
 	        link.href= '/result/'+input.value+'.html';
 	    };
+	    
+	    $(document).ready(function() {
+			$('#movieInput').autocomplete({
+				serviceUrl: '${pageContext.request.contextPath}/getMovies.html',
+				paramName: "movieName",
+			    transformResult: function(response) {
+			        return {
+			            suggestions: $.map($.parseJSON(response), function(item) {
+			                return { value: item.movieName, data: item.id};
+			            })
+			        };   
+			    },
+			    onSelect: function (suggestion) {
+			        window.location.href = "${pageContext.request.contextPath}/movie/"+suggestion.data+".html";
+			    }
+			});
+		});
 		
 	</script>
 

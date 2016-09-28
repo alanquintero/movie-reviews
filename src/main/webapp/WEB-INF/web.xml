@@ -5,7 +5,9 @@
 		http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd"
 	version="3.0">
+	
 	<display-name>java-alanquintero</display-name>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
