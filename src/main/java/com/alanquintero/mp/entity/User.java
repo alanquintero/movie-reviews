@@ -11,12 +11,19 @@ package com.alanquintero.mp.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+
+import com.alanquintero.mp.annotation.UniqueEmail;
+import com.alanquintero.mp.annotation.UniqueUsername;
 
 @Entity
 public class User {
@@ -25,19 +32,27 @@ public class User {
 	@GeneratedValue
 	private Integer id;
 
+	@Size(min = 4, message = "User Name must be at least four characters!")
+	@Column(unique = true)
+	@UniqueUsername(message = "User Name already exists!")
 	private String name;
 
+	@Size(min = 1, message = "Invalid Email Address!")
+	@Email(message = "Invalid Email Address!")
+	@UniqueEmail(message = "Email is already in use!")
+	@Column(unique = true)
 	private String email;
 
+	@Size(min = 6, message = "Password must be at least six characters!")
 	private String password;
 
 	@ManyToMany
 	@JoinTable
 	private List<Role> roles;
 
-	@OneToOne(mappedBy = "user", cascade=CascadeType.REMOVE)
+	@OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
 	private Profile profile;
-	
+
 	private boolean enabled;
 
 	public Integer getId() {
@@ -95,5 +110,5 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 }

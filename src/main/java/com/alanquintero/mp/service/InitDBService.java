@@ -69,6 +69,7 @@ public class InitDBService {
 		roles.add(roleUser);
 		userAdmin.setRoles(roles);
 		userAdmin.setEnabled(true);
+		userAdmin.setEmail("admin@admin.com");
 		userRepository.save(userAdmin);
 		
 		Profile adminProfile = new Profile();
@@ -100,6 +101,7 @@ public class InitDBService {
 		roles.add(roleUser);
 		userTest.setRoles(roles);
 		userTest.setEnabled(true);
+		userTest.setEmail("test@test.com");
 		userRepository.save(userTest);
 		
 		Profile testProfile = new Profile();

@@ -9,11 +9,16 @@
 package com.alanquintero.mp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.alanquintero.mp.entity.User;
 
-public interface UserRepository extends JpaRepository<User, Integer>{
+public interface UserRepository extends JpaRepository<User, Integer> {
 
 	public User getUserByName(String name);
-	
+
+	@Query("SELECT u FROM User u " + "WHERE lower(u.email) like lower(:email) ")
+	public User getUserByEmail(@Param("email") String email);
+
 }

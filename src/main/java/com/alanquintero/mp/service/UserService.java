@@ -37,45 +37,45 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private ProfileRepository profileRepository;
-	
+
 	@Autowired
 	private ReviewRepository reviewRepository;
-	
+
 	@Autowired
 	private MovieRepository movieRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
-	
-	
-	public List<User> getAllUsers(){
+
+	public List<User> getAllUsers() {
 		return userRepository.findAll();
 	}
-	
-	public User getUserById(int id){
+
+	public User getUserById(int id) {
 		return userRepository.findOne(id);
 	}
-	
+
 	@Transactional
-	public User getUserWithReviews(int id){
+	public User getUserWithReviews(int id) {
 		User user = getUserById(id);
 		Profile profile = profileRepository.getProfileByUser(user);
-		
-		List<Review> reviews = reviewRepository.getReviewsByProfile(profile, new PageRequest(0, 10, Direction.DESC, "publishedDate"));
-		for(Review review : reviews){
+
+		List<Review> reviews = reviewRepository.getReviewsByProfile(profile,
+				new PageRequest(0, 10, Direction.DESC, "publishedDate"));
+		for (Review review : reviews) {
 			Movie movie = movieRepository.getMovieByReviews(review);
 			review.setMovie(movie);
 		}
 		profile.setReview(reviews);
 		user.setProfile(profile);
-		
+
 		return user;
 	}
-	
-	public void saveUser(User user){
+
+	public void saveUser(User user) {
 		user.setEnabled(true);
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		user.setPassword(encoder.encode(user.getPassword()));
@@ -84,9 +84,9 @@ public class UserService {
 		user.setRoles(roles);
 		userRepository.save(user);
 	}
-	
+
 	@Transactional
-	public User getUserWithReviews(String name){
+	public User getUserWithReviews(String name) {
 		User user = userRepository.getUserByName(name);
 		return getUserWithReviews(user.getId());
 	}
@@ -98,5 +98,13 @@ public class UserService {
 	public void deleteUser(int id) {
 		userRepository.delete(id);
 	}
-		
+
+	public User findUserName(String userName) {
+		return userRepository.getUserByName(userName);
+	}
+
+	public User findEmail(String email) {
+		return userRepository.getUserByEmail(email);
+	}
+
 }

@@ -8,7 +8,6 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
 import com.alanquintero.mp.service.MovieService;
-import com.alanquintero.mp.service.ReviewService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,9 +32,6 @@ public class MovieController {
 
 	@Autowired
 	private MovieService movieService;
-
-	@Autowired
-	private ReviewService reviewService;
 
 	@ModelAttribute("movie")
 	public Movie contruct() {
@@ -64,21 +59,6 @@ public class MovieController {
 	public String searchEmpty(Model model) {
 		model.addAttribute("movie", movieService.popularMovies());
 		return "result";
-	}
-
-	@RequestMapping(value = "/movie/{id}", method = RequestMethod.POST)
-	public String doAddReview(@ModelAttribute("review") Review review, Principal principal) {
-		String name = principal.getName();
-		reviewService.saveReview(review, name);
-		return "redirect:/movie/{id}.html";
-	}
-
-	@RequestMapping(value = "/result/{movie}", method = RequestMethod.POST)
-	public String doAddReviewResult(@ModelAttribute("review") Review review, Principal principal) {
-		System.out.println("other here");
-		String name = principal.getName();
-		reviewService.saveReview(review, name);
-		return "redirect:/result/{movie}.html";
 	}
 
 	@RequestMapping("/movies")

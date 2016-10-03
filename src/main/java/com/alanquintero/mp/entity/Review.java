@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Review {
@@ -23,9 +24,11 @@ public class Review {
 	@Id
 	@GeneratedValue
 	private Integer id;
-
+	
+	@Size(min=1, message="Title must be at least one character!")
 	private String title;
 	
+	@Size(min=1, message="Comment must be at least one character!")
 	private String comment;
 
 	private int rating;

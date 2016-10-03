@@ -30,7 +30,7 @@
   					Add Review
 				</button>
 
-				<form:form commandName="review" cssClass="form-horizontal">
+				<form:form commandName="review" cssClass="form-horizontal movieForm">
 					<!-- Modal -->
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   						<div class="modal-dialog" role="document">
@@ -49,12 +49,14 @@
 										<label for="title" class="col-sm-2 control-label">Comment Title:</label>
 										<div class="col-sm-10">
 											<form:input path="title" cssClass="form-control" placeholder="Title" />
+											<form:errors path="title" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="comment" class="col-sm-2 control-label">Comment:</label>
 											<div class="col-sm-10">
 												<form:input path="comment" cssClass="form-control" placeholder="Comment" />
+												<form:errors path="comment" />
 											</div>
 									</div>
       							</div>
@@ -106,3 +108,28 @@
 	</div>
 	
 </div>
+
+<script type="text/javascript" >
+	$(document).ready(function(){
+		$(".movieForm").validate(
+			{
+				rules: {
+					title: {
+						required : true,
+						minlength : 3
+					},
+					comment: {
+						required : true,
+						minlength : 5
+					}
+				},
+				highlight: function(element) {
+					$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+				},
+				unhighlight: function(element) {
+					$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+				}
+			}
+		);
+	} )
+</script>

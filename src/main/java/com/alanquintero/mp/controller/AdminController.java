@@ -10,30 +10,35 @@ package com.alanquintero.mp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alanquintero.mp.entity.Review;
-import com.alanquintero.mp.service.ReviewService;
+import com.alanquintero.mp.service.UserService;
 
 @Controller
-public class ReviewController {
+@RequestMapping("/users")
+public class AdminController {
 
 	@Autowired
-	private ReviewService reviewService;
-	
-	@ModelAttribute("review")
-	public Review contructReview(){
-		return new Review();
+	private UserService userService;
+
+	@RequestMapping
+	public String users(Model model) {
+		model.addAttribute("users", userService.getAllUsers());
+		return "users";
 	}
-	
-	@RequestMapping("profile/remove/{id}")
-	public String removeReview(@PathVariable int id){
-		Review review = reviewService.findOne(id);
-		reviewService.deteleReview(review);
-		return "redirect:/profile.html";
+
+	@RequestMapping("/{id}")
+	public String userDetail(Model model, @PathVariable int id) {
+		model.addAttribute("user", userService.getUserWithReviews(id));
+		return "user-detail";
 	}
-	
-	
+
+	@RequestMapping("/remove/{id}")
+	public String removeUser(@PathVariable int id) {
+		userService.deleteUser(id);
+		return "redirect:/users.html";
+	}
+
 }
