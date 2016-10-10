@@ -17,23 +17,57 @@ import org.springframework.data.repository.query.Param;
 
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
+import static com.alanquintero.mp.util.Consts.*;
 
-public interface MovieRepository extends JpaRepository<Movie, Integer>{
+/**
+ * MovieRepository.java 
+ * Purpose: Get Movie information from DB.
+ */
+public interface MovieRepository extends JpaRepository<Movie, Integer> {
 
-	public Movie getMovieByReviews(Review review);
-	
-	@Query("SELECT m FROM Movie m "
-            + "WHERE lower(m.title) like lower(:movie) ")
-	public List<Movie> findAllMovies(@Param("movie") String movie);
-	
-	@Query("SELECT m FROM Movie m ")
-	public List<Movie> findPopularMovies(Pageable pageable);
-	
-	@Query("SELECT m FROM Movie m WHERE id = :id")
-	public Movie getMovieById(@Param("id") int id);
+    /**
+     * Find movie by review
+     * 
+     * @param Review_Object
+     * @return Movie_Object
+     */
+    public Movie getMovieByReviews(Review review);
 
-	@Query("SELECT m FROM Movie m "
-            + "WHERE lower(m.title) like lower(:movieName) ")
-	public List<Movie> getSearchMovies(@Param("movieName")String movieName, Pageable topSix);
-	
+    /**
+     * Find movies by movie title
+     * 
+     * @param Movie_title
+     * @return List_Movie
+     */
+    @Query("SELECT m FROM Movie m " + "WHERE lower(m.title) like lower(:movie_title) ")
+    public List<Movie> findAllMovies(@Param(MOVIE_TITLE_PARAM) String movie);
+
+    /**
+     * Find popular movies
+     * 
+     * @param Pageable_Object
+     * @return List_Movie
+     */
+    @Query("SELECT m FROM Movie m ")
+    public List<Movie> findPopularMovies(Pageable pageable);
+
+    /**
+     * Find one movie by movie id
+     * 
+     * @param Movie_id
+     * @return Movie_Object
+     */
+    @Query("SELECT m FROM Movie m WHERE id = :movie_id")
+    public Movie getMovieById(@Param(MOVIE_ID_PARAM) int id);
+
+    /**
+     * Find movies by movie title
+     * 
+     * @param Movie_title
+     * @param Pageable_Object
+     * @return List_Movie
+     */
+    @Query("SELECT m FROM Movie m " + "WHERE lower(m.title) like lower(:movie_title) ")
+    public List<Movie> getSearchMovies(@Param(MOVIE_TITLE_PARAM) String movieName, Pageable topSix);
+
 }

@@ -24,61 +24,114 @@ import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
 import com.alanquintero.mp.service.MovieService;
+import static com.alanquintero.mp.util.Consts.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * MovieController.java 
+ * Purpose: Controller for Movie.
+ */
 @Controller
 public class MovieController {
 
-	@Autowired
-	private MovieService movieService;
+    @Autowired
+    private MovieService movieService;
 
-	@ModelAttribute("movie")
-	public Movie contruct() {
-		return new Movie();
-	}
+    /**
+     * Construct movie object model
+     * 
+     * @return Movie_Object
+     */
+    @ModelAttribute(MOVIE)
+    public Movie contruct() {
+        return new Movie();
+    }
 
-	@ModelAttribute("review")
-	public Review contructReview() {
-		return new Review();
-	}
+    /**
+     * Construct review object model
+     * 
+     * @return Review_Object
+     */
+    @ModelAttribute(REVIEW)
+    public Review contructReview() {
+        return new Review();
+    }
 
-	@RequestMapping("/movie/{id}")
-	public String movieDetail(Model model, @PathVariable int id) {
-		model.addAttribute("movie", movieService.getMovieDetailsById(id));
-		return "movie";
-	}
+    /**
+     * Find movie details by movie id
+     * 
+     * @param Model_Object
+     * @param Movie_id
+     * @return String
+     */
+    @RequestMapping(MOVIE_URL)
+    public String movieDetail(Model model, @PathVariable int id) {
+        model.addAttribute(MOVIE, movieService.getMovieDetailsById(id));
+        return MOVIE_PAGE;
+    }
 
-	@RequestMapping(value = "/result/{movie}")
-	public String searchMovie(Model model, @PathVariable String movie) {
-		model.addAttribute("movie", movieService.searchMovie(movie));
-		return "result";
-	}
+    /**
+     * Find movie by movie title
+     * 
+     * @param Model_Object
+     * @param Movie_title
+     * @return String
+     */
+    @RequestMapping(value = RESULT_MOVIE_URL)
+    public String searchMovie(Model model, @PathVariable String movie) {
+        model.addAttribute(MOVIE, movieService.searchMovie(movie));
+        return RESULT;
+    }
 
-	@RequestMapping(value = "/result")
-	public String searchEmpty(Model model) {
-		model.addAttribute("movie", movieService.popularMovies());
-		return "result";
-	}
+    /**
+     * Find movie by empty input
+     * 
+     * @param Model_Object
+     * @return String
+     */
+    @RequestMapping(value = POPULAR_MOVIES_URL)
+    public String searchEmpty(Model model) {
+        model.addAttribute(MOVIE, movieService.popularMovies());
+        return RESULT;
+    }
 
-	@RequestMapping("/movies")
-	public String getAllMovies(Model model) {
-		model.addAttribute("movies", movieService.getAllMovies());
-		return "movies";
-	}
+    /**
+     * Find all movies
+     * 
+     * @param Model_Object
+     * @return String
+     */
+    @RequestMapping(MOVIES_URL)
+    public String getAllMovies(Model model) {
+        model.addAttribute(MOVIES, movieService.getAllMovies());
+        return MOVIES_PAGE;
+    }
 
-	@RequestMapping("/movies/remove/{id}")
-	public String removeMovie(@PathVariable int id) {
-		movieService.deteleMovie(id);
-		return "redirect:/movies.html";
-	}
+    /**
+     * Delete a movie by movie id
+     * 
+     * @param Movie_id
+     * @return String
+     */
+    @RequestMapping(DELETE_MOVIE_URL)
+    public String removeMovie(@PathVariable int id) {
+        movieService.deteleMovie(id);
+        return REDIRECT_MOVIES_PAGE;
+    }
 
-	@RequestMapping(value = "/getMovies", method = RequestMethod.GET)
-	@ResponseBody
-	public String getMovies(@RequestParam String movieName)  throws JsonProcessingException {
-		ObjectMapper mapper = new ObjectMapper();
+    /**
+     * Find movies by movie name to auto complete user input
+     * 
+     * @param Movie_title
+     * @return String
+     */
+    @RequestMapping(value = AUTOCOMPLETE_MOVIES_URL, method = RequestMethod.GET)
+    @ResponseBody
+    public String getMovies(@RequestParam String movieName) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
         List<MovieModel> movies = movieService.getSearchMovies(movieName);
         return mapper.writeValueAsString(movies);
-	}
+    }
 
 }

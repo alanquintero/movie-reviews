@@ -18,87 +18,92 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import static com.alanquintero.mp.util.Consts.*;
+
+/**
+ * Review.java 
+ * Purpose: Entity class.
+ */
 @Entity
 public class Review {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	
-	@Size(min=1, message="Title must be at least one character!")
-	private String title;
-	
-	@Size(min=1, message="Comment must be at least one character!")
-	private String comment;
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-	private int rating;
+    @Size(min = 1, message = TITLE_MIN_ERROR_MESSAGE)
+    private String title;
 
-	@Column(name = "published_date")
-	private Date publishedDate;
+    @Size(min = 1, message = COMMENT_MIN_ERROR_MESSAGE)
+    private String comment;
 
-	@ManyToOne
-	@JoinColumn(name = "profile_id")
-	private Profile profile;
+    private int rating;
 
-	@ManyToOne
-	@JoinColumn(name = "movie_id")
-	private Movie movie;
-	
-	
-	public Integer getId() {
-		return id;
-	}
+    @Column(name = PUBLISHED_DATE_COLUMN)
+    private Date publishedDate;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @ManyToOne
+    @JoinColumn(name = PROFILE_ID_COLUMN)
+    private Profile profile;
 
-	public String getComment() {
-		return comment;
-	}
+    @ManyToOne
+    @JoinColumn(name = MOVIE_ID_COLUMN)
+    private Movie movie;
 
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public int getRating() {
-		return rating;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
+    public String getComment() {
+        return comment;
+    }
 
-	public Date getPublishedDate() {
-		return publishedDate;
-	}
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
-	public void setPublishedDate(Date publishedDate) {
-		this.publishedDate = publishedDate;
-	}
+    public int getRating() {
+        return rating;
+    }
 
-	public Profile getProfile() {
-		return profile;
-	}
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
-	public void setProfile(Profile profile) {
-		this.profile = profile;
-	}
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
 
-	public Movie getMovie() {
-		return movie;
-	}
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
 
-	public void setMovie(Movie movie) {
-		this.movie = movie;
-	}
+    public Profile getProfile() {
+        return profile;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
 }

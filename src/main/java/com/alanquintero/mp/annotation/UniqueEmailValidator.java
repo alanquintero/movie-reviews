@@ -15,21 +15,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alanquintero.mp.repository.UserRepository;
 
+/**
+ * UniqueEmailValidator.java 
+ * Purpose: Validate that email does not exists.
+ */
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	public void initialize(UniqueEmail constraintAnnotation) {
-	}
+    @Override
+    public void initialize(UniqueEmail constraintAnnotation) {
+    }
 
-	@Override
-	public boolean isValid(String email, ConstraintValidatorContext context) {
-		if (userRepository == null) {
-			return true;
-		}
-		return userRepository.getUserByEmail(email) == null;
-	}
+    /**
+     * Check if email exists
+     * 
+     * @param User_email
+     * @param ConstraintValidatorContext_Object
+     * @return boolean
+     */
+    @Override
+    public boolean isValid(String email, ConstraintValidatorContext context) {
+        boolean isValid = false;
+        if ((userRepository == null) || (userRepository.getUserByEmail(email) == null)) {
+            isValid = true;
+        } else {
+            isValid = false;
+        }
+        return isValid;
+    }
 
 }

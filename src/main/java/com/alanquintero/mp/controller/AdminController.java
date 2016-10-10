@@ -15,30 +15,54 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alanquintero.mp.service.UserService;
+import static com.alanquintero.mp.util.Consts.*;
 
+/**
+ * AdminController.java 
+ * Purpose: Controller for User.
+ */
 @Controller
-@RequestMapping("/users")
+@RequestMapping(USERS_URL)
 public class AdminController {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@RequestMapping
-	public String users(Model model) {
-		model.addAttribute("users", userService.getAllUsers());
-		return "users";
-	}
+    /**
+     * Find all users
+     * 
+     * @param Model_Object
+     * @return String
+     */
+    @RequestMapping
+    public String users(Model model) {
+        model.addAttribute(USERS, userService.getAllUsers());
+        return USERS_PAGE;
+    }
 
-	@RequestMapping("/{id}")
-	public String userDetail(Model model, @PathVariable int id) {
-		model.addAttribute("user", userService.getUserWithReviews(id));
-		return "user-detail";
-	}
+    /**
+     * Find user details by user id
+     * 
+     * @param Model_Object
+     * @param User_id
+     * @return String
+     */
+    @RequestMapping(USER_URL)
+    public String userDetail(Model model, @PathVariable int id) {
+        model.addAttribute(USER, userService.getUserWithReviews(id));
+        return USER_PAGE;
+    }
 
-	@RequestMapping("/remove/{id}")
-	public String removeUser(@PathVariable int id) {
-		userService.deleteUser(id);
-		return "redirect:/users.html";
-	}
+    /**
+     * Delete one user by user id
+     * 
+     * @param User_id
+     * @return String
+     */
+    @RequestMapping(DELETE_USER_URL)
+    public String removeUser(@PathVariable int id) {
+        userService.deleteUser(id);
+        return DELETE_USER_PAGE;
+    }
 
 }

@@ -24,52 +24,91 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.service.ReviewService;
 import com.alanquintero.mp.service.UserService;
+import static com.alanquintero.mp.util.Consts.*;
 
+/**
+ * UserController.java 
+ * Purpose: Controller for User.
+ */
 @Controller
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+    @Autowired
+    private UserService userService;
 
-	@Autowired
-	private ReviewService reviewService;
+    @Autowired
+    private ReviewService reviewService;
 
-	@ModelAttribute("review")
-	public Review contructReview() {
-		return new Review();
-	}
+    /**
+     * Construct review object model
+     * 
+     * @return Review_Object
+     */
+    @ModelAttribute(REVIEW)
+    public Review contructReview() {
+        return new Review();
+    }
 
-	@RequestMapping("/profile")
-	public String profile(Model model, Principal principal) {
-		String name = principal.getName();
-		model.addAttribute("user", userService.getUserWithReviews(name));
-		return "profile";
-	}
+    /**
+     * Redirect to user profile
+     * 
+     * @param Model_Object
+     * @param Principal_Object
+     * @return String
+     */
+    @RequestMapping(PROFILE_URL)
+    public String profile(Model model, Principal principal) {
+        String name = principal.getName();
+        model.addAttribute(USER, userService.getUserWithReviews(name));
+        return PROFILE_PAGE;
+    }
 
-	@RequestMapping("profile/remove/{id}")
-	public String removeReview(@PathVariable int id) {
-		Review review = reviewService.findOne(id);
-		reviewService.deteleReview(review);
-		return "redirect:/profile.html";
-	}
+    /**
+     * Delete one review by review id
+     * 
+     * @param Review_id
+     * @return String
+     */
+    @RequestMapping(DELETE_PROFILE_URL)
+    public String removeReview(@PathVariable int id) {
+        Review review = reviewService.findOne(id);
+        reviewService.deteleReview(review);
+        return REDIRECT_PROFILE_PAGE;
+    }
 
-	@RequestMapping(value = "/movie/{id}", method = RequestMethod.POST)
-	public String doAddReview(Model model, @Valid @ModelAttribute("review") Review review, BindingResult result,
-			Principal principal) {
-		if (result.hasErrors()) {
-			MovieController movieController = new MovieController();
-			return movieController.movieDetail(model, review.getMovie().getId());
-		}
-		String name = principal.getName();
-		reviewService.saveReview(review, name);
-		return "redirect:/movie/{id}.html";
-	}
+    /**
+     * Add one new review
+     * 
+     * @param Model_Object
+     * @param Review_Object
+     * @param BindingResult_Object
+     * @param Principal_Object
+     * @return String
+     */
+    @RequestMapping(value = MOVIE_URL, method = RequestMethod.POST)
+    public String doAddReview(Model model, @Valid @ModelAttribute(REVIEW) Review review, BindingResult result,
+            Principal principal) {
+        if (result.hasErrors()) {
+            MovieController movieController = new MovieController();
+            return movieController.movieDetail(model, review.getMovie().getId());
+        }
+        String name = principal.getName();
+        reviewService.saveReview(review, name);
+        return REDIRECT_MOVIE_PAGE;
+    }
 
-	@RequestMapping(value = "/result/{movie}", method = RequestMethod.POST)
-	public String doAddReviewResult(@ModelAttribute("review") Review review, Principal principal) {
-		String name = principal.getName();
-		reviewService.saveReview(review, name);
-		return "redirect:/result/{movie}.html";
-	}
+    /**
+     * Add one new review from result page
+     * 
+     * @param Review_Object
+     * @param Principal_Object
+     * @return String
+     */
+    @RequestMapping(value = RESULT_MOVIE_URL, method = RequestMethod.POST)
+    public String doAddReviewResult(@ModelAttribute(REVIEW) Review review, Principal principal) {
+        String name = principal.getName();
+        reviewService.saveReview(review, name);
+        return REDIRECT_RESULT_MOVIE_PAGE;
+    }
 
 }

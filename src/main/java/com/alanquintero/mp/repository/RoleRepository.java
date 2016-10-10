@@ -12,8 +12,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.alanquintero.mp.entity.Role;
 
-public interface RoleRepository extends JpaRepository<Role, Integer>{
+/**
+ * RoleRepository.java 
+ * Purpose: Get Role information from DB.
+ */
+public interface RoleRepository extends JpaRepository<Role, Integer> {
 
-	public Role findByName(String name);
-	
+    /**
+     * Find one role by role name
+     * 
+     * @param Role_name
+     * @return Role_Object
+     */
+    public Role findByName(String name);
+
 }

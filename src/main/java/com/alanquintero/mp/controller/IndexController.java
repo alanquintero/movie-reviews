@@ -11,20 +11,33 @@ package com.alanquintero.mp.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import static com.alanquintero.mp.util.Consts.*;
 
+/**
+ * IndexController.java 
+ * Purpose: Controller for Default Pages.
+ */
 @Controller
 public class IndexController {
+    
+    /**
+     * Redirect to home page
+     * 
+     * @return String
+     */
+    @RequestMapping(DEFAULT_URL)
+    public String home() {
+        return INDEX_PAGE;
+    }
 
-	@RequestMapping("/")
-	public String home() {
-		return "index";
-	}
-	
-	@RequestMapping("/index")
-	public String index() {
-		return "index";
-	}
-	
-	
-	
+    /**
+     * Redirect to index page
+     * 
+     * @return String
+     */
+    @RequestMapping(INDEX_URL)
+    public String index() {
+        return INDEX_PAGE;
+    }
+
 }

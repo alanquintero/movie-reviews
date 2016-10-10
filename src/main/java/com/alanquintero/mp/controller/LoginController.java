@@ -11,13 +11,23 @@ package com.alanquintero.mp.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import static com.alanquintero.mp.util.Consts.*;
+
+/**
+ * LoginController.java 
+ * Purpose: Controller for Login.
+ */
 @Controller
 public class LoginController {
 
-	@RequestMapping("/login")
-	public String login(){
-		return "login";
-	}
-	
-	
+    /**
+     * Redirect to login page
+     * 
+     * @return String
+     */
+    @RequestMapping(LOGIN_URL)
+    public String login() {
+        return LOGIN_PAGE;
+    }
+
 }

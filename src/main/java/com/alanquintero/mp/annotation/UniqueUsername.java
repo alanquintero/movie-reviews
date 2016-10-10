@@ -17,6 +17,10 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+/**
+ * UniqueUsername.java 
+ * Purpose: Interface to be used in UniqueUsernameValidator class.
+ */
 @Target({ FIELD })
 @Retention(RUNTIME)
 @Constraint(validatedBy = { UniqueUsernameValidator.class })

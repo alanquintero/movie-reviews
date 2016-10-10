@@ -13,8 +13,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.User;
 
-public interface ProfileRepository extends JpaRepository<Profile, Integer>{
+/**
+ * ProfileRepository.java 
+ * Purpose: Get Profile information from DB.
+ */
+public interface ProfileRepository extends JpaRepository<Profile, Integer> {
 
-	public Profile getProfileByUser(User user);
-	
+    /**
+     * Find one profile by user
+     * 
+     * @param User_Object
+     * @return Profile_Object
+     */
+    public Profile getProfileByUser(User user);
+
 }

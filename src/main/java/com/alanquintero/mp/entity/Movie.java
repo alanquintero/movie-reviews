@@ -17,101 +17,107 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import static com.alanquintero.mp.util.Consts.*;
+
+/**
+ * Movie.java 
+ * Purpose: Entity class.
+ */
 @Entity
 public class Movie {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	
-	private String title;
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-	@Column(length = 500)
-	private String synopsis;
+    private String title;
 
-	private String image;
+    @Column(length = 500)
+    private String synopsis;
 
-	private Integer year;
+    private String image;
 
-	private Double rating;
-	
-	private int vote;
-	
-	private String trailer;
+    private Integer year;
 
-	@OneToMany(mappedBy = "movie", cascade=CascadeType.REMOVE)
-	private List<Review> reviews;
+    private Double rating;
 
-	public Integer getId() {
-		return id;
-	}
+    private int vote;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    private String trailer;
 
-	public String getTitle() {
-		return title;
-	}
+    @OneToMany(mappedBy = MOVIE_ENTITY, cascade = CascadeType.REMOVE)
+    private List<Review> reviews;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public Integer getYear() {
-		return year;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setYear(Integer year) {
-		this.year = year;
-	}
+    public String getImage() {
+        return image;
+    }
 
-	public Double getRating() {
-		return rating;
-	}
+    public void setImage(String image) {
+        this.image = image;
+    }
 
-	public void setRating(Double rating) {
-		this.rating = rating;
-	}
+    public Integer getYear() {
+        return year;
+    }
 
-	public String getSynopsis() {
-		return synopsis;
-	}
+    public void setYear(Integer year) {
+        this.year = year;
+    }
 
-	public void setSynopsis(String synopsis) {
-		this.synopsis = synopsis;
-	}
+    public Double getRating() {
+        return rating;
+    }
 
-	public List<Review> getReviews() {
-		return reviews;
-	}
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
 
-	public void setReviews(List<Review> reviews) {
-		this.reviews = reviews;
-	}
+    public String getSynopsis() {
+        return synopsis;
+    }
 
-	public int getVote() {
-		return vote;
-	}
+    public void setSynopsis(String synopsis) {
+        this.synopsis = synopsis;
+    }
 
-	public void setVote(int vote) {
-		this.vote = vote;
-	}
+    public List<Review> getReviews() {
+        return reviews;
+    }
 
-	public String getTrailer() {
-		return trailer;
-	}
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
 
-	public void setTrailer(String trailer) {
-		this.trailer = trailer;
-	}
+    public int getVote() {
+        return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
+    }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
+    }
 
 }

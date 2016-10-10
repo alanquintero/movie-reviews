@@ -30,81 +30,128 @@ import com.alanquintero.mp.repository.ProfileRepository;
 import com.alanquintero.mp.repository.ReviewRepository;
 import com.alanquintero.mp.repository.RoleRepository;
 import com.alanquintero.mp.repository.UserRepository;
+import static com.alanquintero.mp.util.Consts.*;
 
+/**
+ * UserService.java 
+ * Purpose: Services of User section.
+ */
 @Service
 @Transactional
 public class UserService {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	private ProfileRepository profileRepository;
+    @Autowired
+    private ProfileRepository profileRepository;
 
-	@Autowired
-	private ReviewRepository reviewRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
 
-	@Autowired
-	private MovieRepository movieRepository;
+    @Autowired
+    private MovieRepository movieRepository;
 
-	@Autowired
-	private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
-	}
+    /**
+     * Find all users
+     * 
+     * @return List_User
+     */
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
-	public User getUserById(int id) {
-		return userRepository.findOne(id);
-	}
+    /**
+     * Find one user
+     * 
+     * @param User_id
+     * @return User_Object
+     */
+    public User getUserById(int id) {
+        return userRepository.findOne(id);
+    }
 
-	@Transactional
-	public User getUserWithReviews(int id) {
-		User user = getUserById(id);
-		Profile profile = profileRepository.getProfileByUser(user);
+    /**
+     * Set own details to user
+     * 
+     * @param User_id
+     * @return User_Object
+     */
+    @Transactional
+    public User getUserWithReviews(int id) {
+        User user = getUserById(id);
+        Profile profile = profileRepository.getProfileByUser(user);
 
-		List<Review> reviews = reviewRepository.getReviewsByProfile(profile,
-				new PageRequest(0, 10, Direction.DESC, "publishedDate"));
-		for (Review review : reviews) {
-			Movie movie = movieRepository.getMovieByReviews(review);
-			review.setMovie(movie);
-		}
-		profile.setReview(reviews);
-		user.setProfile(profile);
+        List<Review> reviews = reviewRepository.getReviewsByProfile(profile,
+                new PageRequest(0, 10, Direction.DESC, PUBLISHED_DATE_FIELD));
+        for (Review review : reviews) {
+            Movie movie = movieRepository.getMovieByReviews(review);
+            review.setMovie(movie);
+        }
+        profile.setReview(reviews);
+        user.setProfile(profile);
 
-		return user;
-	}
+        return user;
+    }
 
-	public void saveUser(User user) {
-		user.setEnabled(true);
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		user.setPassword(encoder.encode(user.getPassword()));
-		List<Role> roles = new ArrayList<Role>();
-		roles.add(roleRepository.findByName("ROLE_USER"));
-		user.setRoles(roles);
-		userRepository.save(user);
-	}
+    /**
+     * Add one user
+     * 
+     * @param User_Object
+     */
+    public void saveUser(User user) {
+        user.setEnabled(true);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        user.setPassword(encoder.encode(user.getPassword()));
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(roleRepository.findByName(ROLE_USER));
+        user.setRoles(roles);
+        userRepository.save(user);
+    }
 
-	@Transactional
-	public User getUserWithReviews(String name) {
-		User user = userRepository.getUserByName(name);
-		return getUserWithReviews(user.getId());
-	}
+    /**
+     * Find one user with review details
+     * 
+     * @param User_username
+     * @return User_Object
+     */
+    @Transactional
+    public User getUserWithReviews(String name) {
+        User user = userRepository.getUserByName(name);
+        return getUserWithReviews(user.getId());
+    }
 
-	/**
-	 * @param id
-	 */
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void deleteUser(int id) {
-		userRepository.delete(id);
-	}
+    /**
+     * Delete one user
+     * 
+     * @param User_id
+     */
+    @PreAuthorize(HAS_ROLE_ADMIN)
+    public void deleteUser(int id) {
+        userRepository.delete(id);
+    }
 
-	public User findUserName(String userName) {
-		return userRepository.getUserByName(userName);
-	}
+    /**
+     * Find user name to validate if exists or not
+     * 
+     * @param User_username
+     * @return User_Object
+     */
+    public User findUserName(String userName) {
+        return userRepository.getUserByName(userName);
+    }
 
-	public User findEmail(String email) {
-		return userRepository.getUserByEmail(email);
-	}
+    /**
+     * Find email to validate if exists or not
+     * 
+     * @param User_username
+     * @return User_Object
+     */
+    public User findEmail(String email) {
+        return userRepository.getUserByEmail(email);
+    }
 
 }

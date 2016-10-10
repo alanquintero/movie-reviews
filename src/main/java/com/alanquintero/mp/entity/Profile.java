@@ -18,62 +18,68 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import static com.alanquintero.mp.util.Consts.*;
+
+/**
+ * Profile.java 
+ * Purpose: Entity class.
+ */
 @Entity
 public class Profile {
 
-	@Id
-	@GeneratedValue
-	private Integer id;
-	
-	private String quote;
-	
-	private String image;
-	
-	@OneToOne
-	@JoinColumn(name="user_id")
-	private User user;
-	
-	@OneToMany(mappedBy="profile", cascade=CascadeType.REMOVE)
-	private List<Review> reviews;
+    @Id
+    @GeneratedValue
+    private Integer id;
 
-	public Integer getId() {
-		return id;
-	}
+    private String quote;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    private String image;
 
-	public String getQuote() {
-		return quote;
-	}
+    @OneToOne
+    @JoinColumn(name = USER_ID_COLUMN)
+    private User user;
 
-	public void setQuote(String quote) {
-		this.quote = quote;
-	}
+    @OneToMany(mappedBy = PROFILE_ENTITY, cascade = CascadeType.REMOVE)
+    private List<Review> reviews;
 
-	public User getUser() {
-		return user;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public List<Review> getReview() {
-		return reviews;
-	}
+    public String getQuote() {
+        return quote;
+    }
 
-	public void setReview(List<Review> reviews) {
-		this.reviews = reviews;
-	}
+    public void setQuote(String quote) {
+        this.quote = quote;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
-	
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Review> getReview() {
+        return reviews;
+    }
+
+    public void setReview(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 }

@@ -17,6 +17,10 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+/**
+ * UniqueEmail.java 
+ * Purpose: Interface to be used in UniqueEmailValidator class.
+ */
 @Target({ FIELD })
 @Retention(RUNTIME)
 @Constraint(validatedBy = { UniqueEmailValidator.class })
