@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.entity;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,11 +20,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import static com.alanquintero.mp.util.Consts.*;
-
 /**
- * Profile.java 
- * Purpose: Entity class.
+ * @class Profile.java
+ * @purpose Entity class.
  */
 @Entity
 public class Profile {

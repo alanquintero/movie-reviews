@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.entity;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,11 +17,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import static com.alanquintero.mp.util.Consts.*;
-
 /**
- * Role.java 
- * Purpose: Entity class.
+ * @class Role.java
+ * @purpose Entity class.
  */
 @Entity
 public class Role {

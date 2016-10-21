@@ -18,18 +18,18 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * UniqueUsername.java 
- * Purpose: Interface to be used in UniqueUsernameValidator class.
+ * @class UniqueUsername.java
+ * @purpose Interface to be used in UniqueUsernameValidator class.
  */
 @Target({ FIELD })
 @Retention(RUNTIME)
 @Constraint(validatedBy = { UniqueUsernameValidator.class })
 public @interface UniqueUsername {
 
-	String message();
+    String message();
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }

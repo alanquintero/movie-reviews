@@ -18,18 +18,18 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * UniqueEmail.java 
- * Purpose: Interface to be used in UniqueEmailValidator class.
+ * @class UniqueEmail.java
+ * @purpose Interface to be used in UniqueEmailValidator class.
  */
 @Target({ FIELD })
 @Retention(RUNTIME)
 @Constraint(validatedBy = { UniqueEmailValidator.class })
 public @interface UniqueEmail {
 
-	String message();
+    String message();
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }

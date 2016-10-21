@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.entity;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,11 +20,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
-import static com.alanquintero.mp.util.Consts.*;
-
 /**
- * Review.java 
- * Purpose: Entity class.
+ * @class Review.java
+ * @purpose Entity class.
  */
 @Entity
 public class Review {

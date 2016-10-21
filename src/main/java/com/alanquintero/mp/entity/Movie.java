@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.entity;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -17,11 +19,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import static com.alanquintero.mp.util.Consts.*;
-
 /**
- * Movie.java 
- * Purpose: Entity class.
+ * @class Movie.java
+ * @purpose Entity class.
  */
 @Entity
 public class Movie {

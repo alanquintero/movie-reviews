@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.security.Principal;
 
 import javax.validation.Valid;
@@ -24,11 +26,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.service.ReviewService;
 import com.alanquintero.mp.service.UserService;
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
- * UserController.java 
- * Purpose: Controller for User.
+ * @class UserController.java
+ * @purpose Controller for User.
  */
 @Controller
 public class UserController {
@@ -42,7 +43,7 @@ public class UserController {
     /**
      * Construct review object model
      * 
-     * @return Review_Object
+     * @return Review
      */
     @ModelAttribute(REVIEW)
     public Review contructReview() {
@@ -52,26 +53,26 @@ public class UserController {
     /**
      * Redirect to user profile
      * 
-     * @param Model_Object
-     * @param Principal_Object
+     * @param Model
+     * @param Principal
      * @return String
      */
     @RequestMapping(PROFILE_URL)
     public String profile(Model model, Principal principal) {
-        String name = principal.getName();
-        model.addAttribute(USER, userService.getUserWithReviews(name));
+        String userName = principal.getName();
+        model.addAttribute(USER, userService.searchUserWithReviewsByName(userName));
         return PROFILE_PAGE;
     }
 
     /**
      * Delete one review by review id
      * 
-     * @param Review_id
+     * @param int
      * @return String
      */
     @RequestMapping(DELETE_PROFILE_URL)
-    public String removeReview(@PathVariable int id) {
-        Review review = reviewService.findOne(id);
+    public String removeReview(@PathVariable int reviewId) {
+        Review review = reviewService.searchReviewById(reviewId);
         reviewService.deteleReview(review);
         return REDIRECT_PROFILE_PAGE;
     }
@@ -79,10 +80,10 @@ public class UserController {
     /**
      * Add one new review
      * 
-     * @param Model_Object
-     * @param Review_Object
-     * @param BindingResult_Object
-     * @param Principal_Object
+     * @param Model
+     * @param Review
+     * @param BindingResult
+     * @param Principal
      * @return String
      */
     @RequestMapping(value = MOVIE_URL, method = RequestMethod.POST)
@@ -90,24 +91,24 @@ public class UserController {
             Principal principal) {
         if (result.hasErrors()) {
             MovieController movieController = new MovieController();
-            return movieController.movieDetail(model, review.getMovie().getId());
+            return movieController.searchMovieDetails(model, review.getMovie().getId());
         }
-        String name = principal.getName();
-        reviewService.saveReview(review, name);
+        String userName = principal.getName();
+        reviewService.saveReview(review, userName);
         return REDIRECT_MOVIE_PAGE;
     }
 
     /**
      * Add one new review from result page
      * 
-     * @param Review_Object
-     * @param Principal_Object
+     * @param Review
+     * @param Principal
      * @return String
      */
     @RequestMapping(value = RESULT_MOVIE_URL, method = RequestMethod.POST)
     public String doAddReviewResult(@ModelAttribute(REVIEW) Review review, Principal principal) {
-        String name = principal.getName();
-        reviewService.saveReview(review, name);
+        String userName = principal.getName();
+        reviewService.saveReview(review, userName);
         return REDIRECT_RESULT_MOVIE_PAGE;
     }
 

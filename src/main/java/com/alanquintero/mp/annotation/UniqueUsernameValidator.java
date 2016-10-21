@@ -16,8 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alanquintero.mp.repository.UserRepository;
 
 /**
- * UniqueUsernameValidator.java 
- * Purpose: Validate that user name does not exists.
+ * @class UniqueUsernameValidator.java
+ * @purpose Validate that user name does not exists.
  */
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, String> {
 
@@ -38,7 +38,7 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
         boolean isValid = false;
-        if ((userRepository == null) || (userRepository.getUserByName(username) == null)) {
+        if ((userRepository == null) || (userRepository.findUserByName(username) == null)) {
             isValid = true;
         } else {
             isValid = false;

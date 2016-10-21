@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.UserService;
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
- * RegisterController.java 
- * Purpose: Controller for Register.
+ * @class RegisterController.java
+ * @purpose Controller for Register.
  */
 @Controller
 @RequestMapping(REGISTER_URL)
@@ -37,7 +38,7 @@ public class RegisterController {
     /**
      * Construct user object model
      * 
-     * @return User_Object
+     * @return User
      */
     @ModelAttribute(USER)
     public User contruct() {
@@ -57,8 +58,8 @@ public class RegisterController {
     /**
      * Register one new user
      * 
-     * @param User_Object
-     * @param BindingResult_Object
+     * @param User
+     * @param BindingResult
      * @return String
      */
     @RequestMapping(method = RequestMethod.POST)
@@ -76,26 +77,26 @@ public class RegisterController {
     /**
      * Check if user name exists
      * 
-     * @param User_username
+     * @param String
      * @return String
      */
     @RequestMapping(VALIDATE_USERNAME_URL)
     @ResponseBody
     public String checkUsername(@RequestParam String userName) {
-        Boolean existentUserName = userService.findUserName(userName) == null;
+        Boolean existentUserName = userService.searchUserByName(userName) == null;
         return existentUserName.toString();
     }
 
     /**
      * Check if email exists
      * 
-     * @param User_email
+     * @param String
      * @return String
      */
     @RequestMapping(VALIDATE_EMAIL_URL)
     @ResponseBody
-    public String checkEmail(@RequestParam String email) {
-        Boolean existentEmail = userService.findEmail(email) == null;
+    public String checkEmail(@RequestParam String userEmail) {
+        Boolean existentEmail = userService.searchUserByEmail(userEmail) == null;
         return existentEmail.toString();
     }
 

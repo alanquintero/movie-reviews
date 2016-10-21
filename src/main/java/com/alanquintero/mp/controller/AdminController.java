@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alanquintero.mp.service.UserService;
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
- * AdminController.java 
- * Purpose: Controller for User.
+ * @class AdminController.java
+ * @purpose Controller for User transactions.
  */
 @Controller
 @RequestMapping(USERS_URL)
@@ -31,7 +32,7 @@ public class AdminController {
     /**
      * Find all users
      * 
-     * @param Model_Object
+     * @param Model
      * @return String
      */
     @RequestMapping
@@ -43,25 +44,25 @@ public class AdminController {
     /**
      * Find user details by user id
      * 
-     * @param Model_Object
-     * @param User_id
+     * @param Model
+     * @param int
      * @return String
      */
     @RequestMapping(USER_URL)
-    public String userDetail(Model model, @PathVariable int id) {
-        model.addAttribute(USER, userService.getUserWithReviews(id));
+    public String userDetail(Model model, @PathVariable int userId) {
+        model.addAttribute(USER, userService.searchUserWithReviewsById(userId));
         return USER_PAGE;
     }
 
     /**
      * Delete one user by user id
      * 
-     * @param User_id
+     * @param int
      * @return String
      */
     @RequestMapping(DELETE_USER_URL)
-    public String removeUser(@PathVariable int id) {
-        userService.deleteUser(id);
+    public String removeUser(@PathVariable int userId) {
+        userService.deleteUser(userId);
         return DELETE_USER_PAGE;
     }
 

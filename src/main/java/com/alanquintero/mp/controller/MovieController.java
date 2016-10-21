@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,12 @@ import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
 import com.alanquintero.mp.service.MovieService;
-import static com.alanquintero.mp.util.Consts.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * MovieController.java 
- * Purpose: Controller for Movie.
+ * @class MovieController.java
+ * @purpose Controller for Movie transactions.
  */
 @Controller
 public class MovieController {
@@ -41,7 +42,7 @@ public class MovieController {
     /**
      * Construct movie object model
      * 
-     * @return Movie_Object
+     * @return Movie
      */
     @ModelAttribute(MOVIE)
     public Movie contruct() {
@@ -51,7 +52,7 @@ public class MovieController {
     /**
      * Construct review object model
      * 
-     * @return Review_Object
+     * @return Review
      */
     @ModelAttribute(REVIEW)
     public Review contructReview() {
@@ -61,45 +62,45 @@ public class MovieController {
     /**
      * Find movie details by movie id
      * 
-     * @param Model_Object
-     * @param Movie_id
+     * @param Model
+     * @param int
      * @return String
      */
     @RequestMapping(MOVIE_URL)
-    public String movieDetail(Model model, @PathVariable int id) {
-        model.addAttribute(MOVIE, movieService.getMovieDetailsById(id));
+    public String searchMovieDetails(Model model, @PathVariable int movieId) {
+        model.addAttribute(MOVIE, movieService.searchMovieDetailsById(movieId));
         return MOVIE_PAGE;
     }
 
     /**
      * Find movie by movie title
      * 
-     * @param Model_Object
-     * @param Movie_title
+     * @param Model
+     * @param String
      * @return String
      */
     @RequestMapping(value = RESULT_MOVIE_URL)
-    public String searchMovie(Model model, @PathVariable String movie) {
-        model.addAttribute(MOVIE, movieService.searchMovie(movie));
+    public String searchMovieByTitle(Model model, @PathVariable String movieTitle) {
+        model.addAttribute(MOVIE, movieService.searchMovieByTitle(movieTitle));
         return RESULT;
     }
 
     /**
      * Find movie by empty input
      * 
-     * @param Model_Object
+     * @param Model
      * @return String
      */
     @RequestMapping(value = POPULAR_MOVIES_URL)
-    public String searchEmpty(Model model) {
-        model.addAttribute(MOVIE, movieService.popularMovies());
+    public String searchByEmptyTitle(Model model) {
+        model.addAttribute(MOVIE, movieService.getPopularMovies());
         return RESULT;
     }
 
     /**
      * Find all movies
      * 
-     * @param Model_Object
+     * @param Model
      * @return String
      */
     @RequestMapping(MOVIES_URL)
@@ -111,26 +112,26 @@ public class MovieController {
     /**
      * Delete a movie by movie id
      * 
-     * @param Movie_id
+     * @param int
      * @return String
      */
     @RequestMapping(DELETE_MOVIE_URL)
-    public String removeMovie(@PathVariable int id) {
-        movieService.deteleMovie(id);
+    public String removeMovie(@PathVariable int movieId) {
+        movieService.deteleMovie(movieId);
         return REDIRECT_MOVIES_PAGE;
     }
 
     /**
      * Find movies by movie name to auto complete user input
      * 
-     * @param Movie_title
+     * @param String
      * @return String
      */
     @RequestMapping(value = AUTOCOMPLETE_MOVIES_URL, method = RequestMethod.GET)
     @ResponseBody
-    public String getMovies(@RequestParam String movieName) throws JsonProcessingException {
+    public String searchAutocompleteMovies(@RequestParam String movieTitle) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        List<MovieModel> movies = movieService.getSearchMovies(movieName);
+        List<MovieModel> movies = movieService.searchAutocompleteMovies(movieTitle);
         return mapper.writeValueAsString(movies);
     }
 

@@ -18,27 +18,27 @@ import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.Review;
 
 /**
- * ReviewRepository.java 
- * Purpose: Get Review information from DB.
+ * @class ReviewRepository.java
+ * @purpose Get Review information from DB.
  */
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     /**
-     * Find reviews by profile
+     * Find Reviews by Profile
      * 
-     * @param Profile_Object
-     * @param Pageable_Object
+     * @param Profile
+     * @param Pageable
      * @return List_Review
      */
-    public List<Review> getReviewsByProfile(Profile profile, Pageable pageable);
+    public List<Review> findReviewsByProfile(Profile profile, Pageable pageable);
 
     /**
-     * Find reviews by movie
+     * Find Reviews by Movie
      * 
-     * @param Movie_Object
-     * @param Pageable_Object
+     * @param Movie
+     * @param Pageable
      * @return List_Review
      */
-    public List<Review> getReviewsByMovie(Movie movie, Pageable pageable);
+    public List<Review> findReviewsByMovie(Movie movie, Pageable pageable);
 
 }

@@ -8,18 +8,18 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static com.alanquintero.mp.util.Consts.*;
-
 /**
- * IndexController.java 
- * Purpose: Controller for Default Pages.
+ * @class IndexController.java
+ * @purpose Controller for Default Pages.
  */
 @Controller
 public class IndexController {
-    
+
     /**
      * Redirect to home page
      * 

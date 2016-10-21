@@ -8,14 +8,14 @@
  *******************************************************/
 package com.alanquintero.mp.controller;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static com.alanquintero.mp.util.Consts.*;
-
 /**
- * LoginController.java 
- * Purpose: Controller for Login.
+ * @class LoginController.java
+ * @purpose Controller for Login transactions.
  */
 @Controller
 public class LoginController {

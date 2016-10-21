@@ -8,34 +8,35 @@
  *******************************************************/
 package com.alanquintero.mp.repository;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.alanquintero.mp.entity.User;
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
- * UserRepository.java 
- * Purpose: Get User information from DB.
+ * @class UserRepository.java
+ * @purpose Get User information from DB.
  */
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     /**
-     * Find one user by user name
+     * Find one User by User Name
      * 
-     * @param User_username
-     * @return User_Object
+     * @param String
+     * @return User
      */
-    public User getUserByName(String name);
+    public User findUserByName(String userName);
 
     /**
-     * Find one user by email
+     * Find one User by User Email
      * 
-     * @param User_email
-     * @return User_Object
+     * @param String
+     * @return User
      */
-    @Query("SELECT u FROM User u " + "WHERE lower(u.email) like lower(:user_email) ")
-    public User getUserByEmail(@Param(USER_EMAIL_PARAM) String email);
+    @Query("SELECT u FROM User u " + "WHERE lower(u.email) like lower(:user_email)")
+    public User findUserByEmail(@Param(USER_EMAIL_PARAM) String userEmail);
 
 }

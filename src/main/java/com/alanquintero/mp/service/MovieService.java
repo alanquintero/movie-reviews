@@ -8,122 +8,54 @@
  *******************************************************/
 package com.alanquintero.mp.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Service;
-
 import com.alanquintero.mp.entity.Movie;
-import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
-import com.alanquintero.mp.repository.MovieRepository;
-import com.alanquintero.mp.repository.ReviewRepository;
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
- * MovieService.java 
- * Purpose: Services of Movie section.
+ * @class MovieService.java
+ * @purpose Interface of Service Layer for Movie Transactions.
  */
-@Service
-@Transactional
-public class MovieService {
-
-    @Autowired
-    private MovieRepository movieRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
+public interface MovieService {
 
     /**
-     * Find one movie
-     * 
-     * @param Movie_id
-     * @return Movie_Object
+     * @param int
+     * @return Movie
      */
-    public Movie getMovieById(int id) {
-        return movieRepository.findOne(id);
-    }
+    public Movie searchMovieById(int movieId);
 
     /**
-     * Get movie details
-     * 
-     * @param Movie_id
-     * @return Movie_Object
+     * @param int
+     * @return Movie
      */
-    @Transactional
-    public Movie getMovieDetailsById(int id) {
-        Movie movie = getMovieById(id);
-        List<Review> reviews = reviewRepository.getReviewsByMovie(movie,
-                new PageRequest(0, 15, Direction.DESC, PUBLISHED_DATE_FIELD));
-        movie.setReviews(reviews);
-        return movie;
-    }
+    public Movie searchMovieDetailsById(int movieId);
 
     /**
-     * Find a list of movies that match with text provided
-     * 
-     * @param Movie_title
+     * @param String
      * @return List_Movie
      */
-    @Transactional
-    public List<Movie> searchMovie(String movie) {
-        return movieRepository.findAllMovies(PERCENT + movie + PERCENT);
-    }
+    public List<Movie> searchMovieByTitle(String movieTitle);
 
     /**
-     * Find the top of popular movies
-     * 
      * @return List_Movie
      */
-    @Transactional
-    public List<Movie> popularMovies() {
-        return movieRepository.findPopularMovies(new PageRequest(0, 10, Direction.DESC, RATING_FIELD));
-    }
+    public List<Movie> getPopularMovies();
 
     /**
-     * Find all movies
-     * 
      * @return List_Movie
      */
-    public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
-    }
+    public List<Movie> getAllMovies();
 
     /**
-     * Delete one movie
-     * 
-     * @param Movie_id
+     * @param int
      */
-    @PreAuthorize(HAS_ROLE_ADMIN)
-    public void deteleMovie(int id) {
-        movieRepository.delete(id);
-    }
+    public void deteleMovie(int movieId);
 
     /**
-     * Find a list of movies that match with text provided to auto complete user
-     * input search
-     * 
-     * @param Movie_title
+     * @param String
      * @return List_Movie
      */
-    public List<MovieModel> getSearchMovies(String movieName) {
-        Pageable topSix = new PageRequest(0, 6);
-        List<Movie> movies = movieRepository.getSearchMovies(PERCENT + movieName + PERCENT, topSix);
-        List<MovieModel> moviesModel = new ArrayList<MovieModel>();
-        if (movies != null) {
-            for (Movie m : movies) {
-                moviesModel.add(
-                        new MovieModel(m.getId(), m.getTitle() + PARENTHESIS_OPEN + m.getYear() + PARENTHESIS_CLOSE));
-            }
-        }
-        return moviesModel;
-    }
+    public List<MovieModel> searchAutocompleteMovies(String movieTitle);
 
 }

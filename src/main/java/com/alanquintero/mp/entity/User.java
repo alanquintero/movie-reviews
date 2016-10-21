@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.entity;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,11 +26,10 @@ import org.hibernate.validator.constraints.Email;
 
 import com.alanquintero.mp.annotation.UniqueEmail;
 import com.alanquintero.mp.annotation.UniqueUsername;
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
- * User.java 
- * Purpose: Entity class.
+ * @class User.java
+ * @purpose Entity class.
  */
 @Entity
 public class User {

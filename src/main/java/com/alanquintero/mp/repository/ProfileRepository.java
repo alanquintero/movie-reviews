@@ -14,17 +14,17 @@ import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.User;
 
 /**
- * ProfileRepository.java 
- * Purpose: Get Profile information from DB.
+ * @class ProfileRepository.java
+ * @purpose Get Profile information from DB.
  */
 public interface ProfileRepository extends JpaRepository<Profile, Integer> {
 
     /**
-     * Find one profile by user
+     * Find one Profile by User
      * 
      * @param User_Object
      * @return Profile_Object
      */
-    public Profile getProfileByUser(User user);
+    public Profile findProfileByUser(User user);
 
 }

@@ -9,8 +9,8 @@
 package com.alanquintero.mp.model;
 
 /**
- * MovieModel.java 
- * Purpose: Model class.
+ * @class MovieModel.java
+ * @purpose Model class.
  */
 public class MovieModel {
 
