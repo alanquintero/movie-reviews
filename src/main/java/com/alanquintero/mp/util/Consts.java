@@ -35,22 +35,22 @@ public final class Consts {
 
     // Request Mapping
     public static final String USERS_URL = "/users";
-    public static final String USER_URL = "/{id}";
-    public static final String DELETE_USER_URL = "/remove/{id}";
+    public static final String USER_URL = "/{userId}";
+    public static final String DELETE_USER_URL = "/remove/{userId}";
     public static final String DEFAULT_URL = "/";
     public static final String INDEX_URL = "/index";
     public static final String LOGIN_URL = "/login";
-    public static final String MOVIE_URL = "/movie/{id}";
+    public static final String MOVIE_URL = "/movie/{movieId}";
     public static final String POPULAR_MOVIES_URL = "/result";
-    public static final String RESULT_MOVIE_URL = "/result/{movie}";
+    public static final String RESULT_MOVIE_URL = "/result/{movieTitle}";
     public static final String MOVIES_URL = "/movies";
-    public static final String DELETE_MOVIE_URL = "/movies/remove/{id}";
+    public static final String DELETE_MOVIE_URL = "/movies/remove/{movieId}";
     public static final String AUTOCOMPLETE_MOVIES_URL = "/getMovies";
     public static final String REGISTER_URL = "/register";
     public static final String VALIDATE_USERNAME_URL = "/checkusername";
-    public static final String VALIDATE_EMAIL_URL = "/checkemail";
+    public static final String VALIDATE_EMAIL_URL = "/checkuseremail";
     public static final String PROFILE_URL = "/profile";
-    public static final String DELETE_PROFILE_URL = "profile/remove/{id}";
+    public static final String DELETE_PROFILE_URL = "profile/remove/{reviewId}";
 
     // Page
     public static final String USERS_PAGE = "users";
@@ -60,8 +60,8 @@ public final class Consts {
     public static final String LOGIN_PAGE = "login";
     public static final String MOVIE_PAGE = "movie";
     public static final String MOVIES_PAGE = "movies";
-    public static final String REDIRECT_MOVIE_PAGE = "redirect:/movie/{id}.html";
-    public static final String REDIRECT_RESULT_MOVIE_PAGE = "redirect:/result/{movie}.html";
+    public static final String REDIRECT_MOVIE_PAGE = "redirect:/movie/{movieId}.html";
+    public static final String REDIRECT_RESULT_MOVIE_PAGE = "redirect:/result/{movieTitle}.html";
     public static final String REDIRECT_MOVIES_PAGE = "redirect:/movies.html";
     public static final String REGISTER_PAGE = "register";
     public static final String REGISTER_SUCCESS_PAGE = "redirect:/register.html?success=true";

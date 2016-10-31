@@ -8,26 +8,22 @@
  *******************************************************/
 package com.alanquintero.mp.service.impl;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import com.alanquintero.mp.dao.MovieDao;
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
-import com.alanquintero.mp.repository.MovieRepository;
-import com.alanquintero.mp.repository.ReviewRepository;
 import com.alanquintero.mp.service.MovieService;
-
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
  * @class MovieServiceImpl.java
@@ -38,10 +34,7 @@ import static com.alanquintero.mp.util.Consts.*;
 public class MovieServiceImpl implements MovieService {
 
     @Autowired
-    private MovieRepository movieRepository;
-
-    @Autowired
-    private ReviewRepository reviewRepository;
+    private MovieDao movieDao;
 
     /**
      * Search Movie By Movie Id
@@ -50,7 +43,11 @@ public class MovieServiceImpl implements MovieService {
      * @return Movie
      */
     public Movie searchMovieById(int movieId) {
-        return movieRepository.findOne(movieId);
+        Movie movie = movieDao.searchMovieById(movieId);
+        if (movie == null) {
+            movie = setMovieNotFound();
+        }
+        return movie;
     }
 
     /**
@@ -62,9 +59,12 @@ public class MovieServiceImpl implements MovieService {
     @Transactional
     public Movie searchMovieDetailsById(int movieId) {
         Movie movie = searchMovieById(movieId);
-        List<Review> reviews = reviewRepository.findReviewsByMovie(movie,
-                new PageRequest(0, 15, Direction.DESC, PUBLISHED_DATE_FIELD));
-        movie.setReviews(reviews);
+        if ((movie != null) && ((movie.getId() != null) && (movie.getId() > 0))) {
+            List<Review> reviews = movieDao.searchReviewsByMovie(movie);
+            movie.setReviews(reviews);
+        } else {
+            movie = setMovieNotFound();
+        }
         return movie;
     }
 
@@ -76,7 +76,12 @@ public class MovieServiceImpl implements MovieService {
      */
     @Transactional
     public List<Movie> searchMovieByTitle(String movieTitle) {
-        return movieRepository.findAllMovies(PERCENT + movieTitle + PERCENT);
+        List<Movie> movies = movieDao.searchMovieByTitle(PERCENT + movieTitle + PERCENT);
+        if ((movies == null) || (movies.isEmpty())) {
+            Movie movie = setMovieNotFound();
+            movies.add(movie);
+        }
+        return movies;
     }
 
     /**
@@ -86,7 +91,12 @@ public class MovieServiceImpl implements MovieService {
      */
     @Transactional
     public List<Movie> getPopularMovies() {
-        return movieRepository.findPopularMovies(new PageRequest(0, 10, Direction.DESC, RATING_FIELD));
+        List<Movie> movies = movieDao.getPopularMovies();
+        if ((movies == null) || (movies.isEmpty())) {
+            Movie movie = setMovieNotFound();
+            movies.add(movie);
+        }
+        return movies;
     }
 
     /**
@@ -95,7 +105,12 @@ public class MovieServiceImpl implements MovieService {
      * @return List_Movie
      */
     public List<Movie> getAllMovies() {
-        return movieRepository.findAll();
+        List<Movie> movies = movieDao.getAllMovies();
+        if ((movies == null) || (movies.isEmpty())) {
+            Movie movie = setMovieNotFound();
+            movies.add(movie);
+        }
+        return movies;
     }
 
     /**
@@ -104,8 +119,10 @@ public class MovieServiceImpl implements MovieService {
      * @param int
      */
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public void deteleMovie(int id) {
-        movieRepository.delete(id);
+    public void deteleMovie(int movieId) {
+        if (movieDao.searchMovieById(movieId) != null) {
+            movieDao.deteleMovie(movieId);
+        }
     }
 
     /**
@@ -115,16 +132,30 @@ public class MovieServiceImpl implements MovieService {
      * @return List_Movie
      */
     public List<MovieModel> searchAutocompleteMovies(String movieTitle) {
-        Pageable topSix = new PageRequest(0, 6);
-        List<Movie> movies = movieRepository.getSearchMovies(PERCENT + movieTitle + PERCENT, topSix);
+        List<Movie> movies = movieDao.searchAutocompleteMovies(PERCENT + movieTitle + PERCENT);
         List<MovieModel> moviesModel = new ArrayList<MovieModel>();
-        if (movies != null) {
+        if ((movies != null) && (!movies.isEmpty())) {
             for (Movie m : movies) {
                 moviesModel.add(
                         new MovieModel(m.getId(), m.getTitle() + PARENTHESIS_OPEN + m.getYear() + PARENTHESIS_CLOSE));
             }
+        } else {
+            moviesModel.add(new MovieModel(0, MSG_MOVIE_NOT_FOUND));
         }
         return moviesModel;
+    }
+
+    /**
+     * Set Movie not Found
+     * 
+     * @return Movie
+     */
+    public Movie setMovieNotFound() {
+        Movie movie = new Movie();
+        movie.setId(0);
+        movie.setTitle(MSG_MOVIE_NOT_FOUND);
+        movie.setYear(0);
+        return movie;
     }
 
 }

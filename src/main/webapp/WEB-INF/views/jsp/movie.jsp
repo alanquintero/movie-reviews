@@ -4,7 +4,6 @@
 <%@ include file="../../../resources/layout/taglib.jsp"%>
 
 <div>
-
 	<h1><c:out value="${movie.title}" /> <font color="gray">(<c:out value="${movie.year}" />)</font></h1>
 	<p><c:out value="${movie.rating}" /></p>
 	<br>

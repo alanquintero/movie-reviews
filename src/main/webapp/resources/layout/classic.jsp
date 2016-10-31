@@ -126,7 +126,7 @@
 	    $(document).ready(function() {
 			$('#movieInput').autocomplete({
 				serviceUrl: '${pageContext.request.contextPath}/getMovies.html',
-				paramName: "movieName",
+				paramName: "movieTitle",
 			    transformResult: function(response) {
 			        return {
 			            suggestions: $.map($.parseJSON(response), function(item) {

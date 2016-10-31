@@ -56,7 +56,7 @@ public class RegisterController {
     }
 
     /**
-     * Register one new user
+     * Register a new user
      * 
      * @param User
      * @param BindingResult
@@ -95,7 +95,7 @@ public class RegisterController {
      */
     @RequestMapping(VALIDATE_EMAIL_URL)
     @ResponseBody
-    public String checkEmail(@RequestParam String userEmail) {
+    public String checkUserEmail(@RequestParam String userEmail) {
         Boolean existentEmail = userService.searchUserByEmail(userEmail) == null;
         return existentEmail.toString();
     }

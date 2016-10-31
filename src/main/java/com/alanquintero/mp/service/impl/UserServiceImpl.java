@@ -8,31 +8,29 @@
  *******************************************************/
 package com.alanquintero.mp.service.impl;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.alanquintero.mp.dao.MovieDao;
+import com.alanquintero.mp.dao.ProfileDao;
+import com.alanquintero.mp.dao.ReviewDao;
+import com.alanquintero.mp.dao.RoleDao;
+import com.alanquintero.mp.dao.UserDao;
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.Role;
 import com.alanquintero.mp.entity.User;
-import com.alanquintero.mp.repository.MovieRepository;
-import com.alanquintero.mp.repository.ProfileRepository;
-import com.alanquintero.mp.repository.ReviewRepository;
-import com.alanquintero.mp.repository.RoleRepository;
-import com.alanquintero.mp.repository.UserRepository;
 import com.alanquintero.mp.service.UserService;
-
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
  * UserService.java Purpose: Services of User section.
@@ -42,19 +40,19 @@ import static com.alanquintero.mp.util.Consts.*;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserDao userDao;
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private ProfileDao profileDao;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewDao reviewDao;
 
     @Autowired
-    private MovieRepository movieRepository;
+    private MovieDao movieDao;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleDao roleDao;
 
     /**
      * Get all Users
@@ -62,7 +60,7 @@ public class UserServiceImpl implements UserService {
      * @return List_User
      */
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userDao.getAllUsers();
     }
 
     /**
@@ -72,7 +70,7 @@ public class UserServiceImpl implements UserService {
      * @return User
      */
     public User searchUserById(int userId) {
-        return userRepository.findOne(userId);
+        return userDao.searchUserById(userId);
     }
 
     /**
@@ -84,12 +82,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User searchUserWithReviewsById(int userId) {
         User user = searchUserById(userId);
-        Profile profile = profileRepository.findProfileByUser(user);
+        Profile profile = profileDao.searchProfileByUser(user);
 
-        List<Review> reviews = reviewRepository.findReviewsByProfile(profile,
-                new PageRequest(0, 10, Direction.DESC, PUBLISHED_DATE_FIELD));
+        List<Review> reviews = reviewDao.searchReviewsByProfile(profile);
         for (Review review : reviews) {
-            Movie movie = movieRepository.getMovieByReviews(review);
+            Movie movie = movieDao.searchMovieByReview(review);
             review.setMovie(movie);
         }
         profile.setReview(reviews);
@@ -108,9 +105,9 @@ public class UserServiceImpl implements UserService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         List<Role> roles = new ArrayList<Role>();
-        roles.add(roleRepository.findRoleByName(ROLE_USER));
+        roles.add(roleDao.searchRoleByRoleName(ROLE_USER));
         user.setRoles(roles);
-        userRepository.save(user);
+        userDao.saveUser(user);
     }
 
     /**
@@ -121,7 +118,7 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     public User searchUserWithReviewsByName(String userName) {
-        User user = userRepository.findUserByName(userName);
+        User user = userDao.searchUserByName(userName);
         return searchUserWithReviewsById(user.getId());
     }
 
@@ -131,8 +128,8 @@ public class UserServiceImpl implements UserService {
      * @param int
      */
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public void deleteUser(int id) {
-        userRepository.delete(id);
+    public void deleteUser(int userId) {
+        userDao.deleteUser(userId);
     }
 
     /**
@@ -142,7 +139,7 @@ public class UserServiceImpl implements UserService {
      * @return User
      */
     public User searchUserByName(String userName) {
-        return userRepository.findUserByName(userName);
+        return userDao.searchUserByName(userName);
     }
 
     /**
@@ -152,7 +149,7 @@ public class UserServiceImpl implements UserService {
      * @return User
      */
     public User searchUserByEmail(String userEmail) {
-        return userRepository.findUserByEmail(userEmail);
+        return userDao.searchUserByEmail(userEmail);
     }
 
 }

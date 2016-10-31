@@ -20,7 +20,7 @@
 	</div>
 	
 	<div class="form-group">
-		<label for="email" class="col-sm-2 control-label">Email:</label>
+		<label for="userEmail" class="col-sm-2 control-label">Email:</label>
 		<div class="col-sm-10">
 			<form:input path="email" cssClass="form-control" placeholder="someone@example.com" />
 			<form:errors path="email" />
@@ -76,10 +76,10 @@
 						required : true,
 						email: true,
 						remote: {
-							url: "<spring:url value='/register/checkemail.html' />",
+							url: "<spring:url value='/register/checkuseremail.html' />",
 							type: "get",
 							data: {
-								userName: function() {
+								userEmail: function() {
 									return $("#email").val();
 								}
 							}

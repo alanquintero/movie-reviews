@@ -8,6 +8,8 @@
  *******************************************************/
 package com.alanquintero.mp.service.impl;
 
+import static com.alanquintero.mp.util.Consts.*;
+
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +17,15 @@ import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import com.alanquintero.mp.dao.MovieDao;
+import com.alanquintero.mp.dao.ProfileDao;
+import com.alanquintero.mp.dao.ReviewDao;
+import com.alanquintero.mp.dao.UserDao;
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.User;
-import com.alanquintero.mp.repository.MovieRepository;
-import com.alanquintero.mp.repository.ProfileRepository;
-import com.alanquintero.mp.repository.ReviewRepository;
-import com.alanquintero.mp.repository.UserRepository;
 import com.alanquintero.mp.service.ReviewService;
-
-import static com.alanquintero.mp.util.Consts.*;
 
 /**
  * ReviewService.java Purpose: Services of Review section.
@@ -34,16 +34,16 @@ import static com.alanquintero.mp.util.Consts.*;
 public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
-    ReviewRepository reviewRepository;
+    private ReviewDao reviewDao;
 
     @Autowired
-    UserRepository userRepository;
+    private MovieDao movieDao;
 
     @Autowired
-    ProfileRepository profileRepository;
+    private UserDao userDao;
 
     @Autowired
-    MovieRepository movieRepository;
+    private ProfileDao profileDao;
 
     /**
      * Add a Review
@@ -52,15 +52,20 @@ public class ReviewServiceImpl implements ReviewService {
      * @param String
      */
     public void saveReview(Review review, String userName) {
-        User user = userRepository.findUserByName(userName);
-        Profile profile = profileRepository.findProfileByUser(user);
+        User user = userDao.searchUserByName(userName);
+        Profile profile = null;
+        if (user != null) {
+            profile = profileDao.searchProfileByUser(user);
+        }
         review.setId(null);
         review.setPublishedDate(new Date());
         review.setRating(0);
-        review.setProfile(profile);
-        Movie movie = movieRepository.getMovieById(review.getMovie().getId());
-        review.setMovie(movie);
-        reviewRepository.save(review);
+        Movie movie = movieDao.searchMovieById(review.getMovie().getId());
+        if ((!review.getComment().equals("")) && (profile != null) && (movie != null)) {
+            review.setProfile(profile);
+            review.setMovie(movie);
+            reviewDao.saveReview(review);
+        }
     }
 
     /**
@@ -70,7 +75,7 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @PreAuthorize(USERNAME_OR_ADMIN)
     public void deteleReview(@P(REVIEW) Review review) {
-        reviewRepository.delete(review);
+        reviewDao.deteleReview(review);
     }
 
     /**
@@ -80,7 +85,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @return Review
      */
     public Review searchReviewById(int reviewId) {
-        return reviewRepository.findOne(reviewId);
+        return reviewDao.searchReviewById(reviewId);
     }
 
 }
