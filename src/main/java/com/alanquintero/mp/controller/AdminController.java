@@ -61,8 +61,8 @@ public class AdminController {
      * @return String
      */
     @RequestMapping(DELETE_USER_URL)
-    public String removeUser(@PathVariable int userId) {
-        userService.deleteUser(userId);
+    public String removeUser(@PathVariable int userId, Model model) {
+        model.addAttribute(MESSAGE, userService.deleteUser(userId));
         return DELETE_USER_PAGE;
     }
 

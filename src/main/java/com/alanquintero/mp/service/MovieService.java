@@ -49,8 +49,9 @@ public interface MovieService {
 
     /**
      * @param int
+     * @return String
      */
-    public void deteleMovie(int movieId);
+    public String deteleMovie(int movieId);
 
     /**
      * @param String

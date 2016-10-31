@@ -37,8 +37,9 @@ public interface UserService {
 
     /**
      * @param User
+     * @return boolean
      */
-    public void saveUser(User user);
+    public boolean saveUser(User user);
 
     /**
      * @param String
@@ -48,8 +49,9 @@ public interface UserService {
 
     /**
      * @param int
+     * @return String
      */
-    public void deleteUser(int userId);
+    public String deleteUser(int userId);
 
     /**
      * @param String

@@ -19,13 +19,15 @@ public interface ReviewService {
     /**
      * @param Review
      * @param String
+     * @return String
      */
-    public void saveReview(Review review, String userName);
+    public String saveReview(Review review, String userName);
 
     /**
      * @param Review
+     * @return String
      */
-    public void deteleReview(Review review);
+    public String deteleReview(Review review);
 
     /**
      * @param int

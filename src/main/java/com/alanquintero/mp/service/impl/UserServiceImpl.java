@@ -31,9 +31,11 @@ import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.Role;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.UserService;
+import com.alanquintero.mp.util.Message;
 
 /**
- * UserService.java Purpose: Services of User section.
+ * @class UserService.java
+ * @purpose Services of User section.
  */
 @Service
 @Transactional
@@ -60,7 +62,13 @@ public class UserServiceImpl implements UserService {
      * @return List_User
      */
     public List<User> getAllUsers() {
-        return userDao.getAllUsers();
+        List<User> users = userDao.getAllUsers();
+        if (users == null) {
+            User user = Message.setUserFail();
+            users = new ArrayList<User>();
+            users.add(user);
+        }
+        return users;
     }
 
     /**
@@ -70,7 +78,11 @@ public class UserServiceImpl implements UserService {
      * @return User
      */
     public User searchUserById(int userId) {
-        return userDao.searchUserById(userId);
+        User user = userDao.searchUserById(userId);
+        if (user == null) {
+            user = Message.setUserFail();
+        }
+        return user;
     }
 
     /**
@@ -81,16 +93,27 @@ public class UserServiceImpl implements UserService {
      */
     @Transactional
     public User searchUserWithReviewsById(int userId) {
-        User user = searchUserById(userId);
-        Profile profile = profileDao.searchProfileByUser(user);
-
-        List<Review> reviews = reviewDao.searchReviewsByProfile(profile);
-        for (Review review : reviews) {
-            Movie movie = movieDao.searchMovieByReview(review);
-            review.setMovie(movie);
+        User user = null;
+        if (userId != 0) {
+            user = searchUserById(userId);
+            if (user != null) {
+                Profile profile = profileDao.searchProfileByUser(user);
+                if (profile != null) {
+                    List<Review> reviews = reviewDao.searchReviewsByProfile(profile);
+                    if (reviews != null) {
+                        for (Review review : reviews) {
+                            Movie movie = movieDao.searchMovieByReview(review);
+                            review.setMovie(movie);
+                        }
+                        profile.setReview(reviews);
+                    }
+                    user.setProfile(profile);
+                }
+            }
         }
-        profile.setReview(reviews);
-        user.setProfile(profile);
+        if (user == null) {
+            user = Message.setUserFail();
+        }
 
         return user;
     }
@@ -99,15 +122,20 @@ public class UserServiceImpl implements UserService {
      * Add a User
      * 
      * @param User
+     * @return String
      */
-    public void saveUser(User user) {
-        user.setEnabled(true);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword()));
-        List<Role> roles = new ArrayList<Role>();
-        roles.add(roleDao.searchRoleByRoleName(ROLE_USER));
-        user.setRoles(roles);
-        userDao.saveUser(user);
+    public boolean saveUser(User user) {
+        boolean success = false;
+        if (user != null) {
+            user.setEnabled(true);
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(encoder.encode(user.getPassword()));
+            List<Role> roles = new ArrayList<Role>();
+            roles.add(roleDao.searchRoleByRoleName(ROLE_USER));
+            user.setRoles(roles);
+            success = userDao.saveUser(user);
+        }
+        return success;
     }
 
     /**
@@ -119,17 +147,29 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User searchUserWithReviewsByName(String userName) {
         User user = userDao.searchUserByName(userName);
-        return searchUserWithReviewsById(user.getId());
+        User userResponse = null;
+        if (user != null) {
+            userResponse = searchUserWithReviewsById(user.getId());
+        }
+        if (userResponse == null) {
+            userResponse = Message.setUserFail();
+        }
+        return userResponse;
     }
 
     /**
      * Delete a User
      * 
      * @param int
+     * @return String
      */
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public void deleteUser(int userId) {
-        userDao.deleteUser(userId);
+    public String deleteUser(int userId) {
+        boolean success = false;
+        if (userId != 0) {
+            success = userDao.deleteUser(userId);
+        }
+        return Message.setSuccessOrFail(success);
     }
 
     /**

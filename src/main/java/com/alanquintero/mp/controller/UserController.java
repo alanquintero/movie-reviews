@@ -71,9 +71,9 @@ public class UserController {
      * @return String
      */
     @RequestMapping(DELETE_PROFILE_URL)
-    public String removeReview(@PathVariable int reviewId) {
+    public String removeReview(@PathVariable int reviewId, Model model) {
         Review review = reviewService.searchReviewById(reviewId);
-        reviewService.deteleReview(review);
+        model.addAttribute(MESSAGE, reviewService.deteleReview(review));
         return REDIRECT_PROFILE_PAGE;
     }
 
@@ -106,9 +106,9 @@ public class UserController {
      * @return String
      */
     @RequestMapping(value = RESULT_MOVIE_URL, method = RequestMethod.POST)
-    public String doAddReviewResult(@ModelAttribute(REVIEW) Review review, Principal principal) {
+    public String doAddReviewResult(@ModelAttribute(REVIEW) Review review, Principal principal, Model model) {
         String userName = principal.getName();
-        reviewService.saveReview(review, userName);
+        model.addAttribute(MESSAGE, reviewService.saveReview(review, userName));
         return REDIRECT_RESULT_MOVIE_PAGE;
     }
 

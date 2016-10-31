@@ -68,8 +68,13 @@ public class RegisterController {
         if (result.hasErrors()) {
             pageResult = REGISTER_PAGE;
         } else {
-            userService.saveUser(user);
-            pageResult = REGISTER_SUCCESS_PAGE;
+
+            boolean success = userService.saveUser(user);
+            if (success == true) {
+                pageResult = REGISTER_SUCCESS_PAGE;
+            } else {
+                pageResult = REGISTER_PAGE;
+            }
         }
         return pageResult;
     }

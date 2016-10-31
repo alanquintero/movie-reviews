@@ -13,17 +13,17 @@ import static com.alanquintero.mp.util.Consts.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.alanquintero.mp.dao.MovieDao;
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
 import com.alanquintero.mp.service.MovieService;
+import com.alanquintero.mp.util.Message;
 
 /**
  * @class MovieServiceImpl.java
@@ -42,10 +42,12 @@ public class MovieServiceImpl implements MovieService {
      * @param int
      * @return Movie
      */
+    @Override
+    @Transactional
     public Movie searchMovieById(int movieId) {
         Movie movie = movieDao.searchMovieById(movieId);
         if (movie == null) {
-            movie = setMovieNotFound();
+            movie = Message.setMovieNotFound();
         }
         return movie;
     }
@@ -56,14 +58,14 @@ public class MovieServiceImpl implements MovieService {
      * @param int
      * @return Movie
      */
-    @Transactional
+    @Override
     public Movie searchMovieDetailsById(int movieId) {
         Movie movie = searchMovieById(movieId);
         if ((movie != null) && ((movie.getId() != null) && (movie.getId() > 0))) {
             List<Review> reviews = movieDao.searchReviewsByMovie(movie);
             movie.setReviews(reviews);
         } else {
-            movie = setMovieNotFound();
+            movie = Message.setMovieNotFound();
         }
         return movie;
     }
@@ -74,11 +76,12 @@ public class MovieServiceImpl implements MovieService {
      * @param String
      * @return List_Movie
      */
+    @Override
     @Transactional
     public List<Movie> searchMovieByTitle(String movieTitle) {
         List<Movie> movies = movieDao.searchMovieByTitle(PERCENT + movieTitle + PERCENT);
         if ((movies == null) || (movies.isEmpty())) {
-            Movie movie = setMovieNotFound();
+            Movie movie = Message.setMovieNotFound();
             movies.add(movie);
         }
         return movies;
@@ -89,11 +92,12 @@ public class MovieServiceImpl implements MovieService {
      * 
      * @return List_Movie
      */
+    @Override
     @Transactional
     public List<Movie> getPopularMovies() {
         List<Movie> movies = movieDao.getPopularMovies();
         if ((movies == null) || (movies.isEmpty())) {
-            Movie movie = setMovieNotFound();
+            Movie movie = Message.setMovieNotFound();
             movies.add(movie);
         }
         return movies;
@@ -104,10 +108,11 @@ public class MovieServiceImpl implements MovieService {
      * 
      * @return List_Movie
      */
+    @Override
     public List<Movie> getAllMovies() {
         List<Movie> movies = movieDao.getAllMovies();
         if ((movies == null) || (movies.isEmpty())) {
-            Movie movie = setMovieNotFound();
+            Movie movie = Message.setMovieNotFound();
             movies.add(movie);
         }
         return movies;
@@ -117,12 +122,16 @@ public class MovieServiceImpl implements MovieService {
      * Delete a Movie by Movie Id
      * 
      * @param int
+     * @return String
      */
+    @Override
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public void deteleMovie(int movieId) {
+    public String deteleMovie(int movieId) {
+        boolean success = false;
         if (movieDao.searchMovieById(movieId) != null) {
-            movieDao.deteleMovie(movieId);
+            success = movieDao.deteleMovie(movieId);
         }
+        return Message.setSuccessOrFail(success);
     }
 
     /**
@@ -131,6 +140,7 @@ public class MovieServiceImpl implements MovieService {
      * @param String
      * @return List_Movie
      */
+    @Override
     public List<MovieModel> searchAutocompleteMovies(String movieTitle) {
         List<Movie> movies = movieDao.searchAutocompleteMovies(PERCENT + movieTitle + PERCENT);
         List<MovieModel> moviesModel = new ArrayList<MovieModel>();
@@ -143,19 +153,6 @@ public class MovieServiceImpl implements MovieService {
             moviesModel.add(new MovieModel(0, MSG_MOVIE_NOT_FOUND));
         }
         return moviesModel;
-    }
-
-    /**
-     * Set Movie not Found
-     * 
-     * @return Movie
-     */
-    public Movie setMovieNotFound() {
-        Movie movie = new Movie();
-        movie.setId(0);
-        movie.setTitle(MSG_MOVIE_NOT_FOUND);
-        movie.setYear(0);
-        return movie;
     }
 
 }

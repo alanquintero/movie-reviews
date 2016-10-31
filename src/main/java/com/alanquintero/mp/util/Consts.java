@@ -24,6 +24,8 @@ public final class Consts {
 
     // Message
     public static final String MSG_MOVIE_NOT_FOUND = "Movie not Found!";
+    public static final String MSG_SUCCESS = "Success";
+    public static final String MSG_FAIL = "Sorry! Something went wrong";
 
     // Model
     public static final String USERS = "users";
@@ -32,6 +34,7 @@ public final class Consts {
     public static final String REVIEW = "review";
     public static final String RESULT = "result";
     public static final String MOVIES = "movies";
+    public static final String MESSAGE = "message";
 
     // Request Mapping
     public static final String USERS_URL = "/users";
@@ -105,5 +108,8 @@ public final class Consts {
     public static final String PERCENT = "%";
     public static final String PARENTHESIS_OPEN = " (";
     public static final String PARENTHESIS_CLOSE = ")";
+
+    // Others
+    public static final String EMPTY_STRING = "";
 
 }

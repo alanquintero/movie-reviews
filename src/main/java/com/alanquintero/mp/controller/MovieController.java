@@ -116,8 +116,8 @@ public class MovieController {
      * @return String
      */
     @RequestMapping(DELETE_MOVIE_URL)
-    public String removeMovie(@PathVariable int movieId) {
-        movieService.deteleMovie(movieId);
+    public String removeMovie(@PathVariable int movieId, Model model) {
+        model.addAttribute(MESSAGE, movieService.deteleMovie(movieId));
         return REDIRECT_MOVIES_PAGE;
     }
 

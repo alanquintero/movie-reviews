@@ -26,9 +26,11 @@ import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.ReviewService;
+import com.alanquintero.mp.util.Message;
 
 /**
- * ReviewService.java Purpose: Services of Review section.
+ * @class ReviewService.java
+ * @purpose Services of Review section.
  */
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -50,8 +52,10 @@ public class ReviewServiceImpl implements ReviewService {
      * 
      * @param Review
      * @param String
+     * @return String
      */
-    public void saveReview(Review review, String userName) {
+    public String saveReview(Review review, String userName) {
+        boolean success = false;
         User user = userDao.searchUserByName(userName);
         Profile profile = null;
         if (user != null) {
@@ -64,18 +68,24 @@ public class ReviewServiceImpl implements ReviewService {
         if ((!review.getComment().equals("")) && (profile != null) && (movie != null)) {
             review.setProfile(profile);
             review.setMovie(movie);
-            reviewDao.saveReview(review);
+            success = reviewDao.saveReview(review);
         }
+        return Message.setSuccessOrFail(success);
     }
 
     /**
      * Delete a Review
      * 
      * @param Review
+     * @return String
      */
     @PreAuthorize(USERNAME_OR_ADMIN)
-    public void deteleReview(@P(REVIEW) Review review) {
-        reviewDao.deteleReview(review);
+    public String deteleReview(@P(REVIEW) Review review) {
+        boolean success = false;
+        if (review != null) {
+            success = reviewDao.deteleReview(review);
+        }
+        return Message.setSuccessOrFail(success);
     }
 
     /**
@@ -85,7 +95,11 @@ public class ReviewServiceImpl implements ReviewService {
      * @return Review
      */
     public Review searchReviewById(int reviewId) {
-        return reviewDao.searchReviewById(reviewId);
+        Review review = reviewDao.searchReviewById(reviewId);
+        if (review == null) {
+            review = Message.setReviewFail();
+        }
+        return review;
     }
 
 }
