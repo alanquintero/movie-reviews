@@ -10,6 +10,8 @@ package com.alanquintero.mp.controller;
 
 import static com.alanquintero.mp.util.Consts.*;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,8 +38,9 @@ public class AdminController {
      * @return String
      */
     @RequestMapping
-    public String users(Model model) {
+    public String users(Model model, Principal principal) {
         model.addAttribute(USERS, userService.getAllUsers());
+        model.addAttribute(ADMIN, principal.getName());
         return USERS_PAGE;
     }
 

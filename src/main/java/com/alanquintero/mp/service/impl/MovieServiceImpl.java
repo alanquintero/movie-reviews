@@ -149,9 +149,7 @@ public class MovieServiceImpl implements MovieService {
                 moviesModel.add(
                         new MovieModel(m.getId(), m.getTitle() + PARENTHESIS_OPEN + m.getYear() + PARENTHESIS_CLOSE));
             }
-        } else {
-            moviesModel.add(new MovieModel(0, MSG_MOVIE_NOT_FOUND));
-        }
+        } 
         return moviesModel;
     }
 

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="../../../resources/layout/taglib.jsp"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
 <div>
 	<h1><c:out value="${movie.title}" /> <font color="gray">(<c:out value="${movie.year}" />)</font></h1>
@@ -25,9 +26,11 @@
     		<div role="tabpanel" class="tab-pane" id="reviews">
     			<br><br>
     			<!-- Button trigger modal -->
-				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-  					Add Review
-				</button>
+    			<security:authorize access="isAuthenticated()">
+				    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  					    Add Review
+				    </button>
+				</security:authorize>
 
 				<form:form commandName="review" cssClass="form-horizontal movieForm">
 					<!-- Modal -->

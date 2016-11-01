@@ -16,14 +16,24 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${movie}" var="movie">
-				<tr>
-					<td>
-						<a href="<spring:url value="/movie/${movie.id}.html" />">
-							<c:out value="${movie.title}" /> <font color="gray">(<c:out value="${movie.year}" />)</font>
-						</a>
-					</td>
-					<td><c:out value="${movie.rating}" /></td>
-				</tr>
+				<c:choose>
+					<c:when test="${movie.id == 0}">
+						<c:out value="${movie.title}" />
+						<tr>
+							<td>There are not Movies</td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<tr>
+							<td><a href="<spring:url value="/movie/${movie.id}.html" />">
+									<c:out value="${movie.title}" /> <font color="gray">(<c:out
+											value="${movie.year}" />)
+								</font>
+							</a></td>
+							<td><c:out value="${movie.rating}" /></td>
+						</tr>
+					</c:otherwise>
+				</c:choose>
 			</c:forEach>
 		</tbody>
 	</table>

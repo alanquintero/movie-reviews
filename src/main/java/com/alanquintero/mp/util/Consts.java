@@ -35,6 +35,7 @@ public final class Consts {
     public static final String RESULT = "result";
     public static final String MOVIES = "movies";
     public static final String MESSAGE = "message";
+    public static final String ADMIN = "admin";
 
     // Request Mapping
     public static final String USERS_URL = "/users";
