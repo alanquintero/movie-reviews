@@ -79,7 +79,10 @@ public class MovieServiceImpl implements MovieService {
     @Override
     @Transactional
     public List<Movie> searchMovieByTitle(String movieTitle) {
-        List<Movie> movies = movieDao.searchMovieByTitle(PERCENT + movieTitle + PERCENT);
+        List<Movie> movies = new ArrayList<Movie>();
+        if ((movieTitle != null) && (!movieTitle.equals(EMPTY_STRING))) {
+            movies = movieDao.searchMovieByTitle(PERCENT + movieTitle + PERCENT);
+        }
         if ((movies == null) || (movies.isEmpty())) {
             Movie movie = Message.setMovieNotFound();
             movies.add(movie);
@@ -142,14 +145,17 @@ public class MovieServiceImpl implements MovieService {
      */
     @Override
     public List<MovieModel> searchAutocompleteMovies(String movieTitle) {
-        List<Movie> movies = movieDao.searchAutocompleteMovies(PERCENT + movieTitle + PERCENT);
+        List<Movie> movies = new ArrayList<Movie>();
         List<MovieModel> moviesModel = new ArrayList<MovieModel>();
+        if ((movieTitle != null) && (!movieTitle.equals(EMPTY_STRING))) {
+            movies = movieDao.searchAutocompleteMovies(PERCENT + movieTitle + PERCENT);
+        }
         if ((movies != null) && (!movies.isEmpty())) {
             for (Movie m : movies) {
                 moviesModel.add(
                         new MovieModel(m.getId(), m.getTitle() + PARENTHESIS_OPEN + m.getYear() + PARENTHESIS_CLOSE));
             }
-        } 
+        }
         return moviesModel;
     }
 

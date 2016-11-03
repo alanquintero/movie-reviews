@@ -56,19 +56,23 @@ public class ReviewServiceImpl implements ReviewService {
      */
     public String saveReview(Review review, String userName) {
         boolean success = false;
-        User user = userDao.searchUserByName(userName);
-        Profile profile = null;
-        if (user != null) {
-            profile = profileDao.searchProfileByUser(user);
-        }
-        review.setId(null);
-        review.setPublishedDate(new Date());
-        review.setRating(0);
-        Movie movie = movieDao.searchMovieById(review.getMovie().getId());
-        if ((!review.getComment().equals("")) && (profile != null) && (movie != null)) {
-            review.setProfile(profile);
-            review.setMovie(movie);
-            success = reviewDao.saveReview(review);
+        if (((review != null) && ((review.getTitle() != null) && (!review.getTitle().equals(EMPTY_STRING))
+                && ((review.getComment() != null) && (!review.getComment().equals(EMPTY_STRING)))
+                && (review.getMovie() != null))) && ((userName != null) && (!userName.equals(EMPTY_STRING)))) {
+            User user = userDao.searchUserByName(userName);
+            Profile profile = null;
+            if (user != null) {
+                profile = profileDao.searchProfileByUser(user);
+            }
+            review.setId(null);
+            review.setPublishedDate(new Date());
+            review.setRating(0);
+            Movie movie = movieDao.searchMovieById(review.getMovie().getId());
+            if ((!review.getComment().equals("")) && (profile != null) && (movie != null)) {
+                review.setProfile(profile);
+                review.setMovie(movie);
+                success = reviewDao.saveReview(review);
+            }
         }
         return Message.setSuccessOrFail(success);
     }
@@ -82,7 +86,7 @@ public class ReviewServiceImpl implements ReviewService {
     @PreAuthorize(USERNAME_OR_ADMIN)
     public String deteleReview(@P(REVIEW) Review review) {
         boolean success = false;
-        if (review != null) {
+        if ((review != null) && (review.getId() != 0)) {
             success = reviewDao.deteleReview(review);
         }
         return Message.setSuccessOrFail(success);

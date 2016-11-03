@@ -20,7 +20,7 @@ public final class Consts {
     public static final String ROLE_USER = "ROLE_USER";
 
     // Authorization
-    public static final String USERNAME_OR_ADMIN = "#review.profile.user.name == authentication.name or hasRole('ROLE_ADMIN')";
+    public static final String USERNAME_OR_ADMIN = "hasRole('ROLE_ADMIN') or #review.profile.user.name == authentication.name";
 
     // Message
     public static final String MSG_MOVIE_NOT_FOUND = "Movie not Found!";
