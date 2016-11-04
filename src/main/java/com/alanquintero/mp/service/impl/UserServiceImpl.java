@@ -32,6 +32,7 @@ import com.alanquintero.mp.entity.Role;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.UserService;
 import com.alanquintero.mp.util.Message;
+import com.alanquintero.mp.util.Validation;
 
 /**
  * @class UserService.java
@@ -61,6 +62,7 @@ public class UserServiceImpl implements UserService {
      * 
      * @return List_User
      */
+    @Override
     public List<User> getAllUsers() {
         List<User> users = userDao.getAllUsers();
         if (users == null) {
@@ -77,6 +79,7 @@ public class UserServiceImpl implements UserService {
      * @param int
      * @return User
      */
+    @Override
     public User searchUserById(int userId) {
         User user = userDao.searchUserById(userId);
         if (user == null) {
@@ -91,6 +94,7 @@ public class UserServiceImpl implements UserService {
      * @param int
      * @return User
      */
+    @Override
     @Transactional
     public User searchUserWithReviewsById(int userId) {
         User user = null;
@@ -124,9 +128,16 @@ public class UserServiceImpl implements UserService {
      * @param User
      * @return String
      */
+    @Override
     public boolean saveUser(User user) {
         boolean success = false;
-        if (user != null) {
+        if ((user != null)
+                && ((Validation.isValidString(user.getName())
+                        && (Validation.validateWordLen(user.getName(), USER_LENGTH)))
+                        && (Validation.isValidString(user.getEmail()) && (Validation.validateEmail(user.getEmail())))
+                        && (Validation.isValidString(user.getPassword()))
+                        && (Validation.validateWordLen(user.getPassword(), PWD_LENGTH)))
+                && ((searchUserByName(user.getName()) == null) && (searchUserByEmail(user.getEmail()) == null))) {
             user.setEnabled(true);
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
@@ -144,12 +155,16 @@ public class UserServiceImpl implements UserService {
      * @param String
      * @return User
      */
+    @Override
     @Transactional
     public User searchUserWithReviewsByName(String userName) {
-        User user = userDao.searchUserByName(userName);
+        User user = null;
         User userResponse = null;
-        if (user != null) {
-            userResponse = searchUserWithReviewsById(user.getId());
+        if (Validation.isValidString(userName)) {
+            user = userDao.searchUserByName(userName);
+            if (user != null) {
+                userResponse = searchUserWithReviewsById(user.getId());
+            }
         }
         if (userResponse == null) {
             userResponse = Message.setUserFail();
@@ -163,11 +178,15 @@ public class UserServiceImpl implements UserService {
      * @param int
      * @return String
      */
+    @Override
     @PreAuthorize(HAS_ROLE_ADMIN)
     public String deleteUser(int userId) {
         boolean success = false;
-        if (userId != 0) {
-            success = userDao.deleteUser(userId);
+        if (userId > 0) {
+            User user = searchUserById(userId);
+            if (!user.getName().equals(MSG_FAIL)) {
+                success = userDao.deleteUser(userId);
+            }
         }
         return Message.setSuccessOrFail(success);
     }
@@ -178,6 +197,7 @@ public class UserServiceImpl implements UserService {
      * @param String
      * @return User
      */
+    @Override
     public User searchUserByName(String userName) {
         return userDao.searchUserByName(userName);
     }
@@ -188,6 +208,7 @@ public class UserServiceImpl implements UserService {
      * @param String
      * @return User
      */
+    @Override
     public User searchUserByEmail(String userEmail) {
         return userDao.searchUserByEmail(userEmail);
     }

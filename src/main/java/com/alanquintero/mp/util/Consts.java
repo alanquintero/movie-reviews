@@ -110,6 +110,13 @@ public final class Consts {
     public static final String PARENTHESIS_OPEN = " (";
     public static final String PARENTHESIS_CLOSE = ")";
 
+    // Length
+    public static final int USER_LENGTH = 4;
+    public static final int PWD_LENGTH = 6;
+
+    // Pattern
+    public static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+
     // Others
     public static final String EMPTY_STRING = "";
 

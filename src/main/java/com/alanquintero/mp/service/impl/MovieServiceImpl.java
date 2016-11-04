@@ -24,6 +24,7 @@ import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
 import com.alanquintero.mp.service.MovieService;
 import com.alanquintero.mp.util.Message;
+import com.alanquintero.mp.util.Validation;
 
 /**
  * @class MovieServiceImpl.java
@@ -61,7 +62,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public Movie searchMovieDetailsById(int movieId) {
         Movie movie = searchMovieById(movieId);
-        if ((movie != null) && ((movie.getId() != null) && (movie.getId() > 0))) {
+        if ((movie != null) && (movie.getId() > 0)) {
             List<Review> reviews = movieDao.searchReviewsByMovie(movie);
             movie.setReviews(reviews);
         } else {
@@ -80,7 +81,7 @@ public class MovieServiceImpl implements MovieService {
     @Transactional
     public List<Movie> searchMovieByTitle(String movieTitle) {
         List<Movie> movies = new ArrayList<Movie>();
-        if ((movieTitle != null) && (!movieTitle.equals(EMPTY_STRING))) {
+        if (Validation.isValidString(movieTitle)) {
             movies = movieDao.searchMovieByTitle(PERCENT + movieTitle + PERCENT);
         }
         if ((movies == null) || (movies.isEmpty())) {
@@ -147,7 +148,7 @@ public class MovieServiceImpl implements MovieService {
     public List<MovieModel> searchAutocompleteMovies(String movieTitle) {
         List<Movie> movies = new ArrayList<Movie>();
         List<MovieModel> moviesModel = new ArrayList<MovieModel>();
-        if ((movieTitle != null) && (!movieTitle.equals(EMPTY_STRING))) {
+        if (Validation.isValidString(movieTitle)) {
             movies = movieDao.searchAutocompleteMovies(PERCENT + movieTitle + PERCENT);
         }
         if ((movies != null) && (!movies.isEmpty())) {

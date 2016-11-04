@@ -16,7 +16,7 @@ import com.alanquintero.mp.entity.User;
 
 /**
  * @class Message.java
- * @purpose Class use to set response messages.
+ * @purpose Class used to set response messages.
  */
 public class Message {
 

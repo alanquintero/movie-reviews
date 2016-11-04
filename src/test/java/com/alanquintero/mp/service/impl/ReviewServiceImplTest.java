@@ -22,6 +22,10 @@ import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.service.ReviewService;
 
+/**
+ * @class ReviewServiceImplTest.java
+ * @purpose Class used to test ReviewServiceImpl class.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(CONF_CONTEXT)
 public class ReviewServiceImplTest {

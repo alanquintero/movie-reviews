@@ -38,8 +38,7 @@ public class MovieServiceImplTest {
     @Test
     public void searchMovieByIdTest() {
         int movieId = 1;
-        Movie movie = movieService.searchMovieById(movieId);
-        assertNotNull(movie);
+        assertNotNull(movieService.searchMovieById(movieId));
     }
 
     @Test
@@ -54,12 +53,14 @@ public class MovieServiceImplTest {
         int movieId = 1;
         Movie movie = movieService.searchMovieDetailsById(movieId);
         assertNotNull(movie);
+        assertNotEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
 
     @Test
     public void searchNonexistentMovieDetailsByIdTest() {
         int movieId = 0;
         Movie movie = movieService.searchMovieDetailsById(movieId);
+        assertNotNull(movie);
         assertEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
 
@@ -68,6 +69,10 @@ public class MovieServiceImplTest {
         String movieTitle = "Back to the Future";
         List<Movie> movies = movieService.searchMovieByTitle(movieTitle);
         assertNotNull(movies);
+        for (Movie movie : movies) {
+            assertNotNull(movie);
+            assertNotEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
+        }
     }
 
     @Test
@@ -108,7 +113,7 @@ public class MovieServiceImplTest {
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void deteleExistentMovieTest() {
-        int movieId = 1;
+        int movieId = 2;
         assertEquals(movieService.deteleMovie(movieId), MSG_SUCCESS);
     }
 

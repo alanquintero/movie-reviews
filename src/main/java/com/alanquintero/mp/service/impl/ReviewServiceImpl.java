@@ -27,6 +27,7 @@ import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.ReviewService;
 import com.alanquintero.mp.util.Message;
+import com.alanquintero.mp.util.Validation;
 
 /**
  * @class ReviewService.java
@@ -54,11 +55,12 @@ public class ReviewServiceImpl implements ReviewService {
      * @param String
      * @return String
      */
+    @Override
     public String saveReview(Review review, String userName) {
         boolean success = false;
-        if (((review != null) && ((review.getTitle() != null) && (!review.getTitle().equals(EMPTY_STRING))
-                && ((review.getComment() != null) && (!review.getComment().equals(EMPTY_STRING)))
-                && (review.getMovie() != null))) && ((userName != null) && (!userName.equals(EMPTY_STRING)))) {
+        if (((review != null) && (Validation.isValidString(review.getTitle())
+                && (Validation.isValidString(review.getComment())) && (review.getMovie() != null)))
+                && (Validation.isValidString(userName))) {
             User user = userDao.searchUserByName(userName);
             Profile profile = null;
             if (user != null) {
@@ -68,7 +70,7 @@ public class ReviewServiceImpl implements ReviewService {
             review.setPublishedDate(new Date());
             review.setRating(0);
             Movie movie = movieDao.searchMovieById(review.getMovie().getId());
-            if ((!review.getComment().equals("")) && (profile != null) && (movie != null)) {
+            if ((Validation.isValidString(review.getComment())) && (profile != null) && (movie != null)) {
                 review.setProfile(profile);
                 review.setMovie(movie);
                 success = reviewDao.saveReview(review);
@@ -83,10 +85,11 @@ public class ReviewServiceImpl implements ReviewService {
      * @param Review
      * @return String
      */
+    @Override
     @PreAuthorize(USERNAME_OR_ADMIN)
     public String deteleReview(@P(REVIEW) Review review) {
         boolean success = false;
-        if ((review != null) && (review.getId() != 0)) {
+        if ((review != null) && (review.getId() > 0)) {
             success = reviewDao.deteleReview(review);
         }
         return Message.setSuccessOrFail(success);
@@ -98,6 +101,7 @@ public class ReviewServiceImpl implements ReviewService {
      * @param int
      * @return Review
      */
+    @Override
     public Review searchReviewById(int reviewId) {
         Review review = reviewDao.searchReviewById(reviewId);
         if (review == null) {
