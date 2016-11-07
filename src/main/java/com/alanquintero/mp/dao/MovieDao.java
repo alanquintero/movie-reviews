@@ -65,4 +65,9 @@ public interface MovieDao {
      */
     public List<Review> searchReviewsByMovie(Movie movie);
 
+    /**
+     * @return List_Movie
+     */
+    public List<Movie> getMostVotedMovies();
+
 }

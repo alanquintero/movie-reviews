@@ -79,6 +79,7 @@ public class InitDBService {
         Movie movie1 = new Movie();
         movie1.setTitle("Back to the Future");
         movie1.setRating(10.0);
+        movie1.setVote(1);
         movie1.setYear(1985);
         movie1.setSynopsis(
                 "Marty McFly, a 17-year-old high school student, is accidentally sent 30 years"
@@ -114,6 +115,7 @@ public class InitDBService {
         Movie movie2 = new Movie();
         movie2.setTitle("Star Wars III - Revenge of the Sith");
         movie2.setRating(9.0);
+        movie2.setVote(2);
         movie2.setYear(2005);
         movie2.setSynopsis(
                 "During the near end of the clone wars, Darth Sidious has revealed himself"

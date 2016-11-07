@@ -144,5 +144,11 @@ public class MovieServiceImplTest {
         List<MovieModel> movies = movieService.searchAutocompleteMovies(movieTitle);
         assertNotNull(movies);
     }
+    
+    @Test
+    public void getMostVotedMoviesTest() {
+        List<Movie> movies = movieService.getMostVotedMovies();
+        assertNotNull(movies);
+    }
 
 }

@@ -81,6 +81,7 @@ public final class Consts {
     // DB Fields
     public static final String PUBLISHED_DATE_FIELD = "publishedDate";
     public static final String RATING_FIELD = "rating";
+    public static final String VOTE_FIELD = "vote";
 
     // DB Join Column
     public static final String PUBLISHED_DATE_COLUMN = "published_date";

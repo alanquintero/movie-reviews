@@ -65,11 +65,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         List<User> users = userDao.getAllUsers();
-        if (users == null) {
-            User user = Message.setUserFail();
-            users = new ArrayList<User>();
-            users.add(user);
-        }
+        users = Validation.validateUserList(users);
         return users;
     }
 

@@ -71,4 +71,13 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
     @Query("SELECT m FROM Movie m " + "WHERE lower(m.title) like lower(:movie_title)")
     public List<Movie> getSearchMovies(@Param(MOVIE_TITLE_PARAM) String movieTitle, Pageable topSix);
 
+    /**
+     * Find Most Voted Movies
+     * 
+     * @param Pageable
+     * @return List_Movie
+     */
+    @Query("SELECT m FROM Movie m")
+    public List<Movie> findMostVotedMovies(Pageable pageable);
+
 }

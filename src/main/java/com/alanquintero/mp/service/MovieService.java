@@ -59,4 +59,9 @@ public interface MovieService {
      */
     public List<MovieModel> searchAutocompleteMovies(String movieTitle);
 
+    /**
+     * @return List_Movie
+     */
+    public List<Movie> getMostVotedMovies();
+
 }

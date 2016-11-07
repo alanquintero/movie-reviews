@@ -84,10 +84,7 @@ public class MovieServiceImpl implements MovieService {
         if (Validation.isValidString(movieTitle)) {
             movies = movieDao.searchMovieByTitle(PERCENT + movieTitle + PERCENT);
         }
-        if ((movies == null) || (movies.isEmpty())) {
-            Movie movie = Message.setMovieNotFound();
-            movies.add(movie);
-        }
+        movies = Validation.validateMovieList(movies);
         return movies;
     }
 
@@ -100,10 +97,7 @@ public class MovieServiceImpl implements MovieService {
     @Transactional
     public List<Movie> getPopularMovies() {
         List<Movie> movies = movieDao.getPopularMovies();
-        if ((movies == null) || (movies.isEmpty())) {
-            Movie movie = Message.setMovieNotFound();
-            movies.add(movie);
-        }
+        movies = Validation.validateMovieList(movies);
         return movies;
     }
 
@@ -115,10 +109,7 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<Movie> getAllMovies() {
         List<Movie> movies = movieDao.getAllMovies();
-        if ((movies == null) || (movies.isEmpty())) {
-            Movie movie = Message.setMovieNotFound();
-            movies.add(movie);
-        }
+        movies = Validation.validateMovieList(movies);
         return movies;
     }
 
@@ -158,6 +149,19 @@ public class MovieServiceImpl implements MovieService {
             }
         }
         return moviesModel;
+    }
+
+    /**
+     * Search a list of Most Voted Movies
+     * 
+     * @return List_Movie
+     */
+    @Override
+    @Transactional
+    public List<Movie> getMostVotedMovies() {
+        List<Movie> movies = movieDao.getMostVotedMovies();
+        movies = Validation.validateMovieList(movies);
+        return movies;
     }
 
 }

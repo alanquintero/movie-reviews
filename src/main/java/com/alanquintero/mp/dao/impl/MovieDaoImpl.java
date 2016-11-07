@@ -175,4 +175,20 @@ public class MovieDaoImpl implements MovieDao {
         return reviews;
     }
 
+    /**
+     * Search 15 Most Voted Movies by Number of Votes
+     * 
+     * @return List_Movie
+     */
+    @Override
+    public List<Movie> getMostVotedMovies() {
+        List<Movie> movies = null;
+        try {
+            movies = movieRepository.findMostVotedMovies(new PageRequest(0, 15, Direction.DESC, VOTE_FIELD));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return movies;
+    }
+
 }

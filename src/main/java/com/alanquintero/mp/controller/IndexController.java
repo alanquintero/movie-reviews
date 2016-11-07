@@ -10,8 +10,12 @@ package com.alanquintero.mp.controller;
 
 import static com.alanquintero.mp.util.Consts.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.alanquintero.mp.service.MovieService;
 
 /**
  * @class IndexController.java
@@ -20,23 +24,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
+    @Autowired
+    private MovieService movieService;
+
     /**
      * Redirect to home page
      * 
      * @return String
      */
     @RequestMapping(DEFAULT_URL)
-    public String home() {
+    public String home(Model model) {
+        model.addAttribute(MOVIE, movieService.getMostVotedMovies());
         return INDEX_PAGE;
     }
 
     /**
      * Redirect to index page
      * 
+     * @param Model
      * @return String
      */
     @RequestMapping(INDEX_URL)
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute(MOVIE, movieService.getMostVotedMovies());
         return INDEX_PAGE;
     }
 
