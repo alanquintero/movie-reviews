@@ -32,16 +32,20 @@ public class Movie {
 
     private String title;
 
-    @Column(length = 500)
+    @Column(length = 1000)
     private String synopsis;
 
+    @Column(length = 1000)
     private String image;
 
     private Integer year;
 
-    private Double rating;
+    private int rating;
 
     private int vote;
+
+    @OneToMany(mappedBy = MOVIE_ENTITY, cascade = CascadeType.REMOVE)
+    private List<Vote> votes;
 
     private String trailer;
 
@@ -80,11 +84,11 @@ public class Movie {
         this.year = year;
     }
 
-    public Double getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 
@@ -104,20 +108,28 @@ public class Movie {
         this.reviews = reviews;
     }
 
-    public int getVote() {
-        return vote;
-    }
-
-    public void setVote(int vote) {
-        this.vote = vote;
-    }
-
     public String getTrailer() {
         return trailer;
     }
 
     public void setTrailer(String trailer) {
         this.trailer = trailer;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
+    }
+
+    public int getVote() {
+        return vote;
+    }
+
+    public void setVote(int vote) {
+        this.vote = vote;
     }
 
 }

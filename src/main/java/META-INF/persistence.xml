@@ -6,5 +6,6 @@
 		<class>com.alanquintero.mp.entity.Movie</class>
 		<class>com.alanquintero.mp.entity.Profile</class>
 		<class>com.alanquintero.mp.entity.Review</class>
+		<class>com.alanquintero.mp.entity.Vote</class>
 	</persistence-unit>
 </persistence>

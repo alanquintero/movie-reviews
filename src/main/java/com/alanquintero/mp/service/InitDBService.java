@@ -24,6 +24,7 @@ import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Role;
 import com.alanquintero.mp.entity.User;
+import com.alanquintero.mp.entity.Vote;
 import com.alanquintero.mp.repository.ProfileRepository;
 import com.alanquintero.mp.repository.ReviewRepository;
 import com.alanquintero.mp.repository.MovieRepository;
@@ -78,11 +79,18 @@ public class InitDBService {
 
         Movie movie1 = new Movie();
         movie1.setTitle("Back to the Future");
-        movie1.setRating(10.0);
+        movie1.setImage("http://imgc.allpostersimages.com/images/P-473-488-90/15/1555/PN9DD00Z/posters/back-to-the-future.jpg");
+        Vote vote1 = new Vote();
+        vote1.setId(5);
+        vote1.setMovie(movie1);
+        vote1.setUser(userAdmin);
+        List<Vote> votes1 = new ArrayList<Vote>();
+        votes1.add(vote1);
+        movie1.setVotes(votes1);
         movie1.setVote(1);
+        movie1.setRating(5);
         movie1.setYear(1985);
-        movie1.setSynopsis(
-                "Marty McFly, a 17-year-old high school student, is accidentally sent 30 years"
+        movie1.setSynopsis("Marty McFly, a 17-year-old high school student, is accidentally sent 30 years"
                 + " into the past in a time-traveling DeLorean invented by his close friend, "
                 + "the maverick scientist Doc Brown.");
         movie1.setTrailer("https://www.youtube.com/embed/qvsgGtivCgs");
@@ -114,11 +122,18 @@ public class InitDBService {
 
         Movie movie2 = new Movie();
         movie2.setTitle("Star Wars III - Revenge of the Sith");
-        movie2.setRating(9.0);
-        movie2.setVote(2);
+        movie2.setImage("https://hobbydb-production.s3.amazonaws.com/processed_uploads/subject_photo/subject_photo/image/9760/1450470843-3-0920/Star-Wars-Episode-III-Revenge-of-the-Sith-2005.jpg");
+        Vote vote2 = new Vote();
+        vote2.setId(4);
+        vote2.setMovie(movie2);
+        vote2.setUser(userTest);
+        List<Vote> votes2 = new ArrayList<Vote>();
+        votes1.add(vote2);
+        movie1.setVotes(votes2);
+        movie2.setVote(1);
+        movie2.setRating(4);
         movie2.setYear(2005);
-        movie2.setSynopsis(
-                "During the near end of the clone wars, Darth Sidious has revealed himself"
+        movie2.setSynopsis("During the near end of the clone wars, Darth Sidious has revealed himself"
                 + " and is ready to execute the last part of his plan to rule the Galaxy. "
                 + "Sidious is ready for his new apprentice, Lord Vader, to step into action "
                 + "and kill the remaining Jedi. Vader, however, struggles to choose the dark "

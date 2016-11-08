@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="../../../resources/layout/taglib.jsp"%>
-<%@ include file="../../../resources/layout/remove.jsp"%>
+<%@ include file="../../../resources/jsp/remove.jsp"%>
 
 <script type="text/javascript">
 	$(document).ready(
