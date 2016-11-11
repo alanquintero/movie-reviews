@@ -42,6 +42,9 @@ public class Profile {
     @OneToMany(mappedBy = PROFILE_ENTITY, cascade = CascadeType.REMOVE)
     private List<Review> reviews;
 
+    @OneToMany(mappedBy = PROFILE_ENTITY, cascade = CascadeType.REMOVE)
+    private List<Vote> votes;
+
     public Integer getId() {
         return id;
     }
@@ -80,6 +83,14 @@ public class Profile {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 
 }

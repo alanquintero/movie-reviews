@@ -191,4 +191,22 @@ public class MovieDaoImpl implements MovieDao {
         return movies;
     }
 
+    /**
+     * Update Movie information
+     * 
+     * @param Movie
+     * @return boolean
+     */
+    @Override
+    public boolean updateMovieValues(Movie movie) {
+        boolean success = false;
+        try {
+            movieRepository.save(movie);
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
+    }
+
 }

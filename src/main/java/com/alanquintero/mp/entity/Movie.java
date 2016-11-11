@@ -17,7 +17,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Type;
 
 /**
  * @class Movie.java
@@ -32,7 +35,9 @@ public class Movie {
 
     private String title;
 
-    @Column(length = 1000)
+    @Lob
+    @Type(type = TYPE_CLOB)
+    @Column(length = Integer.MAX_VALUE)
     private String synopsis;
 
     @Column(length = 1000)
@@ -47,6 +52,7 @@ public class Movie {
     @OneToMany(mappedBy = MOVIE_ENTITY, cascade = CascadeType.REMOVE)
     private List<Vote> votes;
 
+    @Column(length = 1000)
     private String trailer;
 
     @OneToMany(mappedBy = MOVIE_ENTITY, cascade = CascadeType.REMOVE)

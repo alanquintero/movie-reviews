@@ -68,7 +68,6 @@ public class ReviewServiceImpl implements ReviewService {
             }
             review.setId(null);
             review.setPublishedDate(new Date());
-            review.setRating(0);
             Movie movie = movieDao.searchMovieById(review.getMovie().getId());
             if ((Validation.isValidString(review.getComment())) && (profile != null) && (movie != null)) {
                 review.setProfile(profile);

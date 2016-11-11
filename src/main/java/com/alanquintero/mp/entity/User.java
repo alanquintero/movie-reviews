@@ -19,7 +19,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
@@ -61,9 +60,6 @@ public class User {
     private Profile profile;
 
     private boolean enabled;
-
-    @OneToMany(mappedBy = USER_ENTITY, cascade = CascadeType.REMOVE)
-    private List<Vote> votes;
 
     public Integer getId() {
         return id;
@@ -119,14 +115,6 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
     }
 
 }

@@ -5,7 +5,6 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="security"%>
 
-<%-- <%@ include file="../../../resources/js/rating.js"%> --%>
 <head>
 <link rel="stylesheet" type="text/css"
 	href="/resources/css/rating.min.css" />
@@ -21,13 +20,18 @@
 		<font color="gray">(<c:out value="${movie.year}" />)
 		</font>
 	</h1>
-	<div id="stars">
-		<ul class="c-rating"></ul>
-	</div>
+	<form:form commandName="user" class="voteForm">
+		<div id="stars">
+			<ul class="c-rating"></ul>
+		</div>
+	</form:form>
 	<div id="rating" style="visibility: hidden; display: inline;">
 		<c:out value="${movie.rating}" />
 	</div>
-
+	<br />
+	<div id="message" style="position: absolute; left: 200px;"></div>
+	<br />
+	<br />
 	<div>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
@@ -48,8 +52,7 @@
 				</p>
 			</div>
 			<div role="tabpanel" class="tab-pane" id="reviews">
-				<br>
-				<br>
+				<br> <br>
 				<!-- Button trigger modal -->
 				<security:authorize access="isAuthenticated()">
 					<button type="button" class="btn btn-primary btn-lg"
@@ -104,15 +107,13 @@
 					</div>
 				</form:form>
 
-				<br>
-				<br>
+				<br> <br>
 				<h2>Reviews</h2>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
 							<th>User Name</th>
 							<th>Date</th>
-							<th>Rating Given</th>
 							<th>Title Comment</th>
 							<th>Comment</th>
 						</tr>
@@ -126,7 +127,6 @@
 								</a></td>
 								<td><fmt:formatDate type="date"
 										value="${review.publishedDate}" /></td>
-								<td><c:out value="${review.rating}" /></td>
 								<td><c:out value="${review.title}" /></td>
 								<td><c:out value="${review.comment}" /></td>
 							</tr>
@@ -173,9 +173,31 @@
 	var el = document.querySelector('.c-rating');
 	var currentRating = document.getElementById('rating').innerHTML;
 	var maxRating = 5;
+
 	var callback = function(rating) {
-		alert(rating);
+		var mvid = ${movie.id};
+		$.ajax({
+					url : "<spring:url value='${pageContext.request.contextPath}/rateMovie.html' />",
+					data : {
+						rating : rating,
+						movieId : mvid
+					},
+					success : function(data) {
+						if (data == "/login.html" || data == "") {
+							window.location.href = data;
+						} else if (data != 0) {
+							$("#message")
+									.html(
+											"<font face='verdana' color='green'>Thanks for your vote!</font>");
+							$("#message").delay(3000).fadeOut("slow");
+						} else {
+							$("#message").html(
+									"<font face='verdana' color='red'>" + data
+											+ "</font>");
+							$("#message").delay(3000).fadeOut("slow");
+						}
+					}
+				});
 	};
 	var myRating = rating(el, currentRating, maxRating, callback);
-	//myRating.setRating(3);
 </script>

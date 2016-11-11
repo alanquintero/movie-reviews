@@ -29,7 +29,6 @@
 			<tr>
 				<th>Movie</th>
 				<th>Date</th>
-				<th>Rating Given</th>
 				<th>Title Comment</th>
 				<th>Comment</th>
 				<th></th>
@@ -44,7 +43,6 @@
 						</a>
 					</td>
 					<td> <fmt:formatDate type="date" value="${review.publishedDate}" /></td>
-					<td><c:out value="${review.rating}" /></td>
 					<td><b><c:out value="${review.title}" /></b></td>
 					<td><c:out value="${review.comment}" /></td>
 					<td>

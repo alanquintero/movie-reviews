@@ -10,6 +10,7 @@ package com.alanquintero.mp.controller;
 
 import static com.alanquintero.mp.util.Consts.*;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
+import com.alanquintero.mp.entity.Vote;
 import com.alanquintero.mp.model.MovieModel;
 import com.alanquintero.mp.service.MovieService;
+import com.alanquintero.mp.service.VoteService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,6 +41,9 @@ public class MovieController {
 
     @Autowired
     private MovieService movieService;
+
+    @Autowired
+    private VoteService voteService;
 
     /**
      * Construct movie object model
@@ -57,6 +63,16 @@ public class MovieController {
     @ModelAttribute(REVIEW)
     public Review contructReview() {
         return new Review();
+    }
+
+    /**
+     * Construct vote object model
+     * 
+     * @return Vote
+     */
+    @ModelAttribute(VOTE)
+    public Vote contructVote() {
+        return new Vote();
     }
 
     /**
@@ -133,6 +149,29 @@ public class MovieController {
         ObjectMapper mapper = new ObjectMapper();
         List<MovieModel> movies = movieService.searchAutocompleteMovies(movieTitle);
         return mapper.writeValueAsString(movies);
+    }
+
+    /**
+     * Give Vote to a Movie
+     * 
+     * @param Principal
+     * @return String
+     */
+    @RequestMapping(value = RATE_MOVIE, method = RequestMethod.GET)
+    @ResponseBody
+    public String isAuthenticated(Principal principal, @RequestParam int rating, @RequestParam int movieId) {
+        String returnPage = EMPTY_STRING;
+        if (principal != null) {
+            int newRating = voteService.rateMovie(principal.getName(), movieId, rating);
+            if (newRating != 0) {
+                returnPage = EMPTY_STRING + newRating;
+            } else {
+                returnPage = MSG_FAIL;
+            }
+        } else {
+            returnPage = REDIRECT_LOGIN_PAGE;
+        }
+        return returnPage;
     }
 
 }

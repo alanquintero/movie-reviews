@@ -40,7 +40,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      * @param String
      * @return List_Movie
      */
-    @Query("SELECT m FROM Movie m " + "WHERE lower(m.title) like lower(:movie_title)")
+    @Query("SELECT m FROM Movie m WHERE lower(m.title) like lower(:movie_title)")
     public List<Movie> findAllMovies(@Param(MOVIE_TITLE_PARAM) String movieTitle);
 
     /**
@@ -68,7 +68,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      * @param Pageable
      * @return List_Movie
      */
-    @Query("SELECT m FROM Movie m " + "WHERE lower(m.title) like lower(:movie_title)")
+    @Query("SELECT m FROM Movie m WHERE lower(m.title) like lower(:movie_title)")
     public List<Movie> getSearchMovies(@Param(MOVIE_TITLE_PARAM) String movieTitle, Pageable topSix);
 
     /**

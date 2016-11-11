@@ -6,24 +6,20 @@
  * "Movie Pick" can not be copied and/or distributed without the express
  * permission of Alan Quintero.
  *******************************************************/
-package com.alanquintero.mp.repository;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.alanquintero.mp.entity.Role;
+package com.alanquintero.mp.service;
 
 /**
- * @class RoleRepository.java
- * @purpose Get Role information from DB.
+ * @class VoteService.java
+ * @purpose Interface of Vote Layer for Vote Transactions.
  */
-public interface RoleRepository extends JpaRepository<Role, Integer> {
+public interface VoteService {
 
     /**
-     * Find one Role by Role Name
-     * 
      * @param String
-     * @return Role
+     * @param int
+     * @param int
+     * @return int
      */
-    public Role findRoleByName(String roleName);
+    public int rateMovie(String userName, int movieId, int rating);
 
 }

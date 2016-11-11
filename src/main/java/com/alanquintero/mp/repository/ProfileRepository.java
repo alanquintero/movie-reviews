@@ -22,8 +22,8 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer> {
     /**
      * Find one Profile by User
      * 
-     * @param User_Object
-     * @return Profile_Object
+     * @param User
+     * @return Profile
      */
     public Profile findProfileByUser(User user);
 

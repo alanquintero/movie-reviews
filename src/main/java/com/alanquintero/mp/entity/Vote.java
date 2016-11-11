@@ -15,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 /**
  * @class Vote.java
@@ -28,15 +27,15 @@ public class Vote {
     @GeneratedValue
     private Integer id;
 
-    private int vote;
+    private int rating;
 
     @ManyToOne
     @JoinColumn(name = MOVIE_ID_COLUMN)
     private Movie movie;
 
-    @OneToOne
-    @JoinColumn(name = USER_ID_COLUMN)
-    private User user;
+    @ManyToOne
+    @JoinColumn(name = PROFILE_ID_COLUMN)
+    private Profile profile;
 
     public Integer getId() {
         return id;
@@ -46,12 +45,12 @@ public class Vote {
         this.id = id;
     }
 
-    public int getVote() {
-        return vote;
+    public int getRating() {
+        return rating;
     }
 
-    public void setVote(int vote) {
-        this.vote = vote;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
     public Movie getMovie() {
@@ -62,12 +61,12 @@ public class Vote {
         this.movie = movie;
     }
 
-    public User getUser() {
-        return user;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
 }

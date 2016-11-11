@@ -35,9 +35,8 @@ public class Review {
     private String title;
 
     @Size(min = 1, message = COMMENT_MIN_ERROR_MESSAGE)
+    @Column(length = 1000)
     private String comment;
-
-    private int rating;
 
     @Column(name = PUBLISHED_DATE_COLUMN)
     private Date publishedDate;
@@ -64,14 +63,6 @@ public class Review {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
     }
 
     public Date getPublishedDate() {

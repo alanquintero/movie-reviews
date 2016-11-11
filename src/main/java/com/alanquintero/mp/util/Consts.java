@@ -32,6 +32,7 @@ public final class Consts {
     public static final String USER = "user";
     public static final String MOVIE = "movie";
     public static final String REVIEW = "review";
+    public static final String VOTE = "vote";
     public static final String RESULT = "result";
     public static final String MOVIES = "movies";
     public static final String MESSAGE = "message";
@@ -53,6 +54,7 @@ public final class Consts {
     public static final String REGISTER_URL = "/register";
     public static final String VALIDATE_USERNAME_URL = "/checkusername";
     public static final String VALIDATE_EMAIL_URL = "/checkuseremail";
+    public static final String RATE_MOVIE = "/rateMovie";
     public static final String PROFILE_URL = "/profile";
     public static final String DELETE_PROFILE_URL = "profile/remove/{reviewId}";
 
@@ -72,6 +74,9 @@ public final class Consts {
     public static final String PROFILE_PAGE = "profile";
     public static final String REDIRECT_PROFILE_PAGE = "redirect:/profile.html";
 
+    // Redirect Page
+    public static final String REDIRECT_LOGIN_PAGE = "/login.html";
+
     // DB Entity
     public static final String MOVIE_ENTITY = "movie";
     public static final String PROFILE_ENTITY = "profile";
@@ -90,9 +95,12 @@ public final class Consts {
     public static final String USER_ID_COLUMN = "user_id";
 
     // Parameter
-    public static final String MOVIE_TITLE_PARAM = "movie_title";
     public static final String MOVIE_ID_PARAM = "movie_id";
+    public static final String MOVIE_TITLE_PARAM = "movie_title";
+    public static final String MOVIE_RATING_PARAM = "movie_rating";
+    public static final String MOVIE_VOTE_PARAM = "movie_vote";
     public static final String USER_EMAIL_PARAM = "user_email";
+    public static final String PROFILE_ID_PARAM = "profile_id";
 
     // Error Message
     public static final String TITLE_MIN_ERROR_MESSAGE = "Title must be at least one character!";
@@ -117,6 +125,9 @@ public final class Consts {
 
     // Pattern
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+
+    // Type
+    public static final String TYPE_CLOB = "org.hibernate.type.StringClobType";
 
     // Others
     public static final String EMPTY_STRING = "";

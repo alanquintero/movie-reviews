@@ -70,4 +70,10 @@ public interface MovieDao {
      */
     public List<Movie> getMostVotedMovies();
 
+    /**
+     * @param Movie
+     * @return boolean
+     */
+    public boolean updateMovieValues(Movie movie);
+
 }

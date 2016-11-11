@@ -14,29 +14,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.alanquintero.mp.entity.User;
+import com.alanquintero.mp.entity.Vote;
 
 /**
- * @class UserRepository.java
- * @purpose Get User information from DB.
+ * @class VoteRepository.java
+ * @purpose Get Vote information from DB.
  */
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
-    /**
-     * Find one User by User Name
-     * 
-     * @param String
-     * @return User
-     */
-    public User findUserByName(String userName);
-
-    /**
-     * Find one User by User Email
-     * 
-     * @param String
-     * @return User
-     */
-    @Query("SELECT u FROM User u WHERE lower(u.email) like lower(:user_email)")
-    public User findUserByEmail(@Param(USER_EMAIL_PARAM) String userEmail);
+    @Query("SELECT v FROM Vote v WHERE v.profile.id = :profile_id AND v.movie.id = :movie_id")
+    public Vote findVoteByProfileAndMovie(@Param(PROFILE_ID_PARAM) int profileId, @Param(MOVIE_ID_PARAM) int movieId);
+    
+    @Query("SELECT m.vote FROM Movie m WHERE m.id = :movie_id")
+    public int findMovieVoteByMovieId(@Param(MOVIE_ID_PARAM) int movieId);
 
 }

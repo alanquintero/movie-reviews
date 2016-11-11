@@ -30,6 +30,7 @@ import com.alanquintero.mp.repository.ReviewRepository;
 import com.alanquintero.mp.repository.MovieRepository;
 import com.alanquintero.mp.repository.RoleRepository;
 import com.alanquintero.mp.repository.UserRepository;
+import com.alanquintero.mp.repository.VoteRepository;
 
 @Transactional
 @Service
@@ -49,6 +50,9 @@ public class InitDBService {
 
     @Autowired
     private ReviewRepository reviewRepository;
+    
+    @Autowired
+    private VoteRepository voteRepository;
 
     @PostConstruct
     public void init() {
@@ -83,7 +87,8 @@ public class InitDBService {
         Vote vote1 = new Vote();
         vote1.setId(5);
         vote1.setMovie(movie1);
-        vote1.setUser(userAdmin);
+        vote1.setProfile(adminProfile);
+        vote1.setRating(5);
         List<Vote> votes1 = new ArrayList<Vote>();
         votes1.add(vote1);
         movie1.setVotes(votes1);
@@ -100,10 +105,10 @@ public class InitDBService {
         review1.setTitle("Great movie!");
         review1.setComment("I love this movie!");
         review1.setPublishedDate(new Date());
-        review1.setRating(10);
         review1.setMovie(movie1);
         review1.setProfile(adminProfile);
         reviewRepository.save(review1);
+        voteRepository.save(vote1);
 
         User userTest = new User();
         userTest.setName("test");
@@ -126,9 +131,10 @@ public class InitDBService {
         Vote vote2 = new Vote();
         vote2.setId(4);
         vote2.setMovie(movie2);
-        vote2.setUser(userTest);
+        vote2.setProfile(testProfile);
+        vote2.setRating(4);
         List<Vote> votes2 = new ArrayList<Vote>();
-        votes1.add(vote2);
+        votes2.add(vote2);
         movie1.setVotes(votes2);
         movie2.setVote(1);
         movie2.setRating(4);
@@ -140,12 +146,12 @@ public class InitDBService {
                 + "side and save his wife or remain loyal to the Jedi order.");
         movie2.setTrailer("https://www.youtube.com/embed/5UnjrG_N8hU");
         movieRepository.save(movie2);
+        voteRepository.save(vote2);
 
         Review review2 = new Review();
         review2.setTitle("I am your father!");
         review2.setComment("My favorite movie.");
         review2.setPublishedDate(new Date());
-        review2.setRating(9);
         review2.setMovie(movie2);
         review2.setProfile(testProfile);
         reviewRepository.save(review2);
