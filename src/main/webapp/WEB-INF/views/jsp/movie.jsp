@@ -2,8 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="../../../resources/layout/taglib.jsp"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="security"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
 <head>
 <link rel="stylesheet" type="text/css"
@@ -80,19 +79,18 @@
 										<form:input path="movie.id" type="hidden" value="${movie.id}" />
 									</div>
 									<div class="form-group">
-										<label for="title" class="col-sm-2 control-label">Comment
-											Title:</label>
+										<label for="title" class="col-sm-2 control-label">Title:</label>
 										<div class="col-sm-10">
 											<form:input path="title" cssClass="form-control"
-												placeholder="Title" />
+												placeholder="Title" maxlength="50" />
 											<form:errors path="title" />
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="comment" class="col-sm-2 control-label">Comment:</label>
 										<div class="col-sm-10">
-											<form:input path="comment" cssClass="form-control"
-												placeholder="Comment" />
+											<form:textarea path="comment" cssClass="form-control"
+												placeholder="Comment" rows="3" maxlength="150" />
 											<form:errors path="comment" />
 										</div>
 									</div>
@@ -114,7 +112,7 @@
 						<tr>
 							<th>User Name</th>
 							<th>Date</th>
-							<th>Title Comment</th>
+							<th>Title</th>
 							<th>Comment</th>
 						</tr>
 					</thead>

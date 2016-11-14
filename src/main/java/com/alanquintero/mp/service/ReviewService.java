@@ -21,7 +21,7 @@ public interface ReviewService {
      * @param String
      * @return String
      */
-    public String saveReview(Review review, String userName);
+    public String saveOrUpdateReview(Review review, String userName);
 
     /**
      * @param Review

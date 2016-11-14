@@ -42,7 +42,7 @@ public class ReviewServiceImplTest {
         movie.setId(1);
         review.setMovie(movie);
         String userName = "test";
-        assertEquals(reviewService.saveReview(review, userName), MSG_SUCCESS);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_SUCCESS);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ReviewServiceImplTest {
         movie.setId(1);
         review.setMovie(movie);
         String userName = "";
-        assertEquals(reviewService.saveReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
@@ -66,35 +66,35 @@ public class ReviewServiceImplTest {
         movie.setId(1);
         review.setMovie(movie);
         String userName = null;
-        assertEquals(reviewService.saveReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
     public void saveReviewWithNullReviewTest() {
         Review review = null;
         String userName = "test";
-        assertEquals(reviewService.saveReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
     public void saveReviewWithEmptyReviewTest() {
         Review review = new Review();
         String userName = "test";
-        assertEquals(reviewService.saveReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
     public void saveReviewWithEmptyReviewAndUserTest() {
         Review review = new Review();
         String userName = "";
-        assertEquals(reviewService.saveReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
     public void saveReviewWithNullReviewAndUserTest() {
         Review review = null;
         String userName = null;
-        assertEquals(reviewService.saveReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test

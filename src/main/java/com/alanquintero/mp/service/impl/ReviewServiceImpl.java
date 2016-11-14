@@ -49,14 +49,14 @@ public class ReviewServiceImpl implements ReviewService {
     private ProfileDao profileDao;
 
     /**
-     * Add a Review
+     * Add or Update a Review
      * 
      * @param Review
      * @param String
      * @return String
      */
     @Override
-    public String saveReview(Review review, String userName) {
+    public String saveOrUpdateReview(Review review, String userName) {
         boolean success = false;
         if (((review != null) && (Validation.isValidString(review.getTitle())
                 && (Validation.isValidString(review.getComment())) && (review.getMovie() != null)))
@@ -66,13 +66,15 @@ public class ReviewServiceImpl implements ReviewService {
             if (user != null) {
                 profile = profileDao.searchProfileByUser(user);
             }
-            review.setId(null);
+            if ((review.getId() == null) || (review.getId() == 0)) {
+                review.setId(null);
+            }
             review.setPublishedDate(new Date());
             Movie movie = movieDao.searchMovieById(review.getMovie().getId());
             if ((Validation.isValidString(review.getComment())) && (profile != null) && (movie != null)) {
                 review.setProfile(profile);
                 review.setMovie(movie);
-                success = reviewDao.saveReview(review);
+                success = reviewDao.saveOrUpdateReview(review);
             }
         }
         return Message.setSuccessOrFail(success);

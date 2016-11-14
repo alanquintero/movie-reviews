@@ -78,7 +78,7 @@ public class UserController {
     }
 
     /**
-     * Add one new review
+     * Add or Update a Review
      * 
      * @param Model
      * @param Review
@@ -86,16 +86,22 @@ public class UserController {
      * @param Principal
      * @return String
      */
-    @RequestMapping(value = MOVIE_URL, method = RequestMethod.POST)
-    public String doAddReview(Model model, @Valid @ModelAttribute(REVIEW) Review review, BindingResult result,
+    @RequestMapping(value = { MOVIE_URL, PROFILE_URL }, method = RequestMethod.POST)
+    public String doAddOrUpdateReview(Model model, @Valid @ModelAttribute(REVIEW) Review review, BindingResult result,
             Principal principal) {
+        String resultPage = EMPTY_STRING;
         if (result.hasErrors()) {
             MovieController movieController = new MovieController();
             return movieController.searchMovieDetails(model, review.getMovie().getId());
         }
         String userName = principal.getName();
-        reviewService.saveReview(review, userName);
-        return REDIRECT_MOVIE_PAGE;
+        reviewService.saveOrUpdateReview(review, userName);
+        if (review.getId() > 0) {
+            resultPage = REDIRECT_PROFILE_PAGE;
+        } else {
+            resultPage = REDIRECT_MOVIE_PAGE;
+        }
+        return resultPage;
     }
 
     /**
@@ -108,7 +114,7 @@ public class UserController {
     @RequestMapping(value = RESULT_MOVIE_URL, method = RequestMethod.POST)
     public String doAddReviewResult(@ModelAttribute(REVIEW) Review review, Principal principal, Model model) {
         String userName = principal.getName();
-        model.addAttribute(MESSAGE, reviewService.saveReview(review, userName));
+        model.addAttribute(MESSAGE, reviewService.saveOrUpdateReview(review, userName));
         return REDIRECT_RESULT_MOVIE_PAGE;
     }
 

@@ -23,7 +23,7 @@ public interface ReviewDao {
      * @param Review
      * @return boolean
      */
-    public boolean saveReview(Review review);
+    public boolean saveOrUpdateReview(Review review);
 
     /**
      * @param Review

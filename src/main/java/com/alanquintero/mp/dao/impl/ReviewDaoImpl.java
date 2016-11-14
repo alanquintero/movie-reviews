@@ -33,13 +33,13 @@ public class ReviewDaoImpl implements ReviewDao {
     private ReviewRepository reviewRepository;
 
     /**
-     * Save a Review
+     * Save or Update a Review
      * 
      * @param Review
      * @return boolean
      */
     @Override
-    public boolean saveReview(Review review) {
+    public boolean saveOrUpdateReview(Review review) {
         boolean success = false;
         try {
             reviewRepository.save(review);

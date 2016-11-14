@@ -8,7 +8,8 @@
 
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="security"%>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><tiles:getAsString name="title"></tiles:getAsString></title>
@@ -31,15 +32,18 @@
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
 
-<script type="text/javascript" 
+<script type="text/javascript"
 	src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js">
+	
 </script>
 
 
-<spring:url value="/resources/core/jquery.autocomplete.min.js" var="jqueryAutoCompl" />
+<spring:url value="/resources/core/jquery.autocomplete.min.js"
+	var="jqueryAutoCompl" />
 <script src="${jqueryAutoCompl}"></script>
-	
-<link rel="stylesheet" type="text/css" href="/resources/css/searchResults.css" />
+
+<link rel="stylesheet" type="text/css"
+	href="/resources/css/searchResults.css" />
 
 </head>
 <body>
@@ -63,22 +67,26 @@
 							class="icon-bar"></span>
 					</button>
 					<div class="${current == 'index' ? 'active' : ''}">
-						<a class="navbar-brand" href="<spring:url value="/"/>">Movie Pick</a>
+						<a class="navbar-brand" href="<spring:url value="/"/>">Movie
+							Pick</a>
 					</div>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<form class="navbar-form navbar-left">
-            			<input type="text" id="movieInput" class="form-control" placeholder="Search a movie" >
-          			</form>
+						<input type="text" id="movieInput" class="form-control"
+							placeholder="Search a movie" maxlength="30">
+					</form>
 					<ul class="nav navbar-nav">
-						<li class="${current == 'result' ? 'active' : ''}">
-							<a id="searchLink" href="<spring:url value="/result.html" />">Search</a>
+						<li class="${current == 'result' ? 'active' : ''}"><a
+							id="searchLink" href="<spring:url value="/result.html" />">Search</a>
 						</li>
-						<security:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
+						<security:authorize
+							access="isAuthenticated() and hasRole('ROLE_ADMIN')">
 							<li class="${current == 'users' ? 'active' : ''}"><a
 								href="<spring:url value="/users.html" />">Users</a></li>
 						</security:authorize>
-						<security:authorize access="isAuthenticated() and hasRole('ROLE_ADMIN')">
+						<security:authorize
+							access="isAuthenticated() and hasRole('ROLE_ADMIN')">
 							<li class="${current == 'movies' ? 'active' : ''}"><a
 								href="<spring:url value="/movies.html" />">Movies</a></li>
 						</security:authorize>
@@ -110,36 +118,50 @@
 
 		<br> <br>
 
-		<p style="text-align:center">
+		<p style="text-align: center">
 			<tiles:insertAttribute name="footer" />
 		</p>
 
 	</div>
-	
+
 	<script>
 		var link = document.getElementById('searchLink');
-	    var input = document.getElementById('movieInput');
-	    input.onchange = input.onkeyup = function() {
-	        link.href= '/result/'+input.value+'.html';
-	    };
-	    
-	    $(document).ready(function() {
-			$('#movieInput').autocomplete({
-				serviceUrl: '${pageContext.request.contextPath}/getMovies.html',
-				paramName: "movieTitle",
-			    transformResult: function(response) {
-			        return {
-			            suggestions: $.map($.parseJSON(response), function(item) {
-			                return { value: item.movieName, data: item.id};
-			            })
-			        };   
-			    },
-			    onSelect: function (suggestion) {
-			        window.location.href = "${pageContext.request.contextPath}/movie/"+suggestion.data+".html";
-			    }
-			});
-		});
-		
+		var input = document.getElementById('movieInput');
+		input.onchange = input.onkeyup = function() {
+			link.href = '/result/' + input.value + '.html';
+		};
+
+		$(document)
+				.ready(
+						function() {
+							$('#movieInput')
+									.autocomplete(
+											{
+												serviceUrl : '${pageContext.request.contextPath}/getMovies.html',
+												paramName : "movieTitle",
+												transformResult : function(
+														response) {
+													return {
+														suggestions : $
+																.map(
+																		$
+																				.parseJSON(response),
+																		function(
+																				item) {
+																			return {
+																				value : item.movieName,
+																				data : item.id
+																			};
+																		})
+													};
+												},
+												onSelect : function(suggestion) {
+													window.location.href = "${pageContext.request.contextPath}/movie/"
+															+ suggestion.data
+															+ ".html";
+												}
+											});
+						});
 	</script>
 
 </body>
