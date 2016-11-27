@@ -23,6 +23,7 @@ import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.model.MovieModel;
 import com.alanquintero.mp.service.MovieService;
+import com.alanquintero.mp.util.Format;
 import com.alanquintero.mp.util.Message;
 import com.alanquintero.mp.util.Validation;
 
@@ -162,6 +163,45 @@ public class MovieServiceImpl implements MovieService {
         List<Movie> movies = movieDao.getMostVotedMovies();
         movies = Validation.validateMovieList(movies);
         return movies;
+    }
+
+    /**
+     * Add or Update a Movie
+     * 
+     * @param Movie
+     * @return String
+     */
+    @Override
+    public boolean saveOrUpdateMovie(Movie movie) {
+        boolean success = false;
+        if (Validation.isValidURL(movie.getImage()) && Validation.isValidURL(movie.getTrailer())
+                && Validation.isValidString(movie.getSynopsis())) {
+            if (movie.getId() != null && movie.getId() != 0) {
+                movie.setRating(0);
+                movie.setVote(0);
+            }
+            movie.setTitle(Format.removeBlanks(movie.getTitle()));
+            if (!movie.getTrailer().contains(FORMAT_YT_EMBED)) {
+                movie.setTrailer(Format.getYoutubeUrl(movie.getTrailer()));
+            }
+            success = movieDao.saveOrUpdateMovie(movie);
+        }
+        return success;
+    }
+
+    /**
+     * Check If Movie Exists
+     * 
+     * @param Movie
+     * @return boolean
+     */
+    @Override
+    public boolean checkIfMovieExists(Movie movie) {
+        boolean exists = true;
+        if (Validation.isValidString(movie.getTitle())) {
+            exists = movieDao.checkIfMovieExists(movie);
+        }
+        return exists;
     }
 
 }

@@ -64,4 +64,16 @@ public interface MovieService {
      */
     public List<Movie> getMostVotedMovies();
 
+    /**
+     * @param Movie
+     * @return boolean
+     */
+    public boolean saveOrUpdateMovie(Movie movie);
+
+    /**
+     * @param Movie
+     * @return String
+     */
+    public boolean checkIfMovieExists(Movie movie);
+
 }

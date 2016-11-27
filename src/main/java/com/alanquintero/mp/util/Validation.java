@@ -10,6 +10,8 @@ package com.alanquintero.mp.util;
 
 import static com.alanquintero.mp.util.Consts.*;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -79,7 +81,7 @@ public class Validation {
         }
         return movies;
     }
-    
+
     /**
      * Validate that Movie List is not null or empty
      * 
@@ -94,6 +96,21 @@ public class Validation {
             users.add(user);
         }
         return users;
+    }
+
+    /**
+     * Validate if URL is valid or not
+     * 
+     * @param String
+     * @return boolean
+     */
+    public static boolean isValidURL(String urlStr) {
+        try {
+            new URL(urlStr);
+            return true;
+        } catch (MalformedURLException e) {
+            return false;
+        }
     }
 
 }

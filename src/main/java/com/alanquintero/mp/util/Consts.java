@@ -69,6 +69,8 @@ public final class Consts {
     public static final String REDIRECT_MOVIE_PAGE = "redirect:/movie/{movieId}.html";
     public static final String REDIRECT_RESULT_MOVIE_PAGE = "redirect:/result/{movieTitle}.html";
     public static final String REDIRECT_MOVIES_PAGE = "redirect:/movies.html";
+    public static final String REDIRECT_MOVIES_SUCCESS_PAGE = "redirect:/movies.html?success=true";
+    public static final String REDIRECT_MOVIES_FAIL_PAGE = "redirect:/movies.html?success=false";
     public static final String REGISTER_PAGE = "register";
     public static final String REGISTER_SUCCESS_PAGE = "redirect:/register.html?success=true";
     public static final String PROFILE_PAGE = "profile";
@@ -98,6 +100,7 @@ public final class Consts {
     public static final String MOVIE_ID_PARAM = "movie_id";
     public static final String MOVIE_TITLE_PARAM = "movie_title";
     public static final String MOVIE_RATING_PARAM = "movie_rating";
+    public static final String MOVIE_YEAR_PARAM = "movie_year";
     public static final String MOVIE_VOTE_PARAM = "movie_vote";
     public static final String USER_EMAIL_PARAM = "user_email";
     public static final String PROFILE_ID_PARAM = "profile_id";
@@ -128,6 +131,10 @@ public final class Consts {
 
     // Type
     public static final String TYPE_CLOB = "org.hibernate.type.StringClobType";
+
+    // Format
+    public static final String FORMAT_BLANK_SPACE = "\\s+$";
+    public static final String FORMAT_YT_EMBED = "embed/";
 
     // Others
     public static final String EMPTY_STRING = "";

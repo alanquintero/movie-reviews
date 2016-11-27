@@ -23,6 +23,7 @@ import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.repository.MovieRepository;
 import com.alanquintero.mp.repository.ReviewRepository;
+import com.alanquintero.mp.util.Format;
 
 /**
  * @class MovieDaoImpl.java
@@ -198,7 +199,7 @@ public class MovieDaoImpl implements MovieDao {
      * @return boolean
      */
     @Override
-    public boolean updateMovieValues(Movie movie) {
+    public boolean saveOrUpdateMovie(Movie movie) {
         boolean success = false;
         try {
             movieRepository.save(movie);
@@ -207,6 +208,33 @@ public class MovieDaoImpl implements MovieDao {
             e.printStackTrace();
         }
         return success;
+    }
+
+    /**
+     * Check If Movie Exists
+     * 
+     * @param Movie
+     * @return boolean
+     */
+    @Override
+    public boolean checkIfMovieExists(Movie movie) {
+        boolean exists = true;
+        try {
+            if (movie.getId() != null && movie.getId() != 0) {
+                if (movieRepository.findMovieByValues(movie.getId(), Format.removeBlanks(movie.getTitle()),
+                        movie.getYear()) == null) {
+                    exists = false;
+                }
+            } else {
+                if (movieRepository.findMovieByTitleAndYear(Format.removeBlanks(movie.getTitle()),
+                        movie.getYear()) == null) {
+                    exists = false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return exists;
     }
 
 }

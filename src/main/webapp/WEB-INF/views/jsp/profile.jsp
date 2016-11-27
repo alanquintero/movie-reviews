@@ -20,7 +20,7 @@
 						})
 			});
 
-	function myFunction(movieId, movieTitle, reviewId, reviewTitle, reviewComment) {
+	function fillForm(movieId, movieTitle, reviewId, reviewTitle, reviewComment) {
 		document.getElementById("movie.id").value = movieId;
 		document.getElementById("movie.title").value = movieTitle;
 		document.getElementById("id").value = reviewId;
@@ -28,7 +28,7 @@
 		document.getElementById("comment").value = reviewComment;
 		$("#myModal").modal();
 	}
-	
+
 	$(document).ready(
 			function() {
 				$(".movieForm").validate(
@@ -53,7 +53,6 @@
 							}
 						});
 			})
-	
 </script>
 
 <div>
@@ -89,7 +88,7 @@
 					<td><c:out value="${review.comment}" /></td>
 					<td>
 						<button type="button" class="btn btn-primary"
-							onclick="myFunction('${review.movie.id}','${review.movie.title}', '${review.id}', '${review.title}', '${review.comment}')">Update
+							onclick="fillForm('${review.movie.id}','${review.movie.title}', '${review.id}', '${review.title}', '${review.comment}')">Update
 							Review</button>
 					</td>
 					<td><a
@@ -132,8 +131,7 @@
 							<label for="comment" class="col-sm-2 control-label">Comment:</label>
 							<div class="col-sm-10">
 								<form:textarea path="comment" cssClass="form-control"
-									placeholder="Comment" rows="3" maxlength="150"
-									id="comment" />
+									placeholder="Comment" rows="3" maxlength="150" id="comment" />
 								<form:errors path="comment" />
 							</div>
 						</div>

@@ -88,7 +88,7 @@ public class VoteServiceImpl implements VoteService {
                 vote.setRating(rating);
                 movie.setRating(newRating);
                 voteDao.saveOrUpdateVote(vote);
-                movieDao.updateMovieValues(movie);
+                movieDao.saveOrUpdateMovie(movie);
             }
         }
         return newRating;

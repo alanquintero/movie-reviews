@@ -13,6 +13,8 @@ import static com.alanquintero.mp.util.Consts.*;
 import java.security.Principal;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -172,6 +174,28 @@ public class MovieController {
             returnPage = REDIRECT_LOGIN_PAGE;
         }
         return returnPage;
+    }
+
+    /**
+     * Add or Update a Movie
+     * 
+     * @param Model
+     * @param Movie
+     * @return String
+     */
+    @RequestMapping(value = { MOVIES_URL }, method = RequestMethod.POST)
+    public String doAddOrUpdateReview(Model model, @Valid @ModelAttribute(MOVIE) Movie movie) {
+        String resultPage = EMPTY_STRING;
+        if (movie != null) {
+            if (movieService.checkIfMovieExists(movie)) {
+                resultPage = REDIRECT_MOVIES_FAIL_PAGE;
+            } else if (movieService.saveOrUpdateMovie(movie)) {
+                resultPage = REDIRECT_MOVIES_SUCCESS_PAGE;
+            } else {
+                resultPage = REDIRECT_MOVIES_FAIL_PAGE;
+            }
+        }
+        return resultPage;
     }
 
 }

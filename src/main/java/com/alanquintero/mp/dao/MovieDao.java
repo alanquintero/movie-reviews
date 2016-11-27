@@ -74,6 +74,12 @@ public interface MovieDao {
      * @param Movie
      * @return boolean
      */
-    public boolean updateMovieValues(Movie movie);
+    public boolean saveOrUpdateMovie(Movie movie);
+
+    /**
+     * @param Movie
+     * @return boolean
+     */
+    public boolean checkIfMovieExists(Movie movie);
 
 }
