@@ -209,4 +209,30 @@ public class UserServiceImpl implements UserService {
         return userDao.searchUserByEmail(userEmail);
     }
 
+    /**
+     * Add or Update a Quote
+     * 
+     * @param User
+     * @param String
+     * @return boolean
+     */
+    @Override
+    public boolean saveOrUpdateQuote(User user, String userName) {
+        boolean success = false;
+        if ((user.getProfile().getId() != null) && (Validation.isValidString(user.getProfile().getQuote()))
+                && (Validation.isValidString(userName))) {
+            User existentUser = userDao.searchUserByName(userName);
+            Profile profile = null;
+            if (existentUser != null) {
+                profile = profileDao.searchProfileByUser(existentUser);
+                if (profile != null) {
+                    profile.setQuote(user.getProfile().getQuote());
+                    userDao.saveOrUpdateQuote(profile);
+                    success = true;
+                }
+            }
+        }
+        return success;
+    }
+
 }

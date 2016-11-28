@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.alanquintero.mp.dao.UserDao;
+import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.User;
+import com.alanquintero.mp.repository.ProfileRepository;
 import com.alanquintero.mp.repository.UserRepository;
 
 /**
@@ -26,6 +28,9 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ProfileRepository profileRepository;
 
     /**
      * Search User by User Name
@@ -128,6 +133,24 @@ public class UserDaoImpl implements UserDao {
             e.printStackTrace();
         }
         return user;
+    }
+
+    /**
+     * Add or Update a Quote
+     * 
+     * @param Profile
+     * @return boolean
+     */
+    @Override
+    public boolean saveOrUpdateQuote(Profile profile) {
+        boolean success = false;
+        try {
+            profileRepository.save(profile);
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
     }
 
 }

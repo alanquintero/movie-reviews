@@ -10,6 +10,7 @@ package com.alanquintero.mp.dao;
 
 import java.util.List;
 
+import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.User;
 
 /**
@@ -52,5 +53,11 @@ public interface UserDao {
      * @return User
      */
     public User searchUserByEmail(String userEmail);
+
+    /**
+     * @param Profile
+     * @return boolean
+     */
+    public boolean saveOrUpdateQuote(Profile profile);
 
 }

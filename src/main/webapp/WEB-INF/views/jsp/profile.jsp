@@ -3,7 +3,6 @@
 
 <%@ include file="../../../resources/layout/taglib.jsp"%>
 <%@ include file="../../../resources/jsp/remove.jsp"%>
-<%-- <%@ include file="../../../resources/jsp/updateReview.jsp"%> --%>
 
 <script type="text/javascript">
 	$(document).ready(
@@ -53,15 +52,76 @@
 							}
 						});
 			})
+
+	function editQuote() {
+		document.getElementById("quote").disabled = false;
+		document.getElementById("edit").style.display = 'none';
+		document.getElementById("save").style.display = 'block';
+	}
+
+	function saveQuote() {
+		var quote = document.getElementById("quote").value;
+		if (quote != "") {
+			document.getElementById("profileForm").submit();
+			document.getElementById("quote").disabled = true;
+			document.getElementById("save").style.display = 'none';
+			document.getElementById("edit").style.display = 'block';
+			document.getElementById("divMessage").style.display = 'none';
+			document.getElementById("divMessage").removeAttribute("class");
+			document.getElementById("message").textContent = "";
+		} else {
+			document.getElementById("message").textContent = "Quote cannot be Empty";
+			document.getElementById("divMessage").className = 'alert alert-danger';
+			document.getElementById("divMessage").style.display = 'block';
+		}
+	}
 </script>
 
 <div>
-
 	<h1>${user.name}</h1>
 
-	<p>${user.profile.quote}</p>
+	<form:form commandName="user" id="profileForm"
+		cssClass="form-horizontal profileForm">
+		<label for="quote">My Favorite Movie Quote</label>
+		<form:input path="profile.id" id="profile" type="hidden"
+			value="${user.profile.id}" />
+		<form:input path="profile.quote" cssClass="form-control" id="quote"
+			placeholder="Write your Favorite Movie Quote"
+			value="${user.profile.quote}" maxlength="50" disabled="true" />
 
-	<br>
+		<div id="save" style="display: none;">
+			<button type="button" class="btn btn-default btn-sm"
+				onclick="saveQuote();">
+				<span class="glyphicon glyphicon-floppy-disk"></span> Save
+			</button>
+		</div>
+	</form:form>
+
+	<div id="edit" style="display: block;">
+		<button type="button" class="btn btn-default btn-sm"
+			onclick="editQuote();">
+			<span class="glyphicon glyphicon-pencil"></span> Edit
+		</button>
+	</div>
+
+	<div id="divMessage"
+		style="display: none; position: absolute; left: 110px;">
+		<span id="message"></span>
+	</div>
+	<c:if test="${param.success eq true }">
+		<div id="success" class="alert alert-success alert-dismissible">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Successful!
+		</div>
+	</c:if>
+	<c:if test="${param.success eq false }">
+		<div id="success" class="alert alert-danger alert-dismissible">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			Sorry! Something were wrong!
+		</div>
+	</c:if>
+
+	<br> <br>
 	<h2>Reviews</h2>
 	<table class="table table-striped table-hover">
 		<thead>

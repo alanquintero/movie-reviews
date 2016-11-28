@@ -75,6 +75,8 @@ public final class Consts {
     public static final String REGISTER_SUCCESS_PAGE = "redirect:/register.html?success=true";
     public static final String PROFILE_PAGE = "profile";
     public static final String REDIRECT_PROFILE_PAGE = "redirect:/profile.html";
+    public static final String REDIRECT_PROFILE_SUCCESS_PAGE = "redirect:/profile.html?success=true";
+    public static final String REDIRECT_PROFILE_FAIL_PAGE = "redirect:/profile.html?success=false";
 
     // Redirect Page
     public static final String REDIRECT_LOGIN_PAGE = "/login.html";

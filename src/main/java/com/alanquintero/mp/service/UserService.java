@@ -65,4 +65,11 @@ public interface UserService {
      */
     public User searchUserByEmail(String userEmail);
 
+    /**
+     * @param User
+     * @param String
+     * @return boolean
+     */
+    public boolean saveOrUpdateQuote(User user, String userName);
+
 }

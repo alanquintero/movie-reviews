@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alanquintero.mp.entity.Review;
+import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.ReviewService;
 import com.alanquintero.mp.service.UserService;
 
@@ -78,7 +79,7 @@ public class UserController {
     }
 
     /**
-     * Add or Update a Review
+     * Add or Update a Review or Quote
      * 
      * @param Model
      * @param Review
@@ -87,21 +88,32 @@ public class UserController {
      * @return String
      */
     @RequestMapping(value = { MOVIE_URL, PROFILE_URL }, method = RequestMethod.POST)
-    public String doAddOrUpdateReview(Model model, @Valid @ModelAttribute(REVIEW) Review review, BindingResult result,
-            Principal principal) {
+    public String doAddOrUpdateReviewOrQuote(Model model, @Valid @ModelAttribute(REVIEW) Review review,
+            @ModelAttribute(USER) User user, BindingResult result, Principal principal) {
         String resultPage = EMPTY_STRING;
-        if (result.hasErrors()) {
-            MovieController movieController = new MovieController();
-            return movieController.searchMovieDetails(model, review.getMovie().getId());
-        }
         String userName = principal.getName();
-        reviewService.saveOrUpdateReview(review, userName);
-        if (review.getId() > 0) {
-            resultPage = REDIRECT_PROFILE_PAGE;
+        if (review != null && review.getId() != null) {
+            if (result.hasErrors()) {
+                MovieController movieController = new MovieController();
+                return movieController.searchMovieDetails(model, review.getMovie().getId());
+            }
+            reviewService.saveOrUpdateReview(review, userName);
+            if (review.getId() > 0) {
+                resultPage = REDIRECT_PROFILE_PAGE;
+            } else {
+                resultPage = REDIRECT_MOVIE_PAGE;
+            }
+        } else if (user != null && user.getProfile() != null) {
+            if (userService.saveOrUpdateQuote(user, userName)) {
+                resultPage = REDIRECT_PROFILE_SUCCESS_PAGE;
+            } else {
+                resultPage = REDIRECT_PROFILE_FAIL_PAGE;
+            }
         } else {
-            resultPage = REDIRECT_MOVIE_PAGE;
+            resultPage = REDIRECT_PROFILE_FAIL_PAGE;
         }
         return resultPage;
+
     }
 
     /**

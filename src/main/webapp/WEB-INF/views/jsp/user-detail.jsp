@@ -30,7 +30,7 @@
 						</a>
 					</td>
 					<td> <fmt:formatDate type="date" value="${review.publishedDate}" /></td>
-					<td><c:out value="${review.rating}" /></td>
+					<td><c:out value="${review.movie.rating}" /></td>
 					<td><b><c:out value="${review.title}" /></b></td>
 					<td><c:out value="${review.comment}" /></td>
 				</tr>
