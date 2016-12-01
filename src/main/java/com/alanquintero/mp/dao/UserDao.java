@@ -60,4 +60,18 @@ public interface UserDao {
      */
     public boolean saveOrUpdateQuote(Profile profile);
 
+    /**
+     * @param String
+     * @param String
+     * @return boolean
+     */
+    public boolean checkUserPassword(String userEmail, String userPassword);
+
+    /**
+     * @param User
+     * @param String
+     * @return boolean
+     */
+    public boolean updateUserPassword(User user, String newPassword);
+
 }

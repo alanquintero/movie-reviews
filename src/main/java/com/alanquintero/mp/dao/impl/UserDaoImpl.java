@@ -11,6 +11,7 @@ package com.alanquintero.mp.dao.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.alanquintero.mp.dao.UserDao;
@@ -31,6 +32,8 @@ public class UserDaoImpl implements UserDao {
 
     @Autowired
     ProfileRepository profileRepository;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     /**
      * Search User by User Name
@@ -146,6 +149,47 @@ public class UserDaoImpl implements UserDao {
         boolean success = false;
         try {
             profileRepository.save(profile);
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
+    }
+
+    /**
+     * Check that User Password is correct or not
+     * 
+     * @param String
+     * @param String
+     * @return User
+     */
+    @Override
+    public boolean checkUserPassword(String userEmail, String userPassword) {
+        boolean success = false;
+        try {
+            User user = userRepository.findUserByEmail(userEmail);
+            if ((user != null) && (encoder.matches(userPassword, user.getPassword()))) {
+                success = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
+    }
+
+    /**
+     * Update User Password
+     * 
+     * @param User
+     * @param String
+     * @return boolean
+     */
+    @Override
+    public boolean updateUserPassword(User user, String newPassword) {
+        boolean success = false;
+        try {
+            user.setPassword(encoder.encode(newPassword));
+            userRepository.save(user);
             success = true;
         } catch (Exception e) {
             e.printStackTrace();

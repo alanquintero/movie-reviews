@@ -72,4 +72,18 @@ public interface UserService {
      */
     public boolean saveOrUpdateQuote(User user, String userName);
 
+    /**
+     * @param String
+     * @param String
+     * @return boolean
+     */
+    public boolean checkUserPassword(String userEmail, String userPassword);
+
+    /**
+     * @param String
+     * @param String
+     * @return boolean
+     */
+    public boolean updateUserPassword(String userName, String newPassword);
+
 }

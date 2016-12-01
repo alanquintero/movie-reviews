@@ -52,6 +52,9 @@ public class User {
     @Size(min = 6, message = PASSWORD_MIN_ERROR_MESSAGE)
     private String password;
 
+    @Size(min = 6, message = PASSWORD_MIN_ERROR_MESSAGE)
+    private String newPassword;
+
     @ManyToMany
     @JoinTable
     private List<Role> roles;
@@ -115,6 +118,14 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
 }

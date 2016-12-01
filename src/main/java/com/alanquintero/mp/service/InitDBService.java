@@ -67,7 +67,7 @@ public class InitDBService {
         User userAdmin = new User();
         userAdmin.setName("admin");
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        userAdmin.setPassword(encoder.encode("admin"));
+        userAdmin.setPassword(encoder.encode("admin123"));
         List<Role> roles = new ArrayList<Role>();
         roles.add(roleAdmin);
         roles.add(roleUser);
@@ -112,7 +112,7 @@ public class InitDBService {
 
         User userTest = new User();
         userTest.setName("test");
-        userTest.setPassword(encoder.encode("test"));
+        userTest.setPassword(encoder.encode("test123"));
         roles = new ArrayList<Role>();
         roles.add(roleUser);
         userTest.setRoles(roles);

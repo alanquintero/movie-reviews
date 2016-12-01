@@ -17,6 +17,7 @@
 		<intercept-url pattern="/j_spring_security_check" access="hasRole('IS_AUTHENTICATED_ANONYMOUSLY')" />
 		<intercept-url pattern="/login" access="hasRole('IS_AUTHENTICATED_ANONYMOUSLY')" />
 		<intercept-url pattern="/profile**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/settings**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/user-detail**" access="hasRole('ROLE_ADMIN')" />
 		<form-login login-page="/login.html" />
 		<logout logout-url="/logout" />

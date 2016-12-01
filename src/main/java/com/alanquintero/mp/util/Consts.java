@@ -57,6 +57,8 @@ public final class Consts {
     public static final String RATE_MOVIE = "/rateMovie";
     public static final String PROFILE_URL = "/profile";
     public static final String DELETE_PROFILE_URL = "profile/remove/{reviewId}";
+    public static final String SETTINGS_URL = "/settings";
+    public static final String CHECK_PWD_URL = "/settings/checkpassword";
 
     // Page
     public static final String USERS_PAGE = "users";
@@ -66,6 +68,7 @@ public final class Consts {
     public static final String LOGIN_PAGE = "login";
     public static final String MOVIE_PAGE = "movie";
     public static final String MOVIES_PAGE = "movies";
+    public static final String SETTINGS_PAGE = "settings";
     public static final String REDIRECT_MOVIE_PAGE = "redirect:/movie/{movieId}.html";
     public static final String REDIRECT_RESULT_MOVIE_PAGE = "redirect:/result/{movieTitle}.html";
     public static final String REDIRECT_MOVIES_PAGE = "redirect:/movies.html";
@@ -77,6 +80,8 @@ public final class Consts {
     public static final String REDIRECT_PROFILE_PAGE = "redirect:/profile.html";
     public static final String REDIRECT_PROFILE_SUCCESS_PAGE = "redirect:/profile.html?success=true";
     public static final String REDIRECT_PROFILE_FAIL_PAGE = "redirect:/profile.html?success=false";
+    public static final String REDIRECT_SETTINGS_SUCCESS_PAGE = "redirect:/settings.html?success=true";
+    public static final String REDIRECT_SETTINGS_FAIL_PAGE = "redirect:/settings.html?success=false";
 
     // Redirect Page
     public static final String REDIRECT_LOGIN_PAGE = "/login.html";
@@ -106,6 +111,7 @@ public final class Consts {
     public static final String MOVIE_VOTE_PARAM = "movie_vote";
     public static final String USER_EMAIL_PARAM = "user_email";
     public static final String PROFILE_ID_PARAM = "profile_id";
+    public static final String USER_PWD_PARAM = "user_pwd";
 
     // Error Message
     public static final String TITLE_MIN_ERROR_MESSAGE = "Title must be at least one character!";

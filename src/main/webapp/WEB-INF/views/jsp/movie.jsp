@@ -28,7 +28,7 @@
 		<c:out value="${movie.rating}" />
 	</div>
 	<br />
-	<div id="message" style="position: absolute; left: 200px;"></div>
+	<div id="message" style="position: absolute; left: 220px;"></div>
 	<br />
 	<br />
 	<div>

@@ -96,6 +96,10 @@
 						</security:authorize>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
+						<security:authorize access="isAuthenticated()">
+							<li class="${current == 'settings' ? 'active' : ''}"><a
+								href="<spring:url value="/settings.html" />">Settings</a></li>
+						</security:authorize>
 						<security:authorize access="! isAuthenticated()">
 							<li class="${current == 'login' ? 'active' : ''}"><a
 								href="<spring:url value="/login.html" />">Login</a></li>

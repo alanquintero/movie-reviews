@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.User;
@@ -92,7 +94,7 @@ public class UserController {
             @ModelAttribute(USER) User user, BindingResult result, Principal principal) {
         String resultPage = EMPTY_STRING;
         String userName = principal.getName();
-        if (review != null && review.getId() != null) {
+        if (review != null && review.getComment() != null) {
             if (result.hasErrors()) {
                 MovieController movieController = new MovieController();
                 return movieController.searchMovieDetails(model, review.getMovie().getId());
@@ -128,6 +130,53 @@ public class UserController {
         String userName = principal.getName();
         model.addAttribute(MESSAGE, reviewService.saveOrUpdateReview(review, userName));
         return REDIRECT_RESULT_MOVIE_PAGE;
+    }
+
+    /**
+     * Redirect to user settings
+     * 
+     * @param Model
+     * @param Principal
+     * @return String
+     */
+    @RequestMapping(SETTINGS_URL)
+    public String settings(Model model, Principal principal) {
+        String userName = principal.getName();
+        model.addAttribute(USER, userService.searchUserWithReviewsByName(userName));
+        return SETTINGS_PAGE;
+    }
+
+    /**
+     * Check if Password is correct
+     * 
+     * @param String
+     * @param String
+     * @return String
+     */
+    @RequestMapping(value = CHECK_PWD_URL, method = RequestMethod.POST)
+    @ResponseBody
+    public String checkUserPassword(@RequestParam String userEmail, @RequestParam String userPassword) {
+        Boolean correctPwd = userService.checkUserPassword(userEmail, userPassword);
+        return correctPwd.toString();
+    }
+
+    /**
+     * Update User Password
+     * 
+     * @param User
+     * @param Principal
+     * @return String
+     */
+    @RequestMapping(value = SETTINGS_URL, method = RequestMethod.POST)
+    public String updatePassword(@ModelAttribute(USER) User user, Principal principal) {
+        String resultPage = EMPTY_STRING;
+        String userName = principal.getName();
+        if (userService.updateUserPassword(userName, user.getNewPassword())) {
+            resultPage = REDIRECT_SETTINGS_SUCCESS_PAGE;
+        } else {
+            resultPage = REDIRECT_SETTINGS_FAIL_PAGE;
+        }
+        return resultPage;
     }
 
 }

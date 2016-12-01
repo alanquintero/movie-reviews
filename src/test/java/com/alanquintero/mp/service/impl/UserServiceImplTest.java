@@ -231,4 +231,32 @@ public class UserServiceImplTest {
         Assert.assertFalse(userService.saveOrUpdateQuote(user, userName));
     }
 
+    @Test
+    public void testCheckUserPassword() {
+        String userEmail = "test@test.com";
+        String userPassword = "test123";
+        Assert.assertTrue(userService.checkUserPassword(userEmail, userPassword));
+    }
+
+    @Test
+    public void testCheckUserPasswordWithWrongPwd() {
+        String userEmail = "test@test.com";
+        String userPassword = "test123456";
+        Assert.assertFalse(userService.checkUserPassword(userEmail, userPassword));
+    }
+
+    @Test
+    public void testUpdateUserPassword() {
+        String userName = "test";
+        String newPassword = "test123456";
+        Assert.assertTrue(userService.updateUserPassword(userName, newPassword));
+    }
+
+    @Test
+    public void testUpdateUserPasswordWithWrongUser() {
+        String userName = "";
+        String newPassword = "test123456";
+        Assert.assertFalse(userService.updateUserPassword(userName, newPassword));
+    }
+
 }

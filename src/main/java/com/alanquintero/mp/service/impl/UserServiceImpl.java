@@ -235,4 +235,35 @@ public class UserServiceImpl implements UserService {
         return success;
     }
 
+    /**
+     * Check that User Password is correct
+     * 
+     * @param String
+     * @param String
+     * @return User
+     */
+    @Override
+    public boolean checkUserPassword(String userEmail, String userPassword) {
+        return userDao.checkUserPassword(userEmail, userPassword);
+    }
+
+    /**
+     * Update User Password
+     * 
+     * @param String
+     * @param String
+     * @return boolean
+     */
+    @Override
+    public boolean updateUserPassword(String userName, String newPassword) {
+        boolean success = false;
+        if ((Validation.isValidString(userName)) && (Validation.validateWordLen(newPassword, 6))) {
+            User user = userDao.searchUserByName(userName);
+            if (user != null) {
+                success = userDao.updateUserPassword(user, newPassword);
+            }
+        }
+        return success;
+    }
+
 }
