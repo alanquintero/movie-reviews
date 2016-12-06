@@ -41,6 +41,8 @@
         <script src="${jqueryAutoCompl}"></script>
 
         <link rel="stylesheet" type="text/css" href="/resources/css/searchResults.css" />
+        
+        <link rel="icon" href="../../../resources/img/moviePick.JPG">
 
     </head>
     <body>
@@ -64,7 +66,8 @@
 					    </button>
 					    <div class="${current == 'index' ? 'active' : ''}">
 						    <a class="navbar-brand" href="<spring:url value="/"/>">
-						        Movie Pick
+						        <img src="../../../resources/img/moviePick.JPG" alt="img" 
+							        style="width: 35px; height: 35px;"> 
 						    </a>
 					    </div>
 				    </div>
