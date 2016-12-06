@@ -58,9 +58,9 @@
 						})
 			});
 
-	function fillForm(movieId, movieTitle, movieYear, movieImage, movieTrailer,
+	function fillForm(code, movieTitle, movieYear, movieImage, movieTrailer,
 			movieSynopsis) {
-		document.getElementById("movie.id").value = movieId;
+		document.getElementById("movie.code").value = code;
 		document.getElementById("movie.title").value = movieTitle;
 		document.getElementById("movie.year").value = movieYear;
 		document.getElementById("movie.image").value = movieImage;
@@ -71,7 +71,7 @@
 	}
 
 	function resetModal() {
-		document.getElementById("movie.id").value = "";
+		document.getElementById("movie.code").value = "";
 		document.getElementById("movie.title").value = "";
 		document.getElementById("movie.year").value = "";
 		document.getElementById("movie.image").value = "";
@@ -114,7 +114,7 @@
 						<div class="form-group">
 							<label for="title" class="col-sm-2 control-label">Title:</label>
 							<div class="col-sm-10">
-								<form:input path="id" type="hidden" id="movie.id" />
+								<form:input path="code" type="hidden" id="movie.code" />
 								<form:input path="title" id="movie.title"
 									cssClass="form-control" placeholder="Title" maxlength="50" />
 								<form:errors path="title" />
@@ -152,7 +152,7 @@
 							<div class="col-sm-10">
 								<form:textarea path="synopsis" id="movie.synopsis"
 									cssClass="form-control" placeholder="Synopsis" rows="3"
-									maxlength="200" />
+									maxlength="350" />
 								<form:errors path="synopsis" />
 							</div>
 						</div>
@@ -181,7 +181,7 @@
 		<tbody>
 			<c:forEach items="${movies}" var="movie">
 				<c:choose>
-					<c:when test="${movie.id == 0}">
+					<c:when test="${empty movie.code}">
 						<c:out value="${movie.title}" />
 						<tr>
 							<td>There are not Movies</td>
@@ -189,19 +189,20 @@
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td><a href="<spring:url value="/movie/${movie.id}.html" />">
-									<c:out value="${movie.title}" /> <font color="gray">(<c:out
+							<td><a
+								href="<spring:url value="/movie/${movie.code}.html" />"> <c:out
+										value="${movie.title}" /> <font color="gray">(<c:out
 											value="${movie.year}" />)
 								</font>
 							</a></td>
 							<td><c:out value=" ${movie.rating}" /></td>
 							<td>
 								<button type="button" class="btn btn-primary"
-									onclick="fillForm('${movie.id}', '${movie.title}', '${movie.year}', '${movie.image}', '${movie.trailer}', '${movie.synopsis}')">Update
+									onclick="fillForm('${movie.code}', '${movie.title}', '${movie.year}', '${movie.image}', '${movie.trailer}', '${movie.synopsis}')">Update
 									Movie</button>
 							</td>
 							<td><a
-								href="<spring:url value="/movies/remove/${movie.id}.html" />"
+								href="<spring:url value="/movies/remove/${movie.code}.html" />"
 								class="btn btn-danger triggerRemove"> Remove Movie </a></td>
 						</tr>
 					</c:otherwise>

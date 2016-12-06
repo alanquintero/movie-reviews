@@ -29,6 +29,7 @@ import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.ReviewService;
 import com.alanquintero.mp.service.UserService;
+import com.alanquintero.mp.util.Validation;
 
 /**
  * @class UserController.java
@@ -56,51 +57,58 @@ public class UserController {
     /**
      * Redirect to user profile
      * 
-     * @param Model
      * @param Principal
+     * @param Model
      * @return String
      */
     @RequestMapping(PROFILE_URL)
-    public String profile(Model model, Principal principal) {
+    public String profile(Principal principal, Model model) {
         String userName = principal.getName();
+
         model.addAttribute(USER, userService.searchUserWithReviewsByName(userName));
+
         return PROFILE_PAGE;
     }
 
     /**
      * Delete one review by review id
-     * 
+     *
+     * @param Model
      * @param int
      * @return String
      */
     @RequestMapping(DELETE_PROFILE_URL)
-    public String removeReview(@PathVariable int reviewId, Model model) {
-        Review review = reviewService.searchReviewById(reviewId);
+    public String removeReview(Model model, @PathVariable String code) {
+        Review review = reviewService.searchReviewById(code);
+
         model.addAttribute(MESSAGE, reviewService.deteleReview(review));
+
         return REDIRECT_PROFILE_PAGE;
     }
 
     /**
      * Add or Update a Review or Quote
      * 
+     * @param Principal
      * @param Model
      * @param Review
+     * @param User
      * @param BindingResult
-     * @param Principal
      * @return String
      */
     @RequestMapping(value = { MOVIE_URL, PROFILE_URL }, method = RequestMethod.POST)
-    public String doAddOrUpdateReviewOrQuote(Model model, @Valid @ModelAttribute(REVIEW) Review review,
-            @ModelAttribute(USER) User user, BindingResult result, Principal principal) {
+    public String doAddOrUpdateReviewOrQuote(Principal principal, Model model,
+            @Valid @ModelAttribute(REVIEW) Review review, @ModelAttribute(USER) User user, BindingResult result) {
         String resultPage = EMPTY_STRING;
         String userName = principal.getName();
-        if (review != null && review.getComment() != null) {
+
+        if (review != null && Validation.isValidString(review.getComment())) {
             if (result.hasErrors()) {
                 MovieController movieController = new MovieController();
-                return movieController.searchMovieDetails(model, review.getMovie().getId());
+                return movieController.searchMovieDetails(model, review.getMovie().getCode());
             }
-            reviewService.saveOrUpdateReview(review, userName);
-            if (review.getId() > 0) {
+            String inPage = reviewService.saveOrUpdateReview(review, userName);
+            if (inPage.equals(IN_PROFILE)) {
                 resultPage = REDIRECT_PROFILE_PAGE;
             } else {
                 resultPage = REDIRECT_MOVIE_PAGE;
@@ -114,6 +122,7 @@ public class UserController {
         } else {
             resultPage = REDIRECT_PROFILE_FAIL_PAGE;
         }
+
         return resultPage;
 
     }
@@ -121,28 +130,33 @@ public class UserController {
     /**
      * Add one new review from result page
      * 
-     * @param Review
      * @param Principal
+     * @param Model
+     * @param Review
      * @return String
      */
     @RequestMapping(value = RESULT_MOVIE_URL, method = RequestMethod.POST)
-    public String doAddReviewResult(@ModelAttribute(REVIEW) Review review, Principal principal, Model model) {
+    public String doAddReviewResult(Principal principal, Model model, @ModelAttribute(REVIEW) Review review) {
         String userName = principal.getName();
+
         model.addAttribute(MESSAGE, reviewService.saveOrUpdateReview(review, userName));
+
         return REDIRECT_RESULT_MOVIE_PAGE;
     }
 
     /**
      * Redirect to user settings
      * 
-     * @param Model
      * @param Principal
+     * @param Model
      * @return String
      */
     @RequestMapping(SETTINGS_URL)
-    public String settings(Model model, Principal principal) {
+    public String settings(Principal principal, Model model) {
         String userName = principal.getName();
+
         model.addAttribute(USER, userService.searchUserWithReviewsByName(userName));
+
         return SETTINGS_PAGE;
     }
 
@@ -157,25 +171,52 @@ public class UserController {
     @ResponseBody
     public String checkUserPassword(@RequestParam String userEmail, @RequestParam String userPassword) {
         Boolean correctPwd = userService.checkUserPassword(userEmail, userPassword);
+
         return correctPwd.toString();
     }
 
     /**
      * Update User Password
      * 
-     * @param User
      * @param Principal
+     * @param User
      * @return String
      */
     @RequestMapping(value = SETTINGS_URL, method = RequestMethod.POST)
-    public String updatePassword(@ModelAttribute(USER) User user, Principal principal) {
+    public String updatePassword(Principal principal, @ModelAttribute(USER) User user) {
         String resultPage = EMPTY_STRING;
         String userName = principal.getName();
+
         if (userService.updateUserPassword(userName, user.getNewPassword())) {
             resultPage = REDIRECT_SETTINGS_SUCCESS_PAGE;
         } else {
             resultPage = REDIRECT_SETTINGS_FAIL_PAGE;
         }
+
+        return resultPage;
+    }
+
+    /**
+     * Find user details by user id
+     * 
+     * @param Principal
+     * @param Model
+     * @param String
+     * @return String
+     */
+    @RequestMapping(USERS_URL + USER_URL)
+    public String userDetail(Principal principal, Model model, @PathVariable String code) {
+        String resultPage = EMPTY_STRING;
+        String userName = principal.getName();
+        User user = userService.searchUserWithReviewsById(code);
+
+        model.addAttribute(USER, user);
+        if (user.getName().equals(userName)) {
+            resultPage = PROFILE_PAGE;
+        } else {
+            resultPage = USER_PAGE;
+        }
+
         return resultPage;
     }
 

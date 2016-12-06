@@ -22,6 +22,7 @@ import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.entity.Vote;
 import com.alanquintero.mp.service.VoteService;
+import com.alanquintero.mp.util.Data;
 import com.alanquintero.mp.util.Validation;
 
 /**
@@ -53,10 +54,12 @@ public class VoteServiceImpl implements VoteService {
      * @return int
      */
     @Override
-    public int rateMovie(String userName, int movieId, int rating) {
+    public int rateMovie(String userName, String movieEncode, int rating) {
         int newRating = 0;
-        if ((Validation.isValidString(userName)) && (movieId > 0) && (rating > 0)) {
+
+        if ((Validation.isValidString(userName)) && (Validation.isValidString(movieEncode)) && (rating > 0)) {
             User user = userDao.searchUserByName(userName);
+            int movieId = Data.decode(movieEncode);
             Movie movie = movieDao.searchMovieById(movieId);
             Profile profile = null;
             if (user != null) {
@@ -91,6 +94,7 @@ public class VoteServiceImpl implements VoteService {
                 movieDao.saveOrUpdateMovie(movie);
             }
         }
+
         return newRating;
     }
 

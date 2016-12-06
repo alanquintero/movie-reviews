@@ -23,7 +23,9 @@ import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.repository.MovieRepository;
 import com.alanquintero.mp.repository.ReviewRepository;
+import com.alanquintero.mp.util.Data;
 import com.alanquintero.mp.util.Format;
+import com.alanquintero.mp.util.Validation;
 
 /**
  * @class MovieDaoImpl.java
@@ -220,9 +222,9 @@ public class MovieDaoImpl implements MovieDao {
     public boolean checkIfMovieExists(Movie movie) {
         boolean exists = true;
         try {
-            if (movie.getId() != null && movie.getId() != 0) {
-                if (movieRepository.findMovieByValues(movie.getId(), Format.removeBlanks(movie.getTitle()),
-                        movie.getYear()) == null) {
+            if (Validation.isValidString(movie.getCode())) {
+                if (movieRepository.findMovieByValues(Data.decode(movie.getCode()),
+                        Format.removeBlanks(movie.getTitle()), movie.getYear()) == null) {
                     exists = false;
                 }
             } else {

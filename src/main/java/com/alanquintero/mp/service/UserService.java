@@ -24,16 +24,16 @@ public interface UserService {
     public List<User> getAllUsers();
 
     /**
-     * @param int
+     * @param String
      * @return User
      */
-    public User searchUserById(int userId);
+    public User searchUserById(String userCode);
 
     /**
-     * @param int
+     * @param String
      * @return User
      */
-    public User searchUserWithReviewsById(int userId);
+    public User searchUserWithReviewsById(String userCode);
 
     /**
      * @param User
@@ -48,10 +48,10 @@ public interface UserService {
     public User searchUserWithReviewsByName(String userName);
 
     /**
-     * @param int
+     * @param String
      * @return String
      */
-    public String deleteUser(int userId);
+    public String deleteUser(String userCode);
 
     /**
      * @param String

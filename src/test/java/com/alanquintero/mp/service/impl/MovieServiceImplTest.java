@@ -37,29 +37,29 @@ public class MovieServiceImplTest {
 
     @Test
     public void testSearchMovieById() {
-        int movieId = 1;
-        Assert.assertNotNull(movieService.searchMovieById(movieId));
+        String movieCode = "MQ==";
+        Assert.assertNotNull(movieService.searchMovieById(movieCode));
     }
 
     @Test
     public void testSearchNonexistentMovieById() {
-        int movieId = 0;
-        Movie movie = movieService.searchMovieById(movieId);
+        String movieCode = "";
+        Movie movie = movieService.searchMovieById(movieCode);
         Assert.assertEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
 
     @Test
     public void testSearchMovieDetailsById() {
-        int movieId = 1;
-        Movie movie = movieService.searchMovieDetailsById(movieId);
+        String movieCode = "MQ==";
+        Movie movie = movieService.searchMovieDetailsById(movieCode);
         Assert.assertNotNull(movie);
         Assert.assertNotEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
 
     @Test
     public void testSearchNonexistentMovieDetailsById() {
-        int movieId = 0;
-        Movie movie = movieService.searchMovieDetailsById(movieId);
+        String movieCode = "";
+        Movie movie = movieService.searchMovieDetailsById(movieCode);
         Assert.assertNotNull(movie);
         Assert.assertEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
@@ -113,15 +113,15 @@ public class MovieServiceImplTest {
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testDeteleExistentMovie() {
-        int movieId = 2;
-        Assert.assertEquals(movieService.deteleMovie(movieId), MSG_SUCCESS);
+        String movieCode = "MQ==";
+        Assert.assertEquals(movieService.deteleMovie(movieCode), MSG_SUCCESS);
     }
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testTryToDeteleNonexistentMovie() {
-        int movieId = 0;
-        Assert.assertEquals(movieService.deteleMovie(movieId), MSG_FAIL);
+        String movieCode = "";
+        Assert.assertEquals(movieService.deteleMovie(movieCode), MSG_FAIL);
     }
 
     @Test

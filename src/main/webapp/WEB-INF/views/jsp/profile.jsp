@@ -19,10 +19,10 @@
 						})
 			});
 
-	function fillForm(movieId, movieTitle, reviewId, reviewTitle, reviewComment) {
-		document.getElementById("movie.id").value = movieId;
+	function fillForm(movieCode, movieTitle, reviewCode, reviewTitle, reviewComment) {
+		document.getElementById("movie.code").value = movieCode;
 		document.getElementById("movie.title").value = movieTitle;
-		document.getElementById("id").value = reviewId;
+		document.getElementById("code").value = reviewCode;
 		document.getElementById("title").value = reviewTitle;
 		document.getElementById("comment").value = reviewComment;
 		$("#myModal").modal();
@@ -83,8 +83,8 @@
 	<form:form commandName="user" id="profileForm"
 		cssClass="form-horizontal profileForm">
 		<label for="quote">My Favorite Movie Quote</label>
-		<form:input path="profile.id" id="profile" type="hidden"
-			value="${user.profile.id}" />
+		<form:input path="profile.code" id="profile" type="hidden"
+			value="${user.profile.code}" />
 		<form:input path="profile.quote" cssClass="form-control" id="quote"
 			placeholder="Write your Favorite Movie Quote"
 			value="${user.profile.quote}" maxlength="50" disabled="true" />
@@ -137,7 +137,7 @@
 			<c:forEach items="${user.profile.review}" var="review">
 				<tr>
 					<td><a
-						href="<spring:url value="/movie/${review.movie.id}.html" />">
+						href="<spring:url value="/movie/${review.movie.code}.html" />">
 							<c:out value="${review.movie.title}" /> <font color="gray">(<c:out
 									value="${review.movie.year}" />)
 						</font>
@@ -148,11 +148,11 @@
 					<td><c:out value="${review.comment}" /></td>
 					<td>
 						<button type="button" class="btn btn-primary"
-							onclick="fillForm('${review.movie.id}','${review.movie.title}', '${review.id}', '${review.title}', '${review.comment}')">Update
+							onclick="fillForm('${review.movie.code}','${review.movie.title}', '${review.code}', '${review.title}', '${review.comment}')">Update
 							Review</button>
 					</td>
 					<td><a
-						href="<spring:url value="/profile/remove/${review.id}.html" />"
+						href="<spring:url value="/profile/remove/${review.code}.html" />"
 						class="btn btn-danger triggerRemove "> Remove Review </a></td>
 				</tr>
 			</c:forEach>
@@ -176,8 +176,8 @@
 						<div class="form-group">
 							<input type="text" class="form-control input-sm" id="movie.title"
 								name="movieTitle" readonly> <br>
-							<form:input path="movie.id" type="hidden" id="movie.id" />
-							<form:input path="id" type="hidden" id="id" />
+							<form:input path="movie.code" type="hidden" id="movie.code" />
+							<form:input path="code" type="hidden" id="code" />
 						</div>
 						<div class="form-group">
 							<label for="title" class="col-sm-2 control-label">Title:</label>

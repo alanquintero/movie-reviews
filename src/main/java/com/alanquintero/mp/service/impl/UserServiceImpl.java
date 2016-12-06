@@ -31,6 +31,7 @@ import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.Role;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.UserService;
+import com.alanquintero.mp.util.Data;
 import com.alanquintero.mp.util.Message;
 import com.alanquintero.mp.util.Validation;
 
@@ -65,55 +66,65 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers() {
         List<User> users = userDao.getAllUsers();
+
         users = Validation.validateUserList(users);
+        Data.encodeUserList(users);
+
         return users;
     }
 
     /**
      * Search a User
      * 
-     * @param int
+     * @param String
      * @return User
      */
     @Override
-    public User searchUserById(int userId) {
+    public User searchUserById(String userCode) {
+        int userId = Data.decode(userCode);
         User user = userDao.searchUserById(userId);
+
         if (user == null) {
             user = Message.setUserFail();
         }
+        user.setCode(Data.encode(user.getId()));
+
         return user;
     }
 
     /**
      * Set User details
      * 
-     * @param int
+     * @param String
      * @return User
      */
     @Override
     @Transactional
-    public User searchUserWithReviewsById(int userId) {
+    public User searchUserWithReviewsById(String userCode) {
         User user = null;
-        if (userId != 0) {
-            user = searchUserById(userId);
-            if (user != null) {
-                Profile profile = profileDao.searchProfileByUser(user);
-                if (profile != null) {
-                    List<Review> reviews = reviewDao.searchReviewsByProfile(profile);
-                    if (reviews != null) {
-                        for (Review review : reviews) {
-                            Movie movie = movieDao.searchMovieByReview(review);
-                            review.setMovie(movie);
-                        }
-                        profile.setReview(reviews);
+
+        user = searchUserById(userCode);
+        if (user != null) {
+            Profile profile = profileDao.searchProfileByUser(user);
+            if (profile != null) {
+                List<Review> reviews = reviewDao.searchReviewsByProfile(profile);
+                if (reviews != null) {
+                    for (Review review : reviews) {
+                        Movie movie = movieDao.searchMovieByReview(review);
+                        movie.setCode(Data.encode(movie.getId()));
+                        review.setMovie(movie);
                     }
-                    user.setProfile(profile);
+                    Data.encodeReviewList(reviews);
+                    profile.setReview(reviews);
                 }
+                profile.setCode(Data.encode(profile.getId()));
+                user.setProfile(profile);
             }
         }
         if (user == null) {
             user = Message.setUserFail();
         }
+        user.setCode(Data.encode(user.getId()));
 
         return user;
     }
@@ -127,6 +138,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean saveUser(User user) {
         boolean success = false;
+
         if ((user != null)
                 && ((Validation.isValidString(user.getName())
                         && (Validation.validateWordLen(user.getName(), USER_LENGTH)))
@@ -140,8 +152,15 @@ public class UserServiceImpl implements UserService {
             List<Role> roles = new ArrayList<Role>();
             roles.add(roleDao.searchRoleByRoleName(ROLE_USER));
             user.setRoles(roles);
-            success = userDao.saveUser(user);
+            Profile profile = new Profile();
+            profile.setQuote(EMPTY_STRING);
+            if (userDao.saveUser(user)) {
+                User newUser = searchUserWithReviewsByName(user.getName());
+                profile.setUser(newUser);
+                success = userDao.saveProfile(profile);
+            }
         }
+
         return success;
     }
 
@@ -156,15 +175,19 @@ public class UserServiceImpl implements UserService {
     public User searchUserWithReviewsByName(String userName) {
         User user = null;
         User userResponse = null;
+
         if (Validation.isValidString(userName)) {
             user = userDao.searchUserByName(userName);
             if (user != null) {
-                userResponse = searchUserWithReviewsById(user.getId());
+                userResponse = searchUserWithReviewsById(Data.encode(user.getId()));
+                userResponse.setCode(Data.encode(user.getId()));
             }
         }
         if (userResponse == null) {
             userResponse = Message.setUserFail();
+            userResponse.setCode(EMPTY_STRING);
         }
+
         return userResponse;
     }
 
@@ -176,14 +199,14 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @PreAuthorize(HAS_ROLE_ADMIN)
-    public String deleteUser(int userId) {
+    public String deleteUser(String userCode) {
         boolean success = false;
-        if (userId > 0) {
-            User user = searchUserById(userId);
-            if (!user.getName().equals(MSG_FAIL)) {
-                success = userDao.deleteUser(userId);
-            }
+        User user = searchUserById(userCode);
+
+        if (!user.getName().equals(MSG_FAIL)) {
+            success = userDao.deleteUser(user.getId());
         }
+
         return Message.setSuccessOrFail(success);
     }
 
@@ -219,8 +242,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean saveOrUpdateQuote(User user, String userName) {
         boolean success = false;
-        if ((user.getProfile().getId() != null) && (Validation.isValidString(user.getProfile().getQuote()))
-                && (Validation.isValidString(userName))) {
+
+        if ((Validation.isValidString(user.getProfile().getCode()))
+                && (Validation.isValidString(user.getProfile().getQuote())) && (Validation.isValidString(userName))) {
             User existentUser = userDao.searchUserByName(userName);
             Profile profile = null;
             if (existentUser != null) {
@@ -232,6 +256,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+
         return success;
     }
 
@@ -257,12 +282,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateUserPassword(String userName, String newPassword) {
         boolean success = false;
+
         if ((Validation.isValidString(userName)) && (Validation.validateWordLen(newPassword, 6))) {
             User user = userDao.searchUserByName(userName);
             if (user != null) {
                 success = userDao.updateUserPassword(user, newPassword);
             }
         }
+
         return success;
     }
 

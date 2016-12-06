@@ -20,12 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Size;
 
+import com.alanquintero.mp.model.Code;
+
 /**
  * @class Review.java
  * @purpose Entity class.
  */
 @Entity
-public class Review {
+public class Review extends Code {
 
     @Id
     @GeneratedValue

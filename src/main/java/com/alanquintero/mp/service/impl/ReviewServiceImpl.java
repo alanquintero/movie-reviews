@@ -26,6 +26,7 @@ import com.alanquintero.mp.entity.Profile;
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.ReviewService;
+import com.alanquintero.mp.util.Data;
 import com.alanquintero.mp.util.Message;
 import com.alanquintero.mp.util.Validation;
 
@@ -57,7 +58,8 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @Override
     public String saveOrUpdateReview(Review review, String userName) {
-        boolean success = false;
+        String inPage = EMPTY_STRING;
+
         if (((review != null) && (Validation.isValidString(review.getTitle())
                 && (Validation.isValidString(review.getComment())) && (review.getMovie() != null)))
                 && (Validation.isValidString(userName))) {
@@ -66,18 +68,23 @@ public class ReviewServiceImpl implements ReviewService {
             if (user != null) {
                 profile = profileDao.searchProfileByUser(user);
             }
-            if ((review.getId() == null) || (review.getId() == 0)) {
+            if (!Validation.isValidString(review.getCode())) {
                 review.setId(null);
+            } else {
+                review.setId(Data.decode(review.getCode()));
+                inPage = IN_PROFILE;
             }
+            review.setCode(EMPTY_STRING);
             review.setPublishedDate(new Date());
-            Movie movie = movieDao.searchMovieById(review.getMovie().getId());
+            Movie movie = movieDao.searchMovieById(Data.decode(review.getMovie().getCode()));
             if ((Validation.isValidString(review.getComment())) && (profile != null) && (movie != null)) {
                 review.setProfile(profile);
                 review.setMovie(movie);
-                success = reviewDao.saveOrUpdateReview(review);
+                reviewDao.saveOrUpdateReview(review);
             }
         }
-        return Message.setSuccessOrFail(success);
+
+        return inPage;
     }
 
     /**
@@ -90,24 +97,29 @@ public class ReviewServiceImpl implements ReviewService {
     @PreAuthorize(USERNAME_OR_ADMIN)
     public String deteleReview(@P(REVIEW) Review review) {
         boolean success = false;
+
         if ((review != null) && (review.getId() > 0)) {
             success = reviewDao.deteleReview(review);
         }
+
         return Message.setSuccessOrFail(success);
     }
 
     /**
      * Search a Review by Review Id
      * 
-     * @param int
+     * @param String
      * @return Review
      */
     @Override
-    public Review searchReviewById(int reviewId) {
-        Review review = reviewDao.searchReviewById(reviewId);
+    public Review searchReviewById(String reviewCode) {
+        Review review = reviewDao.searchReviewById(Data.decode(reviewCode));
+
         if (review == null) {
             review = Message.setReviewFail();
         }
+        review.setCode(Data.encode(review.getId()));
+
         return review;
     }
 

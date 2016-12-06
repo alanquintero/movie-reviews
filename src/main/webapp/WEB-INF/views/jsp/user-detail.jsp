@@ -25,7 +25,7 @@
 			<c:forEach items="${user.profile.review}" var="review">
 				<tr>
 					<td>
-						<a href="<spring:url value="/movie/${review.movie.id}.html" />">
+						<a href="<spring:url value="/movie/${review.movie.code}.html" />">
 							<c:out value="${review.movie.title}" /> <font color="gray">(<c:out value="${review.movie.year}" />)</font>
 						</a>
 					</td>

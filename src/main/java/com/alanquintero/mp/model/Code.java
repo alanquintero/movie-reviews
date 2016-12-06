@@ -9,25 +9,19 @@
 package com.alanquintero.mp.model;
 
 /**
- * @class MovieModel.java
+ * @class Code.java
  * @purpose Model class.
  */
-public class MovieModel extends Code {
+public class Code {
 
-    private String movieName;
+    private String code;
 
-    public MovieModel(String code, String movieName) {
-        super();
-        super.setCode(code);
-        this.movieName = movieName;
+    public String getCode() {
+        return code;
     }
 
-    public String getMovieName() {
-        return movieName;
-    }
-
-    public void setMovieName(String movieName) {
-        this.movieName = movieName;
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }

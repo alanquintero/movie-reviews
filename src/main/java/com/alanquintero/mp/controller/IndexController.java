@@ -29,7 +29,8 @@ public class IndexController {
 
     /**
      * Redirect to home page
-     * 
+     *
+     * @param Model
      * @return String
      */
     @RequestMapping(DEFAULT_URL)

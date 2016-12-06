@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 
 <%@ include file="../../../resources/layout/taglib.jsp"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="security"%>
 
 <head>
 <link rel="stylesheet" type="text/css"
@@ -29,8 +30,7 @@
 	</div>
 	<br />
 	<div id="message" style="position: absolute; left: 220px;"></div>
-	<br />
-	<br />
+	<br /> <br />
 	<div>
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" role="tablist">
@@ -69,14 +69,16 @@
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
-									<h4 class="modal-title" id="myModalLabel">Review</h4>
+									<h4 class="modal-title" id="myModalLabel">Add Review</h4>
 								</div>
 								<div class="modal-body">
 									<div class="form-group">
 										<input type="text" class="form-control input-sm"
 											id="movieTitle" name="movieTitle"
 											value="<c:out value="${movie.title}" />" readonly> <br>
-										<form:input path="movie.id" type="hidden" value="${movie.id}" />
+										<form:input path="movie.code" type="hidden"
+											value="${movie.code}" id="movieCode" />
+										<form:input path="code" type="hidden" id="code" value="" />
 									</div>
 									<div class="form-group">
 										<label for="title" class="col-sm-2 control-label">Title:</label>
@@ -90,7 +92,7 @@
 										<label for="comment" class="col-sm-2 control-label">Comment:</label>
 										<div class="col-sm-10">
 											<form:textarea path="comment" cssClass="form-control"
-												placeholder="Comment" rows="3" maxlength="150" />
+												placeholder="Comment" rows="3" maxlength="350" />
 											<form:errors path="comment" />
 										</div>
 									</div>
@@ -120,7 +122,7 @@
 						<c:forEach items="${movie.reviews}" var="review">
 							<tr>
 								<td><a
-									href="<spring:url value="/users/${review.profile.user.id}.html" />">
+									href="<spring:url value="/users/${review.profile.user.code}.html" />">
 										<c:out value="${review.profile.user.name}" />
 								</a></td>
 								<td><fmt:formatDate type="date"
@@ -171,14 +173,15 @@
 	var el = document.querySelector('.c-rating');
 	var currentRating = document.getElementById('rating').innerHTML;
 	var maxRating = 5;
+	var movieCode = new String(document.getElementById('movieCode').value);
 
 	var callback = function(rating) {
-		var mvid = ${movie.id};
+		var code = movieCode;
 		$.ajax({
 					url : "<spring:url value='${pageContext.request.contextPath}/rateMovie.html' />",
 					data : {
 						rating : rating,
-						movieId : mvid
+						code : code
 					},
 					success : function(data) {
 						if (data == "/login.html" || data == "") {

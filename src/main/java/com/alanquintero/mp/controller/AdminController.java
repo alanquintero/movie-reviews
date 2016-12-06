@@ -34,38 +34,27 @@ public class AdminController {
     /**
      * Find all users
      * 
+     * @param Principal
      * @param Model
      * @return String
      */
     @RequestMapping
-    public String users(Model model, Principal principal) {
-        model.addAttribute(USERS, userService.getAllUsers());
+    public String users(Principal principal, Model model) {
         model.addAttribute(ADMIN, principal.getName());
+        model.addAttribute(USERS, userService.getAllUsers());
         return USERS_PAGE;
-    }
-
-    /**
-     * Find user details by user id
-     * 
-     * @param Model
-     * @param int
-     * @return String
-     */
-    @RequestMapping(USER_URL)
-    public String userDetail(Model model, @PathVariable int userId) {
-        model.addAttribute(USER, userService.searchUserWithReviewsById(userId));
-        return USER_PAGE;
     }
 
     /**
      * Delete one user by user id
      * 
-     * @param int
+     * @param Model
+     * @param String
      * @return String
      */
     @RequestMapping(DELETE_USER_URL)
-    public String removeUser(@PathVariable int userId, Model model) {
-        model.addAttribute(MESSAGE, userService.deleteUser(userId));
+    public String removeUser(Model model, @PathVariable String code) {
+        model.addAttribute(MESSAGE, userService.deleteUser(code));
         return DELETE_USER_PAGE;
     }
 

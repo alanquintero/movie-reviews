@@ -31,7 +31,7 @@
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<c:choose>
-					<c:when test="${user.id == 0}">
+					<c:when test="${empty user.code}">
 						<c:out value="${user.name}" />
 						<tr>
 							<td>There are not Users</td>
@@ -39,12 +39,12 @@
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td><a href="<spring:url value="/users/${user.id}.html" />">
+							<td><a href="<spring:url value="/users/${user.code}.html" />">
 									<c:out value="${user.name}" />
 							</a></td>
 							<c:if test="${admin != user.name}">
 								<td><a
-									href="<spring:url value="/users/remove/${user.id}.html" />"
+									href="<spring:url value="/users/remove/${user.code}.html" />"
 									class="btn btn-danger triggerRemove"> Remove User </a></td>
 							</c:if>
 						</tr>

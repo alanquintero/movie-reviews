@@ -81,12 +81,12 @@ public class MovieController {
      * Find movie details by movie id
      * 
      * @param Model
-     * @param int
+     * @param String
      * @return String
      */
     @RequestMapping(MOVIE_URL)
-    public String searchMovieDetails(Model model, @PathVariable int movieId) {
-        model.addAttribute(MOVIE, movieService.searchMovieDetailsById(movieId));
+    public String searchMovieDetails(Model model, @PathVariable String code) {
+        model.addAttribute(MOVIE, movieService.searchMovieDetailsById(code));
         return MOVIE_PAGE;
     }
 
@@ -130,12 +130,13 @@ public class MovieController {
     /**
      * Delete a movie by movie id
      * 
-     * @param int
+     * @param Model
+     * @param String
      * @return String
      */
     @RequestMapping(DELETE_MOVIE_URL)
-    public String removeMovie(@PathVariable int movieId, Model model) {
-        model.addAttribute(MESSAGE, movieService.deteleMovie(movieId));
+    public String removeMovie(Model model, @PathVariable String code) {
+        model.addAttribute(MESSAGE, movieService.deteleMovie(code));
         return REDIRECT_MOVIES_PAGE;
     }
 
@@ -157,14 +158,16 @@ public class MovieController {
      * Give Vote to a Movie
      * 
      * @param Principal
+     * @param int
+     * @param String
      * @return String
      */
     @RequestMapping(value = RATE_MOVIE, method = RequestMethod.GET)
     @ResponseBody
-    public String isAuthenticated(Principal principal, @RequestParam int rating, @RequestParam int movieId) {
+    public String voteMovie(Principal principal, @RequestParam int rating, @RequestParam String code) {
         String returnPage = EMPTY_STRING;
         if (principal != null) {
-            int newRating = voteService.rateMovie(principal.getName(), movieId, rating);
+            int newRating = voteService.rateMovie(principal.getName(), code, rating);
             if (newRating != 0) {
                 returnPage = EMPTY_STRING + newRating;
             } else {

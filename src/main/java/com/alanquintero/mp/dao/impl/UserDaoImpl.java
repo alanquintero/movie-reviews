@@ -197,4 +197,22 @@ public class UserDaoImpl implements UserDao {
         return success;
     }
 
+    /**
+     * Save Profile
+     * 
+     * @param Profile
+     * @return boolean
+     */
+    @Override
+    public boolean saveProfile(Profile profile) {
+        boolean success = false;
+        try {
+            profileRepository.save(profile);
+            success = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return success;
+    }
+
 }

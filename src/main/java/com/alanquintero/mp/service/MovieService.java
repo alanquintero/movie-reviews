@@ -20,16 +20,16 @@ import com.alanquintero.mp.model.MovieModel;
 public interface MovieService {
 
     /**
-     * @param int
+     * @param String
      * @return Movie
      */
-    public Movie searchMovieById(int movieId);
+    public Movie searchMovieById(String movieCode);
 
     /**
-     * @param int
+     * @param String
      * @return Movie
      */
-    public Movie searchMovieDetailsById(int movieId);
+    public Movie searchMovieDetailsById(String movieCode);
 
     /**
      * @param String
@@ -48,10 +48,10 @@ public interface MovieService {
     public List<Movie> getAllMovies();
 
     /**
-     * @param int
+     * @param String
      * @return String
      */
-    public String deteleMovie(int movieId);
+    public String deteleMovie(String movieCode);
 
     /**
      * @param String

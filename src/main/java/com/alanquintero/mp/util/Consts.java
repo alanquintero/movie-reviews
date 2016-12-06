@@ -40,23 +40,23 @@ public final class Consts {
 
     // Request Mapping
     public static final String USERS_URL = "/users";
-    public static final String USER_URL = "/{userId}";
-    public static final String DELETE_USER_URL = "/remove/{userId}";
+    public static final String USER_URL = "/{code}";
+    public static final String DELETE_USER_URL = "/remove/{code}";
     public static final String DEFAULT_URL = "/";
     public static final String INDEX_URL = "/index";
     public static final String LOGIN_URL = "/login";
-    public static final String MOVIE_URL = "/movie/{movieId}";
+    public static final String MOVIE_URL = "/movie/{code}";
     public static final String POPULAR_MOVIES_URL = "/result";
     public static final String RESULT_MOVIE_URL = "/result/{movieTitle}";
     public static final String MOVIES_URL = "/movies";
-    public static final String DELETE_MOVIE_URL = "/movies/remove/{movieId}";
+    public static final String DELETE_MOVIE_URL = "/movies/remove/{code}";
     public static final String AUTOCOMPLETE_MOVIES_URL = "/getMovies";
     public static final String REGISTER_URL = "/register";
     public static final String VALIDATE_USERNAME_URL = "/checkusername";
     public static final String VALIDATE_EMAIL_URL = "/checkuseremail";
     public static final String RATE_MOVIE = "/rateMovie";
     public static final String PROFILE_URL = "/profile";
-    public static final String DELETE_PROFILE_URL = "profile/remove/{reviewId}";
+    public static final String DELETE_PROFILE_URL = "profile/remove/{code}";
     public static final String SETTINGS_URL = "/settings";
     public static final String CHECK_PWD_URL = "/settings/checkpassword";
 
@@ -69,22 +69,25 @@ public final class Consts {
     public static final String MOVIE_PAGE = "movie";
     public static final String MOVIES_PAGE = "movies";
     public static final String SETTINGS_PAGE = "settings";
-    public static final String REDIRECT_MOVIE_PAGE = "redirect:/movie/{movieId}.html";
-    public static final String REDIRECT_RESULT_MOVIE_PAGE = "redirect:/result/{movieTitle}.html";
-    public static final String REDIRECT_MOVIES_PAGE = "redirect:/movies.html";
-    public static final String REDIRECT_MOVIES_SUCCESS_PAGE = "redirect:/movies.html?success=true";
-    public static final String REDIRECT_MOVIES_FAIL_PAGE = "redirect:/movies.html?success=false";
     public static final String REGISTER_PAGE = "register";
     public static final String REGISTER_SUCCESS_PAGE = "redirect:/register.html?success=true";
     public static final String PROFILE_PAGE = "profile";
+
+    // Redirect Page
+    public static final String REDIRECT_LOGIN_PAGE = "/login.html";
     public static final String REDIRECT_PROFILE_PAGE = "redirect:/profile.html";
     public static final String REDIRECT_PROFILE_SUCCESS_PAGE = "redirect:/profile.html?success=true";
     public static final String REDIRECT_PROFILE_FAIL_PAGE = "redirect:/profile.html?success=false";
     public static final String REDIRECT_SETTINGS_SUCCESS_PAGE = "redirect:/settings.html?success=true";
     public static final String REDIRECT_SETTINGS_FAIL_PAGE = "redirect:/settings.html?success=false";
+    public static final String REDIRECT_MOVIE_PAGE = "redirect:/movie/{code}.html";
+    public static final String REDIRECT_RESULT_MOVIE_PAGE = "redirect:/result/{movieTitle}.html";
+    public static final String REDIRECT_MOVIES_PAGE = "redirect:/movies.html";
+    public static final String REDIRECT_MOVIES_SUCCESS_PAGE = "redirect:/movies.html?success=true";
+    public static final String REDIRECT_MOVIES_FAIL_PAGE = "redirect:/movies.html?success=false";
 
-    // Redirect Page
-    public static final String REDIRECT_LOGIN_PAGE = "/login.html";
+    // In Page
+    public static final String IN_PROFILE = "PROFILE";
 
     // DB Entity
     public static final String MOVIE_ENTITY = "movie";
@@ -146,5 +149,6 @@ public final class Consts {
 
     // Others
     public static final String EMPTY_STRING = "";
+    public static final String ZERO_STRING = "0";
 
 }

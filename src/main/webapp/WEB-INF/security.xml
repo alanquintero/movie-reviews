@@ -11,7 +11,7 @@
 	<http use-expressions="true">
 		<csrf disabled="true" />
 		<intercept-url pattern="/users**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/users/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/users/**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/movies**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/movies/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/j_spring_security_check" access="hasRole('IS_AUTHENTICATED_ANONYMOUSLY')" />

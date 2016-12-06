@@ -22,12 +22,14 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.Type;
 
+import com.alanquintero.mp.model.Code;
+
 /**
  * @class Movie.java
  * @purpose Entity class.
  */
 @Entity
-public class Movie {
+public class Movie extends Code {
 
     @Id
     @GeneratedValue

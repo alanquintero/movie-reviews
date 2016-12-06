@@ -16,10 +16,10 @@ public interface VoteService {
 
     /**
      * @param String
-     * @param int
+     * @param String
      * @param int
      * @return int
      */
-    public int rateMovie(String userName, int movieId, int rating);
+    public int rateMovie(String userName, String movieEncode, int rating);
 
 }

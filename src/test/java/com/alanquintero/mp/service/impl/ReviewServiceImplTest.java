@@ -34,19 +34,20 @@ public class ReviewServiceImplTest {
     ReviewService reviewService;
 
     @Test
-    public void saveReviewTest() {
+    public void testSaveReview() {
         Review review = new Review();
         review.setTitle("Title test");
         review.setComment("Comment test");
+        review.setCode("MQ==");
         Movie movie = new Movie();
-        movie.setId(1);
+        movie.setCode("MQ==");
         review.setMovie(movie);
         String userName = "test";
         assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_SUCCESS);
     }
 
     @Test
-    public void saveReviewWithEmptyUserTest() {
+    public void testSaveReviewWithEmptyUser() {
         Review review = new Review();
         review.setTitle("Title test");
         review.setComment("Comment test");
@@ -58,7 +59,7 @@ public class ReviewServiceImplTest {
     }
 
     @Test
-    public void saveReviewWithNullUserTest() {
+    public void testSaveReviewWithNullUser() {
         Review review = new Review();
         review.setTitle("Title test");
         review.setComment("Comment test");
@@ -70,28 +71,28 @@ public class ReviewServiceImplTest {
     }
 
     @Test
-    public void saveReviewWithNullReviewTest() {
+    public void testSaveReviewWithNullReview() {
         Review review = null;
         String userName = "test";
         assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
-    public void saveReviewWithEmptyReviewTest() {
+    public void testSaveReviewWithEmptyReview() {
         Review review = new Review();
         String userName = "test";
         assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
-    public void saveReviewWithEmptyReviewAndUserTest() {
+    public void testSaveReviewWithEmptyReviewAndUser() {
         Review review = new Review();
         String userName = "";
         assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
     }
 
     @Test
-    public void saveReviewWithNullReviewAndUserTest() {
+    public void testSaveReviewWithNullReviewAndUser() {
         Review review = null;
         String userName = null;
         assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
@@ -99,7 +100,7 @@ public class ReviewServiceImplTest {
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
-    public void deteleExistentReviewTest() {
+    public void testDeteleExistentReview() {
         Review review = new Review();
         review.setId(1);
         assertEquals(reviewService.deteleReview(review), MSG_SUCCESS);
@@ -108,7 +109,7 @@ public class ReviewServiceImplTest {
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
-    public void tryToDeteleNonexistentReviewTest() {
+    public void testTryToDeteleNonexistentReview() {
         Review review = new Review();
         review.setId(0);
         assertEquals(reviewService.deteleReview(review), MSG_FAIL);
@@ -117,24 +118,24 @@ public class ReviewServiceImplTest {
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
-    public void tryToDeteleNullReviewTest() {
+    public void testTryToDeteleNullReview() {
         Review review = null;
         assertEquals(reviewService.deteleReview(review), MSG_FAIL);
 
     }
 
     @Test
-    public void searchReviewByIdTest() {
-        int reviewId = 1;
-        Review review = reviewService.searchReviewById(reviewId);
+    public void testSearchReviewById() {
+        String reviewCode = "MQ==";
+        Review review = reviewService.searchReviewById(reviewCode);
         assertNotNull(review);
         assertNotEquals(review.getComment(), MSG_FAIL);
     }
 
     @Test
-    public void searchReviewByNonexistentIdTest() {
-        int reviewId = 0;
-        Review review = reviewService.searchReviewById(reviewId);
+    public void testSearchReviewByNonexistentId() {
+        String reviewCode = "";
+        Review review = reviewService.searchReviewById(reviewCode);
         assertNotNull(review);
         assertEquals(review.getComment(), MSG_FAIL);
     }

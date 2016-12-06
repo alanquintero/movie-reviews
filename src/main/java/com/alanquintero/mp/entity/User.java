@@ -26,13 +26,14 @@ import org.hibernate.validator.constraints.Email;
 
 import com.alanquintero.mp.annotation.UniqueEmail;
 import com.alanquintero.mp.annotation.UniqueUsername;
+import com.alanquintero.mp.model.Code;
 
 /**
  * @class User.java
  * @purpose Entity class.
  */
 @Entity
-public class User {
+public class User extends Code {
 
     @Id
     @GeneratedValue

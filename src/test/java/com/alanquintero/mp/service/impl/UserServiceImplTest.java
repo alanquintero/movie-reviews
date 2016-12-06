@@ -40,32 +40,32 @@ public class UserServiceImplTest {
 
     @Test
     public void testSearchUserById() {
-        int userId = 1;
-        User user = userService.searchUserById(userId);
+        String userCode = "MQ==";
+        User user = userService.searchUserById(userCode);
         Assert.assertNotNull(user);
         Assert.assertNotEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserByNonexistentId() {
-        int userId = 0;
-        User user = userService.searchUserById(userId);
+        String userCode = "";
+        User user = userService.searchUserById(userCode);
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserWithReviewsById() {
-        int userId = 1;
-        User user = userService.searchUserWithReviewsById(userId);
+        String userCode = "MQ==";
+        User user = userService.searchUserWithReviewsById(userCode);
         Assert.assertNotNull(user);
         Assert.assertNotEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserWithReviewsByNonexistentId() {
-        int userId = 0;
-        User user = userService.searchUserWithReviewsById(userId);
+        String userCode = "";
+        User user = userService.searchUserWithReviewsById(userCode);
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
     }
@@ -163,15 +163,15 @@ public class UserServiceImplTest {
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testDeleteUser() {
-        int userId = 1;
-        Assert.assertEquals(userService.deleteUser(userId), MSG_SUCCESS);
+        String userCode = "MQ==";
+        Assert.assertEquals(userService.deleteUser(userCode), MSG_SUCCESS);
     }
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testTryToDeleteNonexistentUser() {
-        int userId = 0;
-        Assert.assertEquals(userService.deleteUser(userId), MSG_FAIL);
+        String userCode = "";
+        Assert.assertEquals(userService.deleteUser(userCode), MSG_FAIL);
     }
 
     @Test
@@ -197,12 +197,12 @@ public class UserServiceImplTest {
         String userEmail = "test123@test.com";
         Assert.assertNull(userService.searchUserByEmail(userEmail));
     }
-
+    
     @Test
     public void testUpdateQuote() {
         User user = new User();
         Profile profile = new Profile();
-        profile.setId(2);
+        profile.setCode("MQ==");
         profile.setQuote("New quote");
         user.setProfile(profile);
         String userName = "test";

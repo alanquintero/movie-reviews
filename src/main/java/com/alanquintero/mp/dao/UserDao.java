@@ -74,4 +74,10 @@ public interface UserDao {
      */
     public boolean updateUserPassword(User user, String newPassword);
 
+    /**
+     * @param Profile
+     * @return boolean
+     */
+    public boolean saveProfile(Profile profile);
+
 }

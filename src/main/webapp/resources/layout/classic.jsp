@@ -154,7 +154,7 @@
 																				item) {
 																			return {
 																				value : item.movieName,
-																				data : item.id
+																				data : item.code
 																			};
 																		})
 													};

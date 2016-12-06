@@ -30,9 +30,9 @@ public interface ReviewService {
     public String deteleReview(Review review);
 
     /**
-     * @param int
+     * @param String
      * @return Review
      */
-    public Review searchReviewById(int reviewId);
+    public Review searchReviewById(String reviewCode);
 
 }

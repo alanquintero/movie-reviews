@@ -20,12 +20,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.alanquintero.mp.model.Code;
+
 /**
  * @class Profile.java
  * @purpose Entity class.
  */
 @Entity
-public class Profile {
+public class Profile extends Code {
 
     @Id
     @GeneratedValue

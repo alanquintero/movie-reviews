@@ -17,7 +17,7 @@
 		<tbody>
 			<c:forEach items="${movie}" var="movie">
 				<c:choose>
-					<c:when test="${movie.id == 0}">
+					<c:when test="${empty movie.code}">
 						<c:out value="${movie.title}" />
 						<tr>
 							<td>There are not Movies</td>
@@ -25,8 +25,9 @@
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td><a href="<spring:url value="/movie/${movie.id}.html" />">
-									<c:out value="${movie.title}" /> <font color="gray">(<c:out
+							<td><a
+								href="<spring:url value="/movie/${movie.code}.html" />"> <c:out
+										value="${movie.title}" /> <font color="gray">(<c:out
 											value="${movie.year}" />)
 								</font>
 							</a></td>

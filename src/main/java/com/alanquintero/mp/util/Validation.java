@@ -113,4 +113,18 @@ public class Validation {
         }
     }
 
+    /**
+     * Validate if Code is valid or not
+     * 
+     * @param String
+     * @return boolean
+     */
+    public static boolean isValidCode(String code) {
+        boolean isValid = false;
+        if ((!code.equals(EMPTY_STRING)) && (!code.equals(ZERO_STRING))) {
+            isValid = true;
+        }
+        return isValid;
+    }
+
 }
