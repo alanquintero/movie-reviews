@@ -3,4 +3,6 @@
 
 &copy; Alan Quintero
 <br>
-<a href="https://mx.linkedin.com/in/alan-quintero-a7770a87">LinkedIn</a>
+<a href="https://mx.linkedin.com/in/alan-quintero-a7770a87">
+    LinkedIn
+</a>

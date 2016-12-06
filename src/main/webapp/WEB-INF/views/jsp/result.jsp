@@ -10,8 +10,12 @@
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<th>Movie</th>
-				<th>Rating</th>
+				<th>
+				    Movie
+				</th>
+				<th>
+				    Rating
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,18 +24,27 @@
 					<c:when test="${empty movie.code}">
 						<c:out value="${movie.title}" />
 						<tr>
-							<td>There are not Movies</td>
+							<td>
+							    There are not Movies
+							</td>
 						</tr>
 					</c:when>
 					<c:otherwise>
 						<tr>
-							<td><a
-								href="<spring:url value="/movie/${movie.code}.html" />"> <c:out
-										value="${movie.title}" /> <font color="gray">(<c:out
-											value="${movie.year}" />)
-								</font>
-							</a></td>
-							<td><c:out value="${movie.rating}" /></td>
+							<td>
+							    <img src="<c:out value="${movie.image}" />" alt="img" 
+							        style="float: left; width: 100px; height: 120px;"> 
+								<a href="<spring:url value="/movie/${movie.code}.html" />"> 
+								    <c:out value="${movie.title}" /> 
+									<font color="gray">
+										(<c:out value="${movie.year}" />)
+								    </font>
+							    </a>
+							</td>
+							<td>
+							    <img src="<c:out value="../../../resources/img/${movie.rating}stars.JPG" />"
+								    alt="img" style="float: left;">
+						    </td>
 						</tr>
 					</c:otherwise>
 				</c:choose>

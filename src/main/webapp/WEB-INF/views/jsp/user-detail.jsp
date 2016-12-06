@@ -11,28 +11,40 @@
 	
 	<br>
 	<h2>Reviews</h2>
+	
 	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
-				<th>Movie</th>
-				<th>Date</th>
-				<th>Rating Given</th>
-				<th>Title Comment</th>
-				<th>Comment</th>
+			    <th>
+			        Movie
+			    </th>
+				<th>
+				   Comment
+				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${user.profile.review}" var="review">
 				<tr>
 					<td>
+					    <img src="<c:out value="${review.movie.image}" />" alt="img" 
+						    style="float: left; width: 100px; height: 120px;"> 
 						<a href="<spring:url value="/movie/${review.movie.code}.html" />">
-							<c:out value="${review.movie.title}" /> <font color="gray">(<c:out value="${review.movie.year}" />)</font>
+							<c:out value="${review.movie.title}" /> 
+							<font color="gray">
+							    (<c:out value="${review.movie.year}" />)
+							</font>
 						</a>
 					</td>
-					<td> <fmt:formatDate type="date" value="${review.publishedDate}" /></td>
-					<td><c:out value="${review.movie.rating}" /></td>
-					<td><b><c:out value="${review.title}" /></b></td>
-					<td><c:out value="${review.comment}" /></td>
+					<td> 
+					    <b>
+					        <c:out value="${review.title}" />
+					    </b>
+					    <br>
+					    <fmt:formatDate type="date" value="${review.publishedDate}" />
+					    <br>
+					    <c:out value="${review.comment}" />
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

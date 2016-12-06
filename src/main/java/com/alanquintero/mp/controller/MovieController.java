@@ -187,7 +187,7 @@ public class MovieController {
      * @return String
      */
     @RequestMapping(value = { MOVIES_URL }, method = RequestMethod.POST)
-    public String doAddOrUpdateReview(Model model, @Valid @ModelAttribute(MOVIE) Movie movie) {
+    public String doAddOrUpdateMovie(Model model, @Valid @ModelAttribute(MOVIE) Movie movie) {
         String resultPage = EMPTY_STRING;
         if (movie != null) {
             if (movieService.checkIfMovieExists(movie)) {
