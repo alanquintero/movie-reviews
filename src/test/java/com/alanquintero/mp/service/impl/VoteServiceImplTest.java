@@ -9,8 +9,8 @@
 package com.alanquintero.mp.service.impl;
 
 import static com.alanquintero.mp.util.Consts.*;
-import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,22 +36,22 @@ public class VoteServiceImplTest {
 
     @Test
     public void testRateMovie() {
-        assertNotEquals(voteService.rateMovie(USER_NAME, MOVIE_CODE, RATING), 0);
+        Assert.assertNotNull(voteService.rateMovie(USER_NAME, MOVIE_CODE, RATING));
     }
 
     @Test
     public void testRateMovieWithEmptyUser() {
-        assertEquals(voteService.rateMovie(EMPTY_STRING, MOVIE_CODE, RATING), 0);
+        Assert.assertEquals(voteService.rateMovie(EMPTY_STRING, MOVIE_CODE, RATING), 0);
     }
 
     @Test
     public void testRateMovieWithInvalidMovie() {
-        assertEquals(voteService.rateMovie(USER_NAME, EMPTY_STRING, RATING), 0);
+        Assert.assertEquals(voteService.rateMovie(USER_NAME, EMPTY_STRING, RATING), 0);
     }
 
     @Test
     public void testRateMovieWithInvalidRating() {
-        assertEquals(voteService.rateMovie(USER_NAME, EMPTY_STRING, 0), 0);
+        Assert.assertEquals(voteService.rateMovie(USER_NAME, EMPTY_STRING, 0), 0);
     }
 
 }

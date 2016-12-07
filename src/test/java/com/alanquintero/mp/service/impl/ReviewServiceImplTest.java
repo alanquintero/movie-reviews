@@ -9,8 +9,8 @@
 package com.alanquintero.mp.service.impl;
 
 import static com.alanquintero.mp.util.Consts.*;
-import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,43 +52,43 @@ public class ReviewServiceImplTest {
 
     @Test
     public void testSaveReview() {
-        assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), IN_PROFILE);
+        Assert.assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), IN_PROFILE);
     }
 
     @Test
     public void testSaveReviewWithEmptyUser() {
-        assertEquals(reviewService.saveOrUpdateReview(review, EMPTY_STRING), EMPTY_STRING);
+        Assert.assertEquals(reviewService.saveOrUpdateReview(review, EMPTY_STRING), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithNullUser() {
         String userName = null;
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), EMPTY_STRING);
+        Assert.assertEquals(reviewService.saveOrUpdateReview(review, userName), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithNullReview() {
         Review review = null;
-        assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), EMPTY_STRING);
+        Assert.assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithEmptyReview() {
         Review review = new Review();
-        assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), EMPTY_STRING);
+        Assert.assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithEmptyReviewAndUser() {
         Review review = new Review();
-        assertEquals(reviewService.saveOrUpdateReview(review, EMPTY_STRING), EMPTY_STRING);
+        Assert.assertEquals(reviewService.saveOrUpdateReview(review, EMPTY_STRING), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithNullReviewAndUser() {
         Review review = null;
         String userName = null;
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), EMPTY_STRING);
+        Assert.assertEquals(reviewService.saveOrUpdateReview(review, userName), EMPTY_STRING);
     }
 
     @Test
@@ -96,7 +96,7 @@ public class ReviewServiceImplTest {
     public void testDeteleExistentReview() {
         Review review = new Review();
         review.setCode(REVIEW_CODE);
-        assertEquals(reviewService.deteleReview(review), MSG_SUCCESS);
+        Assert.assertEquals(reviewService.deteleReview(review), MSG_SUCCESS);
 
     }
 
@@ -105,7 +105,7 @@ public class ReviewServiceImplTest {
     public void testTryToDeteleNonexistentReview() {
         Review review = new Review();
         review.setCode(EMPTY_STRING);
-        assertEquals(reviewService.deteleReview(review), MSG_FAIL);
+        Assert.assertEquals(reviewService.deteleReview(review), MSG_FAIL);
 
     }
 
@@ -113,22 +113,21 @@ public class ReviewServiceImplTest {
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testTryToDeteleNullReview() {
         Review review = null;
-        assertEquals(reviewService.deteleReview(review), MSG_FAIL);
+        Assert.assertEquals(reviewService.deteleReview(review), MSG_FAIL);
 
     }
 
     @Test
     public void testSearchReviewById() {
         Review review = reviewService.searchReviewById(REVIEW_CODE);
-        assertNotNull(review);
-        assertNotEquals(review.getComment(), MSG_FAIL);
+        Assert.assertNotNull(review);
     }
 
     @Test
     public void testSearchReviewByNonexistentId() {
         Review review = reviewService.searchReviewById(EMPTY_STRING);
-        assertNotNull(review);
-        assertEquals(review.getComment(), MSG_FAIL);
+        Assert.assertNotNull(review);
+        Assert.assertEquals(review.getComment(), MSG_FAIL);
     }
 
 }
