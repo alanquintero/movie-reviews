@@ -190,7 +190,7 @@ public class MovieController {
     public String doAddOrUpdateMovie(Model model, @Valid @ModelAttribute(MOVIE) Movie movie) {
         String resultPage = EMPTY_STRING;
         if (movie != null) {
-            if (movieService.checkIfMovieExists(movie)) {
+            if (!movieService.checkIfMovieExists(movie)) {
                 resultPage = REDIRECT_MOVIES_FAIL_PAGE;
             } else if (movieService.saveOrUpdateMovie(movie)) {
                 resultPage = REDIRECT_MOVIES_SUCCESS_PAGE;

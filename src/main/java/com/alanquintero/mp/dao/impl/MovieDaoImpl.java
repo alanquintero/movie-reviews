@@ -220,17 +220,17 @@ public class MovieDaoImpl implements MovieDao {
      */
     @Override
     public boolean checkIfMovieExists(Movie movie) {
-        boolean exists = true;
+        boolean exists = false;
         try {
             if (Validation.isValidString(movie.getCode())) {
                 if (movieRepository.findMovieByValues(Data.decode(movie.getCode()),
-                        Format.removeBlanks(movie.getTitle()), movie.getYear()) == null) {
-                    exists = false;
+                        Format.removeBlanks(movie.getTitle()), movie.getYear()) != null) {
+                    exists = true;
                 }
             } else {
                 if (movieRepository.findMovieByTitleAndYear(Format.removeBlanks(movie.getTitle()),
-                        movie.getYear()) == null) {
-                    exists = false;
+                        movie.getYear()) != null) {
+                    exists = true;
                 }
             }
         } catch (Exception e) {

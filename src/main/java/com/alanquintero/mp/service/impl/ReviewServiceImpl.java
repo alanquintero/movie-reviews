@@ -98,7 +98,8 @@ public class ReviewServiceImpl implements ReviewService {
     public String deteleReview(@P(REVIEW) Review review) {
         boolean success = false;
 
-        if ((review != null) && (review.getId() > 0)) {
+        if ((review != null) && (Validation.isValidString(review.getCode()))) {
+            review.setId(Data.decode(review.getCode()));
             success = reviewDao.deteleReview(review);
         }
 

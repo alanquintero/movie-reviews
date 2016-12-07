@@ -11,6 +11,7 @@ package com.alanquintero.mp.service.impl;
 import static com.alanquintero.mp.util.Consts.*;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,26 @@ public class UserServiceImplTest {
     @Autowired
     private UserService userService;
 
+    private static String USER_CODE = "MQ==";
+    private static String USER_EMAIL = "test@test.com";
+    private static String USER_NAME = "test";
+    private static String USER_PASSWORD = "test123";
+    private static String USER_NEW_PASSWORD = "test123456";
+    private static String INEXISTENT_USER_NAME = "test123";
+    private static String NEW_USER_EMAIL = "some@one.com";
+    private static String NEW_USER_NAME = "someone";
+    private static String NEW_USER_PASSWORD = "noone123";
+
+    private User user;
+
+    @Before
+    public void setData() {
+        user = new User();
+        user.setName(NEW_USER_NAME);
+        user.setEmail(NEW_USER_EMAIL);
+        user.setPassword(NEW_USER_PASSWORD);
+    }
+
     @Test
     public void testGetAllUsers() {
         Assert.assertNotNull(userService.getAllUsers());
@@ -40,42 +61,34 @@ public class UserServiceImplTest {
 
     @Test
     public void testSearchUserById() {
-        String userCode = "MQ==";
-        User user = userService.searchUserById(userCode);
+        User user = userService.searchUserById(USER_CODE);
         Assert.assertNotNull(user);
         Assert.assertNotEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserByNonexistentId() {
-        String userCode = "";
-        User user = userService.searchUserById(userCode);
+        User user = userService.searchUserById(EMPTY_STRING);
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserWithReviewsById() {
-        String userCode = "MQ==";
-        User user = userService.searchUserWithReviewsById(userCode);
+        User user = userService.searchUserWithReviewsById(USER_CODE);
         Assert.assertNotNull(user);
         Assert.assertNotEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserWithReviewsByNonexistentId() {
-        String userCode = "";
-        User user = userService.searchUserWithReviewsById(userCode);
+        User user = userService.searchUserWithReviewsById(EMPTY_STRING);
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSaveUser() {
-        User user = new User();
-        user.setName("someone");
-        user.setEmail("some@one.com");
-        user.setPassword("noone123");
         Assert.assertEquals(userService.saveUser(user), true);
     }
 
@@ -93,19 +106,12 @@ public class UserServiceImplTest {
 
     @Test
     public void testTryToSaveExistentUser() {
-        User user = new User();
-        user.setName("test");
-        user.setEmail("some@one.com");
-        user.setPassword("noone123");
         Assert.assertEquals(userService.saveUser(user), false);
     }
 
     @Test
     public void testTryToSaveUserWithExistentEmail() {
-        User user = new User();
-        user.setName("someone");
-        user.setEmail("test@test.com");
-        user.setPassword("noone123");
+        user.setEmail(USER_EMAIL);
         Assert.assertEquals(userService.saveUser(user), false);
     }
 
@@ -113,49 +119,40 @@ public class UserServiceImplTest {
     public void testTryToSaveUserWithInvalidName() {
         User user = new User();
         user.setName("s");
-        user.setEmail("some@one.com");
-        user.setPassword("noone123");
         Assert.assertEquals(userService.saveUser(user), false);
     }
 
     @Test
     public void testTryToSaveUserWithInvalidEmail() {
         User user = new User();
-        user.setName("someone");
         user.setEmail("someone.com");
-        user.setPassword("noone123");
         Assert.assertEquals(userService.saveUser(user), false);
     }
 
     @Test
     public void testTryToSaveUserWithInvalidPassword() {
         User user = new User();
-        user.setName("someone");
-        user.setEmail("some@one.com");
         user.setPassword("a123");
         Assert.assertEquals(userService.saveUser(user), false);
     }
 
     @Test
     public void testSearchUserWithReviewsByName() {
-        String userName = "test";
-        User user = userService.searchUserWithReviewsByName(userName);
+        User user = userService.searchUserWithReviewsByName(USER_NAME);
         Assert.assertNotNull(user);
         Assert.assertNotEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserWithReviewsByNonExistentName() {
-        String userName = "test123";
-        User user = userService.searchUserWithReviewsByName(userName);
+        User user = userService.searchUserWithReviewsByName(INEXISTENT_USER_NAME);
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserWithReviewsByInvalidName() {
-        String userName = "";
-        User user = userService.searchUserWithReviewsByName(userName);
+        User user = userService.searchUserWithReviewsByName(EMPTY_STRING);
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
     }
@@ -163,33 +160,28 @@ public class UserServiceImplTest {
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testDeleteUser() {
-        String userCode = "MQ==";
-        Assert.assertEquals(userService.deleteUser(userCode), MSG_SUCCESS);
+        Assert.assertEquals(userService.deleteUser(USER_CODE), MSG_SUCCESS);
     }
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testTryToDeleteNonexistentUser() {
-        String userCode = "";
-        Assert.assertEquals(userService.deleteUser(userCode), MSG_FAIL);
+        Assert.assertEquals(userService.deleteUser(EMPTY_STRING), MSG_FAIL);
     }
 
     @Test
     public void testSearchUserByName() {
-        String userName = "test";
-        Assert.assertNotNull(userService.searchUserByName(userName));
+        Assert.assertNotNull(userService.searchUserByName(USER_NAME));
     }
 
     @Test
     public void testSearchNonexistentUserByName() {
-        String userName = "test123";
-        Assert.assertNull(userService.searchUserByName(userName));
+        Assert.assertNull(userService.searchUserByName(INEXISTENT_USER_NAME));
     }
 
     @Test
     public void testSearchUserByEmail() {
-        String userEmail = "test@test.com";
-        Assert.assertNotNull(userService.searchUserByEmail(userEmail));
+        Assert.assertNotNull(userService.searchUserByEmail(USER_EMAIL));
     }
 
     @Test
@@ -197,7 +189,7 @@ public class UserServiceImplTest {
         String userEmail = "test123@test.com";
         Assert.assertNull(userService.searchUserByEmail(userEmail));
     }
-    
+
     @Test
     public void testUpdateQuote() {
         User user = new User();
@@ -205,8 +197,7 @@ public class UserServiceImplTest {
         profile.setCode("MQ==");
         profile.setQuote("New quote");
         user.setProfile(profile);
-        String userName = "test";
-        Assert.assertTrue(userService.saveOrUpdateQuote(user, userName));
+        Assert.assertTrue(userService.saveOrUpdateQuote(user, USER_NAME));
     }
 
     @Test
@@ -216,8 +207,7 @@ public class UserServiceImplTest {
         profile.setId(2);
         profile.setQuote("New quote");
         user.setProfile(profile);
-        String userName = "";
-        Assert.assertFalse(userService.saveOrUpdateQuote(user, userName));
+        Assert.assertFalse(userService.saveOrUpdateQuote(user, EMPTY_STRING));
     }
 
     @Test
@@ -225,38 +215,29 @@ public class UserServiceImplTest {
         User user = new User();
         Profile profile = new Profile();
         profile.setId(0);
-        profile.setQuote("");
+        profile.setQuote(EMPTY_STRING);
         user.setProfile(profile);
-        String userName = "test";
-        Assert.assertFalse(userService.saveOrUpdateQuote(user, userName));
+        Assert.assertFalse(userService.saveOrUpdateQuote(user, USER_NAME));
     }
 
     @Test
     public void testCheckUserPassword() {
-        String userEmail = "test@test.com";
-        String userPassword = "test123";
-        Assert.assertTrue(userService.checkUserPassword(userEmail, userPassword));
+        Assert.assertTrue(userService.checkUserPassword(USER_EMAIL, USER_PASSWORD));
     }
 
     @Test
     public void testCheckUserPasswordWithWrongPwd() {
-        String userEmail = "test@test.com";
-        String userPassword = "test123456";
-        Assert.assertFalse(userService.checkUserPassword(userEmail, userPassword));
+        Assert.assertFalse(userService.checkUserPassword(USER_EMAIL, USER_NEW_PASSWORD));
     }
 
     @Test
     public void testUpdateUserPassword() {
-        String userName = "test";
-        String newPassword = "test123456";
-        Assert.assertTrue(userService.updateUserPassword(userName, newPassword));
+        Assert.assertTrue(userService.updateUserPassword(USER_NAME, USER_NEW_PASSWORD));
     }
 
     @Test
     public void testUpdateUserPasswordWithWrongUser() {
-        String userName = "";
-        String newPassword = "test123456";
-        Assert.assertFalse(userService.updateUserPassword(userName, newPassword));
+        Assert.assertFalse(userService.updateUserPassword(EMPTY_STRING, USER_NEW_PASSWORD));
     }
 
 }

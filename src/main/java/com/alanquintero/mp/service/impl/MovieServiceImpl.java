@@ -248,7 +248,7 @@ public class MovieServiceImpl implements MovieService {
      */
     @Override
     public boolean checkIfMovieExists(Movie movie) {
-        boolean exists = true;
+        boolean exists = false;
 
         if (Validation.isValidString(movie.getTitle())) {
             exists = movieDao.checkIfMovieExists(movie);

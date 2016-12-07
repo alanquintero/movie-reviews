@@ -13,6 +13,7 @@ import static com.alanquintero.mp.util.Consts.*;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,39 +36,53 @@ public class MovieServiceImplTest {
     @Autowired
     private MovieService movieService;
 
+    private static String MOVIE_CODE = "MQ==";
+    private static String MOVIE_TITLE = "Back to the Future II";
+    private static String MOVIE_INEXISTENT_TITLE = "Back to the Future III";
+    private static int MOVIE_YEAR = 1989;
+    private Movie movie;
+
+    @Before
+    public void setData() {
+        movie = new Movie();
+        movie.setId(0);
+        movie.setTitle("Back to the Future II");
+        movie.setYear(1989);
+        movie.setImage("https://upload.wikimedia.org/wikipedia/en/c/c2/Back_to_the_Future_Part_II.jpg");
+        movie.setTrailer("https://www.youtube.com/watch?v=MdENmefJRpw");
+        movie.setSynopsis(
+                "After visiting 2015, Marty McFly must repeat his visit to 1955 to prevent disastrous changes "
+                        + "to 1985...without interfering with his first trip.");
+    }
+
     @Test
     public void testSearchMovieById() {
-        String movieCode = "MQ==";
-        Assert.assertNotNull(movieService.searchMovieById(movieCode));
+        Assert.assertNotNull(movieService.searchMovieById(MOVIE_CODE));
     }
 
     @Test
     public void testSearchNonexistentMovieById() {
-        String movieCode = "";
-        Movie movie = movieService.searchMovieById(movieCode);
+        Movie movie = movieService.searchMovieById(EMPTY_STRING);
         Assert.assertEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
 
     @Test
     public void testSearchMovieDetailsById() {
-        String movieCode = "MQ==";
-        Movie movie = movieService.searchMovieDetailsById(movieCode);
+        Movie movie = movieService.searchMovieDetailsById(MOVIE_CODE);
         Assert.assertNotNull(movie);
         Assert.assertNotEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
 
     @Test
     public void testSearchNonexistentMovieDetailsById() {
-        String movieCode = "";
-        Movie movie = movieService.searchMovieDetailsById(movieCode);
+        Movie movie = movieService.searchMovieDetailsById(EMPTY_STRING);
         Assert.assertNotNull(movie);
         Assert.assertEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
 
     @Test
     public void testSearchMovieByTitle() {
-        String movieTitle = "Back to the Future";
-        List<Movie> movies = movieService.searchMovieByTitle(movieTitle);
+        List<Movie> movies = movieService.searchMovieByTitle(MOVIE_TITLE);
         Assert.assertNotNull(movies);
         for (Movie movie : movies) {
             Assert.assertNotNull(movie);
@@ -87,8 +102,7 @@ public class MovieServiceImplTest {
 
     @Test
     public void testSearchEmptyMovieByTitle() {
-        String movieTitle = "";
-        List<Movie> movies = movieService.searchMovieByTitle(movieTitle);
+        List<Movie> movies = movieService.searchMovieByTitle(EMPTY_STRING);
         Assert.assertNotNull(movies);
         for (Movie m : movies) {
             Assert.assertEquals(m.getTitle(), MSG_MOVIE_NOT_FOUND);
@@ -113,28 +127,24 @@ public class MovieServiceImplTest {
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testDeteleExistentMovie() {
-        String movieCode = "MQ==";
-        Assert.assertEquals(movieService.deteleMovie(movieCode), MSG_SUCCESS);
+        Assert.assertEquals(movieService.deteleMovie(MOVIE_CODE), MSG_SUCCESS);
     }
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testTryToDeteleNonexistentMovie() {
-        String movieCode = "";
-        Assert.assertEquals(movieService.deteleMovie(movieCode), MSG_FAIL);
+        Assert.assertEquals(movieService.deteleMovie(EMPTY_STRING), MSG_FAIL);
     }
 
     @Test
     public void testSearchEmptyAutocompleteMovies() {
-        String movieTitle = "";
-        List<MovieModel> movies = movieService.searchAutocompleteMovies(movieTitle);
+        List<MovieModel> movies = movieService.searchAutocompleteMovies(EMPTY_STRING);
         Assert.assertNotNull(movies);
     }
 
     @Test
     public void testSearchAutocompleteMovies() {
-        String movieTitle = "Back to the";
-        List<MovieModel> movies = movieService.searchAutocompleteMovies(movieTitle);
+        List<MovieModel> movies = movieService.searchAutocompleteMovies(MOVIE_TITLE.substring(0, 6));
         Assert.assertNotNull(movies);
     }
 
@@ -153,36 +163,20 @@ public class MovieServiceImplTest {
 
     @Test
     public void testSaveMovie() {
-        Movie movie = new Movie();
-        movie.setId(0);
-        movie.setTitle("Back to the Future II");
-        movie.setYear(1989);
-        movie.setImage("https://upload.wikimedia.org/wikipedia/en/c/c2/Back_to_the_Future_Part_II.jpg");
-        movie.setTrailer("https://www.youtube.com/watch?v=MdENmefJRpw");
-        movie.setSynopsis(
-                "After visiting 2015, Marty McFly must repeat his visit to 1955 to prevent disastrous changes to 1985...without interfering with his first trip.");
         Assert.assertTrue(movieService.saveOrUpdateMovie(movie));
     }
 
     @Test
     public void testUpdateMovie() {
-        Movie movie = new Movie();
-        movie.setId(1);
-        movie.setTitle("Back to the Future");
-        movie.setYear(1985);
-        movie.setImage("https://upload.wikimedia.org/wikipedia/en/c/c2/Back_to_the_Future_Part_II.jpg");
-        movie.setTrailer("https://www.youtube.com/watch?v=MdENmefJRpw");
-        movie.setSynopsis(
-                "After visiting 2015, Marty McFly must repeat his visit to 1955 to prevent disastrous changes to 1985...without interfering with his first trip.");
         Assert.assertTrue(movieService.saveOrUpdateMovie(movie));
     }
 
     @Test
     public void testCheckIfNonExitentMovieExists() {
         Movie movie = new Movie();
-        movie.setId(0);
-        movie.setTitle("Back to the Future II");
-        movie.setYear(1989);
+        movie.setCode(EMPTY_STRING);
+        movie.setTitle(MOVIE_INEXISTENT_TITLE);
+        movie.setYear(MOVIE_YEAR);
         Assert.assertFalse(movieService.checkIfMovieExists(movie));
     }
 

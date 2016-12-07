@@ -11,6 +11,7 @@ package com.alanquintero.mp.service.impl;
 import static com.alanquintero.mp.util.Consts.*;
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,78 +32,70 @@ import com.alanquintero.mp.service.ReviewService;
 public class ReviewServiceImplTest {
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
+
+    private static String REVIEW_CODE = "MQ==";
+    private static String MOVIE_CODE = "MQ==";
+    private static String USER_NAME = "test";
+    private Review review;
+
+    @Before
+    public void setData() {
+        review = new Review();
+        review.setTitle("Title test");
+        review.setComment("Comment test");
+        review.setCode(REVIEW_CODE);
+        Movie movie = new Movie();
+        movie.setCode(MOVIE_CODE);
+        review.setMovie(movie);
+    }
 
     @Test
     public void testSaveReview() {
-        Review review = new Review();
-        review.setTitle("Title test");
-        review.setComment("Comment test");
-        review.setCode("MQ==");
-        Movie movie = new Movie();
-        movie.setCode("MQ==");
-        review.setMovie(movie);
-        String userName = "test";
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_SUCCESS);
+        assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), IN_PROFILE);
     }
 
     @Test
     public void testSaveReviewWithEmptyUser() {
-        Review review = new Review();
-        review.setTitle("Title test");
-        review.setComment("Comment test");
-        Movie movie = new Movie();
-        movie.setId(1);
-        review.setMovie(movie);
-        String userName = "";
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, EMPTY_STRING), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithNullUser() {
-        Review review = new Review();
-        review.setTitle("Title test");
-        review.setComment("Comment test");
-        Movie movie = new Movie();
-        movie.setId(1);
-        review.setMovie(movie);
         String userName = null;
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithNullReview() {
         Review review = null;
-        String userName = "test";
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithEmptyReview() {
         Review review = new Review();
-        String userName = "test";
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, USER_NAME), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithEmptyReviewAndUser() {
         Review review = new Review();
-        String userName = "";
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, EMPTY_STRING), EMPTY_STRING);
     }
 
     @Test
     public void testSaveReviewWithNullReviewAndUser() {
         Review review = null;
         String userName = null;
-        assertEquals(reviewService.saveOrUpdateReview(review, userName), MSG_FAIL);
+        assertEquals(reviewService.saveOrUpdateReview(review, userName), EMPTY_STRING);
     }
 
     @Test
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testDeteleExistentReview() {
         Review review = new Review();
-        review.setId(1);
+        review.setCode(REVIEW_CODE);
         assertEquals(reviewService.deteleReview(review), MSG_SUCCESS);
 
     }
@@ -111,7 +104,7 @@ public class ReviewServiceImplTest {
     @WithMockUser(roles = { ROLE_ADMIN })
     public void testTryToDeteleNonexistentReview() {
         Review review = new Review();
-        review.setId(0);
+        review.setCode(EMPTY_STRING);
         assertEquals(reviewService.deteleReview(review), MSG_FAIL);
 
     }
@@ -126,16 +119,14 @@ public class ReviewServiceImplTest {
 
     @Test
     public void testSearchReviewById() {
-        String reviewCode = "MQ==";
-        Review review = reviewService.searchReviewById(reviewCode);
+        Review review = reviewService.searchReviewById(REVIEW_CODE);
         assertNotNull(review);
         assertNotEquals(review.getComment(), MSG_FAIL);
     }
 
     @Test
     public void testSearchReviewByNonexistentId() {
-        String reviewCode = "";
-        Review review = reviewService.searchReviewById(reviewCode);
+        Review review = reviewService.searchReviewById(EMPTY_STRING);
         assertNotNull(review);
         assertEquals(review.getComment(), MSG_FAIL);
     }

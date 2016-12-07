@@ -30,40 +30,28 @@ public class VoteServiceImplTest {
     @Autowired
     private VoteService voteService;
 
+    private static String USER_NAME = "test";
+    private static String MOVIE_CODE = "MQ==";
+    private static int RATING = 1;
+
     @Test
     public void testRateMovie() {
-        String userName = "test";
-        int rating = 1;
-        String code = "MQ==";
-        int result = voteService.rateMovie(userName, code, rating);
-        assertNotEquals(result, 0);
+        assertNotEquals(voteService.rateMovie(USER_NAME, MOVIE_CODE, RATING), 0);
     }
 
     @Test
     public void testRateMovieWithEmptyUser() {
-        String userName = "";
-        String code = "MQ==";
-        int rating = 1;
-        int result = voteService.rateMovie(userName, code, rating);
-        assertEquals(result, 0);
+        assertEquals(voteService.rateMovie(EMPTY_STRING, MOVIE_CODE, RATING), 0);
     }
 
     @Test
     public void testRateMovieWithInvalidMovie() {
-        String userName = "test";
-        String code = "";
-        int rating = 1;
-        int result = voteService.rateMovie(userName, code, rating);
-        assertEquals(result, 0);
+        assertEquals(voteService.rateMovie(USER_NAME, EMPTY_STRING, RATING), 0);
     }
 
     @Test
     public void testRateMovieWithInvalidRating() {
-        String userName = "test";
-        String code = "";
-        int rating = 0;
-        int result = voteService.rateMovie(userName, code, rating);
-        assertEquals(result, 0);
+        assertEquals(voteService.rateMovie(USER_NAME, EMPTY_STRING, 0), 0);
     }
 
 }
