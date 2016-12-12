@@ -28,7 +28,7 @@ public class RoleDaoImpl implements RoleDao {
     @Autowired
     private RoleRepository roleRepository;
 
-    private static final Logger logger = Logger.getLogger(RoleDaoImpl.class);
+    private static Logger logger = Logger.getLogger(RoleDaoImpl.class);
 
     /**
      * Search Role by Role Name

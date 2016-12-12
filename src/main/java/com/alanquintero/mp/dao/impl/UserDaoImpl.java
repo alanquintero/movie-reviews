@@ -36,7 +36,7 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     ProfileRepository profileRepository;
 
-    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
+    private static Logger logger = Logger.getLogger(UserDaoImpl.class);
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     /**

@@ -50,7 +50,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private ProfileDao profileDao;
 
-    private static final Logger logger = Logger.getLogger(ReviewServiceImpl.class);
+    private static Logger logger = Logger.getLogger(ReviewServiceImpl.class);
 
     /**
      * Add or Update a Review

@@ -16,6 +16,22 @@
 
 	<dependencies>
 
+		<!-- ***** Mockito ***** -->
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.10.19</version>
+		</dependency>
+
+		<!-- ***** PowerMock ***** -->
+
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.6.5</version>
+		</dependency>
+
 		<!-- ***** JUnit ***** -->
 
 		<dependency>

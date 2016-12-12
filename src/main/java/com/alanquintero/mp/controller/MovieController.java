@@ -48,7 +48,7 @@ public class MovieController {
     @Autowired
     private VoteService voteService;
 
-    private static final Logger logger = Logger.getLogger(MovieController.class);
+    private static Logger logger = Logger.getLogger(MovieController.class);
 
     /**
      * Construct movie object model

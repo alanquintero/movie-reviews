@@ -29,7 +29,7 @@ public class ProfileDaoImpl implements ProfileDao {
     @Autowired
     ProfileRepository profileRepository;
 
-    private static final Logger logger = Logger.getLogger(ProfileDaoImpl.class);
+    private static Logger logger = Logger.getLogger(ProfileDaoImpl.class);
 
     /**
      * Search a Profile by User

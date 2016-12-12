@@ -10,10 +10,14 @@ package com.alanquintero.mp.service.impl;
 
 import static com.alanquintero.mp.util.Consts.*;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,6 +33,7 @@ import com.alanquintero.mp.service.UserService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(CONF_CONTEXT)
+@PrepareForTest(Logger.class)
 public class UserServiceImplTest {
 
     @Autowired
@@ -43,6 +48,7 @@ public class UserServiceImplTest {
     private static String NEW_USER_EMAIL = "some@one.com";
     private static String NEW_USER_NAME = "someone";
     private static String NEW_USER_PASSWORD = "noone123";
+    private static Logger mockLogger;
 
     private User user;
 
@@ -52,6 +58,9 @@ public class UserServiceImplTest {
         user.setName(NEW_USER_NAME);
         user.setEmail(NEW_USER_EMAIL);
         user.setPassword(NEW_USER_PASSWORD);
+
+        mockLogger = Mockito.mock(Logger.class);
+        Whitebox.setInternalState(UserServiceImpl.class, "logger", mockLogger);
     }
 
     @Test
@@ -62,6 +71,7 @@ public class UserServiceImplTest {
     @Test
     public void testSearchUserById() {
         User user = userService.searchUserById(USER_CODE);
+
         Assert.assertNotNull(user);
         Assert.assertNotEquals(user.getName(), MSG_FAIL);
     }
@@ -69,8 +79,10 @@ public class UserServiceImplTest {
     @Test
     public void testSearchUserByNonexistentId() {
         User user = userService.searchUserById(EMPTY_STRING);
+
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
@@ -85,6 +97,7 @@ public class UserServiceImplTest {
         User user = userService.searchUserWithReviewsById(EMPTY_STRING);
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
@@ -95,50 +108,65 @@ public class UserServiceImplTest {
     @Test
     public void testTryToSaveNullUser() {
         User user = null;
+
         Assert.assertEquals(userService.saveUser(user), false);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testTryToSaveEmptyUser() {
         User user = new User();
+
         Assert.assertEquals(userService.saveUser(user), false);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testTryToSaveExistentUser() {
+
         Assert.assertEquals(userService.saveUser(user), false);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testTryToSaveUserWithExistentEmail() {
         user.setEmail(USER_EMAIL);
+
         Assert.assertEquals(userService.saveUser(user), false);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testTryToSaveUserWithInvalidName() {
         User user = new User();
         user.setName("s");
+
         Assert.assertEquals(userService.saveUser(user), false);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testTryToSaveUserWithInvalidEmail() {
         User user = new User();
         user.setEmail("someone.com");
+
         Assert.assertEquals(userService.saveUser(user), false);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testTryToSaveUserWithInvalidPassword() {
         User user = new User();
         user.setPassword("a123");
+
         Assert.assertEquals(userService.saveUser(user), false);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testSearchUserWithReviewsByName() {
         User user = userService.searchUserWithReviewsByName(USER_NAME);
+
         Assert.assertNotNull(user);
         Assert.assertNotEquals(user.getName(), MSG_FAIL);
     }
@@ -146,15 +174,19 @@ public class UserServiceImplTest {
     @Test
     public void testSearchUserWithReviewsByNonExistentName() {
         User user = userService.searchUserWithReviewsByName(INEXISTENT_USER_NAME);
+
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testSearchUserWithReviewsByInvalidName() {
         User user = userService.searchUserWithReviewsByName(EMPTY_STRING);
+
         Assert.assertNotNull(user);
         Assert.assertEquals(user.getName(), MSG_FAIL);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
@@ -197,6 +229,7 @@ public class UserServiceImplTest {
         profile.setCode("MQ==");
         profile.setQuote("New quote");
         user.setProfile(profile);
+
         Assert.assertTrue(userService.saveOrUpdateQuote(user, USER_NAME));
     }
 
@@ -207,7 +240,9 @@ public class UserServiceImplTest {
         profile.setId(2);
         profile.setQuote("New quote");
         user.setProfile(profile);
+
         Assert.assertFalse(userService.saveOrUpdateQuote(user, EMPTY_STRING));
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
@@ -217,7 +252,9 @@ public class UserServiceImplTest {
         profile.setId(0);
         profile.setQuote(EMPTY_STRING);
         user.setProfile(profile);
+
         Assert.assertFalse(userService.saveOrUpdateQuote(user, USER_NAME));
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
@@ -238,6 +275,7 @@ public class UserServiceImplTest {
     @Test
     public void testUpdateUserPasswordWithWrongUser() {
         Assert.assertFalse(userService.updateUserPassword(EMPTY_STRING, USER_NEW_PASSWORD));
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
 }

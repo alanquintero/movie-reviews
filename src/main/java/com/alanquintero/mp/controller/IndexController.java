@@ -28,7 +28,7 @@ public class IndexController {
     @Autowired
     private MovieService movieService;
 
-    private static final Logger logger = Logger.getLogger(IndexController.class);
+    private static Logger logger = Logger.getLogger(IndexController.class);
 
     /**
      * Redirect to home page

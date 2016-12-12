@@ -41,7 +41,7 @@ public class MovieDaoImpl implements MovieDao {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    private static final Logger logger = Logger.getLogger(MovieDaoImpl.class);
+    private static Logger logger = Logger.getLogger(MovieDaoImpl.class);
 
     /**
      * Search a Movie by Movie Id

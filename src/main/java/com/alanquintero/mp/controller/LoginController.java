@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController {
 
-    private static final Logger logger = Logger.getLogger(LoginController.class);
+    private static Logger logger = Logger.getLogger(LoginController.class);
 
     /**
      * Redirect to login page

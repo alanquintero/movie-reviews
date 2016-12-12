@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleDao roleDao;
 
-    private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+    private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 
     /**
      * Get all Users

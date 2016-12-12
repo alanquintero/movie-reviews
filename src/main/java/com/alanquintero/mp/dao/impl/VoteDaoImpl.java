@@ -30,7 +30,7 @@ public class VoteDaoImpl implements VoteDao {
     @Autowired
     private VoteRepository voteRepository;
 
-    private static final Logger logger = Logger.getLogger(VoteDaoImpl.class);
+    private static Logger logger = Logger.getLogger(VoteDaoImpl.class);
 
     /**
      * Search a specific Vote of Movie by User

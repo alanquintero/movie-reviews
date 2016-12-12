@@ -45,7 +45,7 @@ public class UserController {
     @Autowired
     private ReviewService reviewService;
 
-    private static final Logger logger = Logger.getLogger(UserController.class);
+    private static Logger logger = Logger.getLogger(UserController.class);
 
     /**
      * Construct review object model

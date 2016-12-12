@@ -33,7 +33,7 @@ public class ReviewDaoImpl implements ReviewDao {
     @Autowired
     private ReviewRepository reviewRepository;
 
-    private static final Logger logger = Logger.getLogger(ReviewDaoImpl.class);
+    private static Logger logger = Logger.getLogger(ReviewDaoImpl.class);
 
     /**
      * Save or Update a Review

@@ -36,7 +36,7 @@ public class RegisterController {
     @Autowired
     private UserService userService;
 
-    private static final Logger logger = Logger.getLogger(RegisterController.class);
+    private static Logger logger = Logger.getLogger(RegisterController.class);
 
     /**
      * Construct user object model

@@ -43,7 +43,7 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private MovieDao movieDao;
 
-    private static final Logger logger = Logger.getLogger(MovieServiceImpl.class);
+    private static Logger logger = Logger.getLogger(MovieServiceImpl.class);
 
     /**
      * Search Movie By Movie Id

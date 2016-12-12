@@ -48,7 +48,7 @@ public class VoteServiceImpl implements VoteService {
     @Autowired
     private ProfileDao profileDao;
 
-    private static final Logger logger = Logger.getLogger(VoteServiceImpl.class);
+    private static Logger logger = Logger.getLogger(VoteServiceImpl.class);
 
     /**
      * Check if user has already voted, if not it will create a new one else

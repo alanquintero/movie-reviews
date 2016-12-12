@@ -32,7 +32,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    private static final Logger logger = Logger.getLogger(AdminController.class);
+    private static Logger logger = Logger.getLogger(AdminController.class);
 
     /**
      * Find all Users

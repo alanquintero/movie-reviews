@@ -12,10 +12,14 @@ import static com.alanquintero.mp.util.Consts.*;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,6 +35,7 @@ import com.alanquintero.mp.service.MovieService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(CONF_CONTEXT)
+@PrepareForTest(Logger.class)
 public class MovieServiceImplTest {
 
     @Autowired
@@ -40,6 +45,8 @@ public class MovieServiceImplTest {
     private static String MOVIE_TITLE = "Back to the Future II";
     private static String MOVIE_INEXISTENT_TITLE = "Back to the Future III";
     private static int MOVIE_YEAR = 1989;
+    private static Logger mockLogger;
+
     private Movie movie;
 
     @Before
@@ -53,6 +60,9 @@ public class MovieServiceImplTest {
         movie.setSynopsis(
                 "After visiting 2015, Marty McFly must repeat his visit to 1955 to prevent disastrous changes "
                         + "to 1985...without interfering with his first trip.");
+
+        mockLogger = Mockito.mock(Logger.class);
+        Whitebox.setInternalState(MovieServiceImpl.class, "logger", mockLogger);
     }
 
     @Test
@@ -63,12 +73,15 @@ public class MovieServiceImplTest {
     @Test
     public void testSearchNonexistentMovieById() {
         Movie movie = movieService.searchMovieById(EMPTY_STRING);
+
         Assert.assertEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
+        Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
     }
 
     @Test
     public void testSearchMovieDetailsById() {
         Movie movie = movieService.searchMovieDetailsById(MOVIE_CODE);
+
         Assert.assertNotNull(movie);
         Assert.assertNotEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
@@ -76,6 +89,7 @@ public class MovieServiceImplTest {
     @Test
     public void testSearchNonexistentMovieDetailsById() {
         Movie movie = movieService.searchMovieDetailsById(EMPTY_STRING);
+
         Assert.assertNotNull(movie);
         Assert.assertEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
     }
@@ -83,6 +97,7 @@ public class MovieServiceImplTest {
     @Test
     public void testSearchMovieByTitle() {
         List<Movie> movies = movieService.searchMovieByTitle(MOVIE_TITLE);
+
         Assert.assertNotNull(movies);
         for (Movie movie : movies) {
             Assert.assertNotNull(movie);
@@ -94,30 +109,36 @@ public class MovieServiceImplTest {
     public void testSearchNullMovieByTitle() {
         String movieTitle = null;
         List<Movie> movies = movieService.searchMovieByTitle(movieTitle);
+
         Assert.assertNotNull(movies);
         for (Movie m : movies) {
             Assert.assertEquals(m.getTitle(), MSG_MOVIE_NOT_FOUND);
+            Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
         }
     }
 
     @Test
     public void testSearchEmptyMovieByTitle() {
         List<Movie> movies = movieService.searchMovieByTitle(EMPTY_STRING);
+
         Assert.assertNotNull(movies);
         for (Movie m : movies) {
             Assert.assertEquals(m.getTitle(), MSG_MOVIE_NOT_FOUND);
+            Mockito.verify(mockLogger).info(LOG_INVALID_INPUT);
         }
     }
 
     @Test
     public void testGetPopularMovies() {
         List<Movie> movies = movieService.getPopularMovies();
+
         Assert.assertNotNull(movies);
     }
 
     @Test
     public void testGetAllMovies() {
         List<Movie> movies = movieService.getAllMovies();
+
         Assert.assertNotNull(movies);
         for (Movie movie : movies) {
             Assert.assertNotEquals(movie.getTitle(), MSG_MOVIE_NOT_FOUND);
@@ -139,12 +160,14 @@ public class MovieServiceImplTest {
     @Test
     public void testSearchEmptyAutocompleteMovies() {
         List<MovieModel> movies = movieService.searchAutocompleteMovies(EMPTY_STRING);
+
         Assert.assertNotNull(movies);
     }
 
     @Test
     public void testSearchAutocompleteMovies() {
         List<MovieModel> movies = movieService.searchAutocompleteMovies(MOVIE_TITLE.substring(0, 6));
+
         Assert.assertNotNull(movies);
     }
 
@@ -152,12 +175,14 @@ public class MovieServiceImplTest {
     public void testSearchNullAutocompleteMovies() {
         String movieTitle = null;
         List<MovieModel> movies = movieService.searchAutocompleteMovies(movieTitle);
+
         Assert.assertNotNull(movies);
     }
 
     @Test
     public void testGetMostVotedMovies() {
         List<Movie> movies = movieService.getMostVotedMovies();
+
         Assert.assertNotNull(movies);
     }
 
@@ -177,6 +202,7 @@ public class MovieServiceImplTest {
         movie.setCode(EMPTY_STRING);
         movie.setTitle(MOVIE_INEXISTENT_TITLE);
         movie.setYear(MOVIE_YEAR);
+
         Assert.assertFalse(movieService.checkIfMovieExists(movie));
     }
 
