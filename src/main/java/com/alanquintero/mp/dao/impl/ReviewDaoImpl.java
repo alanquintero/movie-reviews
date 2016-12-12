@@ -12,6 +12,7 @@ import static com.alanquintero.mp.util.Consts.*;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -32,6 +33,8 @@ public class ReviewDaoImpl implements ReviewDao {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    private static final Logger logger = Logger.getLogger(ReviewDaoImpl.class);
+
     /**
      * Save or Update a Review
      * 
@@ -41,12 +44,14 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public boolean saveOrUpdateReview(Review review) {
         boolean success = false;
+
         try {
             reviewRepository.save(review);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -59,12 +64,14 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public boolean deteleReview(Review review) {
         boolean success = false;
+
         try {
             reviewRepository.delete(review);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -77,11 +84,13 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public Review searchReviewById(int reviewId) {
         Review review = null;
+
         try {
             review = reviewRepository.findOne(reviewId);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return review;
     }
 
@@ -94,12 +103,14 @@ public class ReviewDaoImpl implements ReviewDao {
     @Override
     public List<Review> searchReviewsByProfile(Profile profile) {
         List<Review> reviews = null;
+
         try {
             reviews = reviewRepository.findReviewsByProfile(profile,
                     new PageRequest(0, 10, Direction.DESC, PUBLISHED_DATE_FIELD));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return reviews;
     }
 }

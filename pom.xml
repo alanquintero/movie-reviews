@@ -133,7 +133,6 @@
 			<version>1.7.6</version>
 		</dependency>
 
-
 		<!-- ***** Spring ***** -->
 
 		<dependency>
@@ -292,11 +291,15 @@
 
 	<build>
 		<plugins>
+
+			<!-- ***** Embedded Jetty Server ***** -->
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.4.0.M0</version>
 			</plugin>
+
+			<!-- ***** Maven Compiler ***** -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -306,6 +309,20 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+
+			<!-- ***** Eclipse Workspace ***** -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+					<wtpContextName>spring-mvc-log4j</wtpContextName>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

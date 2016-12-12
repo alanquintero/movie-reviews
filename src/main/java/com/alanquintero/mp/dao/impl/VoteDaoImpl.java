@@ -8,6 +8,9 @@
  *******************************************************/
 package com.alanquintero.mp.dao.impl;
 
+import static com.alanquintero.mp.util.Consts.LOG_ERROR_DB;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,7 +28,9 @@ import com.alanquintero.mp.repository.VoteRepository;
 public class VoteDaoImpl implements VoteDao {
 
     @Autowired
-    VoteRepository voteRepository;
+    private VoteRepository voteRepository;
+
+    private static final Logger logger = Logger.getLogger(VoteDaoImpl.class);
 
     /**
      * Search a specific Vote of Movie by User
@@ -37,11 +42,13 @@ public class VoteDaoImpl implements VoteDao {
     @Override
     public Vote searchVote(Profile profile, Movie movie) {
         Vote vote = null;
+
         try {
             vote = voteRepository.findVoteByProfileAndMovie(profile.getId(), movie.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return vote;
     }
 
@@ -54,12 +61,14 @@ public class VoteDaoImpl implements VoteDao {
     @Override
     public boolean saveOrUpdateVote(Vote vote) {
         boolean success = false;
+
         try {
             voteRepository.save(vote);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -72,11 +81,13 @@ public class VoteDaoImpl implements VoteDao {
     @Override
     public int searchMovieVoteByMovie(Movie movie) {
         int vote = 0;
+
         try {
             vote = voteRepository.findMovieVoteByMovieId(movie.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return vote;
     }
 

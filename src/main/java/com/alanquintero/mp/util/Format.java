@@ -34,6 +34,7 @@ public class Format {
      */
     public static String getYoutubeUrl(String url) {
         url = url.substring(0, 24) + FORMAT_YT_EMBED + url.substring(32, url.length());
+
         return url;
     }
 

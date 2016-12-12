@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,8 @@ public class MovieServiceImpl implements MovieService {
     @Autowired
     private MovieDao movieDao;
 
+    private static final Logger logger = Logger.getLogger(MovieServiceImpl.class);
+
     /**
      * Search Movie By Movie Id
      * 
@@ -55,6 +58,7 @@ public class MovieServiceImpl implements MovieService {
 
         if (movie == null) {
             movie = Message.setMovieNotFound();
+            logger.info(LOG_INVALID_INPUT);
         }
         movie.setCode(Data.encode(movie.getId()));
 
@@ -93,6 +97,7 @@ public class MovieServiceImpl implements MovieService {
             movie.setReviews(reviews);
         } else {
             movie = Message.setMovieNotFound();
+            logger.info(LOG_INVALID_INPUT);
         }
         movie.setCode(Data.encode(movie.getId()));
 
@@ -112,6 +117,8 @@ public class MovieServiceImpl implements MovieService {
 
         if (Validation.isValidString(movieTitle)) {
             movies = movieDao.searchMovieByTitle(PERCENT + movieTitle + PERCENT);
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
         movies = Validation.validateMovieList(movies);
         Data.encodeMovieList(movies);
@@ -182,6 +189,8 @@ public class MovieServiceImpl implements MovieService {
 
         if (Validation.isValidString(movieTitle)) {
             movies = movieDao.searchAutocompleteMovies(PERCENT + movieTitle + PERCENT);
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
         if ((movies != null) && (!movies.isEmpty())) {
             for (Movie m : movies) {
@@ -235,6 +244,8 @@ public class MovieServiceImpl implements MovieService {
 
             }
             success = movieDao.saveOrUpdateMovie(movie);
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return success;
@@ -252,6 +263,8 @@ public class MovieServiceImpl implements MovieService {
 
         if (Validation.isValidString(movie.getTitle())) {
             exists = movieDao.checkIfMovieExists(movie);
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return exists;

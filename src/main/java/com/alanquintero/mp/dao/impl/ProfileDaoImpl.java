@@ -8,6 +8,9 @@
  *******************************************************/
 package com.alanquintero.mp.dao.impl;
 
+import static com.alanquintero.mp.util.Consts.LOG_ERROR_DB;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +29,8 @@ public class ProfileDaoImpl implements ProfileDao {
     @Autowired
     ProfileRepository profileRepository;
 
+    private static final Logger logger = Logger.getLogger(ProfileDaoImpl.class);
+
     /**
      * Search a Profile by User
      * 
@@ -35,11 +40,13 @@ public class ProfileDaoImpl implements ProfileDao {
     @Override
     public Profile searchProfileByUser(User user) {
         Profile profile = null;
+
         try {
             profile = profileRepository.findProfileByUser(user);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return profile;
     }
 }

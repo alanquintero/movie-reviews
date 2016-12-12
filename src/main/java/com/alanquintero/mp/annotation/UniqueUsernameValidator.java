@@ -38,11 +38,13 @@ public class UniqueUsernameValidator implements ConstraintValidator<UniqueUserna
     @Override
     public boolean isValid(String username, ConstraintValidatorContext context) {
         boolean isValid = false;
+
         if ((userRepository == null) || (userRepository.findUserByName(username) == null)) {
             isValid = true;
         } else {
             isValid = false;
         }
+
         return isValid;
     }
 

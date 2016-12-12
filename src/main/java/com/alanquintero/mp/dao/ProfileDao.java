@@ -22,4 +22,5 @@ public interface ProfileDao {
      * @return Profile
      */
     public Profile searchProfileByUser(User user);
+
 }

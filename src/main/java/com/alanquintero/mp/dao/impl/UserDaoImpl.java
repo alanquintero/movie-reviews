@@ -8,8 +8,11 @@
  *******************************************************/
 package com.alanquintero.mp.dao.impl;
 
+import static com.alanquintero.mp.util.Consts.LOG_ERROR_DB;
+
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -33,6 +36,7 @@ public class UserDaoImpl implements UserDao {
     @Autowired
     ProfileRepository profileRepository;
 
+    private static final Logger logger = Logger.getLogger(UserDaoImpl.class);
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     /**
@@ -44,11 +48,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User searchUserByName(String userName) {
         User user = null;
+
         try {
             user = userRepository.findUserByName(userName);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return user;
     }
 
@@ -60,11 +66,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         List<User> users = null;
+
         try {
             users = userRepository.findAll();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return users;
     }
 
@@ -77,11 +85,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User searchUserById(int userId) {
         User user = null;
+
         try {
             user = userRepository.findOne(userId);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return user;
     }
 
@@ -94,12 +104,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean saveUser(User user) {
         boolean success = false;
+
         try {
             userRepository.save(user);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -112,12 +124,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean deleteUser(int userId) {
         boolean success = false;
+
         try {
             userRepository.delete(userId);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -130,11 +144,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User searchUserByEmail(String userEmail) {
         User user = null;
+
         try {
             user = userRepository.findUserByEmail(userEmail);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return user;
     }
 
@@ -147,12 +163,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean saveOrUpdateQuote(Profile profile) {
         boolean success = false;
+
         try {
             profileRepository.save(profile);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -166,14 +184,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean checkUserPassword(String userEmail, String userPassword) {
         boolean success = false;
+
         try {
             User user = userRepository.findUserByEmail(userEmail);
             if ((user != null) && (encoder.matches(userPassword, user.getPassword()))) {
                 success = true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -187,13 +207,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean updateUserPassword(User user, String newPassword) {
         boolean success = false;
+
         try {
             user.setPassword(encoder.encode(newPassword));
             userRepository.save(user);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -206,12 +228,14 @@ public class UserDaoImpl implements UserDao {
     @Override
     public boolean saveProfile(Profile profile) {
         boolean success = false;
+
         try {
             profileRepository.save(profile);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 

@@ -12,6 +12,7 @@ import static com.alanquintero.mp.util.Consts.*;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,8 @@ public class MovieDaoImpl implements MovieDao {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    private static final Logger logger = Logger.getLogger(MovieDaoImpl.class);
+
     /**
      * Search a Movie by Movie Id
      * 
@@ -49,11 +52,13 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public Movie searchMovieById(int movieId) {
         Movie movie = null;
+
         try {
             movie = movieRepository.findOne(movieId);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return movie;
     }
 
@@ -66,11 +71,13 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public List<Movie> searchMovieByTitle(String movieTitle) {
         List<Movie> movies = null;
+
         try {
             movies = movieRepository.findAllMovies(movieTitle);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return movies;
     }
 
@@ -82,11 +89,13 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public List<Movie> getPopularMovies() {
         List<Movie> movies = null;
+
         try {
             movies = movieRepository.findPopularMovies(new PageRequest(0, 10, Direction.DESC, RATING_FIELD));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return movies;
     }
 
@@ -98,11 +107,13 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public List<Movie> getAllMovies() {
         List<Movie> movies = null;
+
         try {
             movies = movieRepository.findAll();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return movies;
     }
 
@@ -115,12 +126,14 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public boolean deteleMovie(int movieId) {
         boolean success = false;
+
         try {
             movieRepository.delete(movieId);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -135,11 +148,13 @@ public class MovieDaoImpl implements MovieDao {
     public List<Movie> searchAutocompleteMovies(String movieTitle) {
         List<Movie> movies = null;
         Pageable topSix = new PageRequest(0, 6);
+
         try {
             movies = movieRepository.getSearchMovies(movieTitle, topSix);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return movies;
     }
 
@@ -152,11 +167,13 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public Movie searchMovieByReview(Review review) {
         Movie movie = null;
+
         try {
             movie = movieRepository.getMovieByReviews(review);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return movie;
     }
 
@@ -169,12 +186,14 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public List<Review> searchReviewsByMovie(Movie movie) {
         List<Review> reviews = null;
+
         try {
             reviews = reviewRepository.findReviewsByMovie(movie,
                     new PageRequest(0, 15, Direction.DESC, PUBLISHED_DATE_FIELD));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return reviews;
     }
 
@@ -186,11 +205,13 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public List<Movie> getMostVotedMovies() {
         List<Movie> movies = null;
+
         try {
             movies = movieRepository.findMostVotedMovies(new PageRequest(0, 15, Direction.DESC, VOTE_FIELD));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return movies;
     }
 
@@ -203,12 +224,14 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public boolean saveOrUpdateMovie(Movie movie) {
         boolean success = false;
+
         try {
             movieRepository.save(movie);
             success = true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return success;
     }
 
@@ -221,6 +244,7 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public boolean checkIfMovieExists(Movie movie) {
         boolean exists = false;
+
         try {
             if (Validation.isValidString(movie.getCode())) {
                 if (movieRepository.findMovieByValues(Data.decode(movie.getCode()),
@@ -234,8 +258,9 @@ public class MovieDaoImpl implements MovieDao {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return exists;
     }
 

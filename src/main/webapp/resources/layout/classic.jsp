@@ -66,8 +66,7 @@
 					    </button>
 					    <div class="${current == 'index' ? 'active' : ''}">
 						    <a class="navbar-brand" href="<spring:url value="/"/>">
-						        <img src="../../../resources/img/moviePick.JPG" alt="img" 
-							        style="width: 35px; height: 35px;"> 
+						        MOVIE PICK
 						    </a>
 					    </div>
 				    </div>

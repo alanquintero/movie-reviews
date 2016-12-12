@@ -27,9 +27,11 @@ public class Message {
      */
     public static Movie setMovieNotFound() {
         Movie movie = new Movie();
+
         movie.setId(0);
         movie.setTitle(MSG_MOVIE_NOT_FOUND);
         movie.setYear(0);
+
         return movie;
     }
 
@@ -41,11 +43,13 @@ public class Message {
      */
     public static String setSuccessOrFail(boolean success) {
         String response = EMPTY_STRING;
+
         if (success == true) {
             response = MSG_SUCCESS;
         } else {
             response = MSG_FAIL;
         }
+
         return response;
     }
 
@@ -56,8 +60,10 @@ public class Message {
      */
     public static Review setReviewFail() {
         Review review = new Review();
+
         review.setId(0);
         review.setComment(MSG_FAIL);
+
         return review;
     }
 
@@ -68,8 +74,10 @@ public class Message {
      */
     public static User setUserFail() {
         User user = new User();
+
         user.setId(0);
         user.setName(MSG_FAIL);
+
         return user;
     }
 

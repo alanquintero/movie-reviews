@@ -10,6 +10,7 @@ package com.alanquintero.mp.controller;
 
 import static com.alanquintero.mp.util.Consts.*;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController {
 
+    private static final Logger logger = Logger.getLogger(LoginController.class);
+
     /**
      * Redirect to login page
      * 
@@ -27,6 +30,8 @@ public class LoginController {
      */
     @RequestMapping(LOGIN_URL)
     public String login() {
+        logger.info(LOG_URL_REQUEST + LOGIN_URL);
+
         return LOGIN_PAGE;
     }
 

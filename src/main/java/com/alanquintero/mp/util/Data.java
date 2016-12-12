@@ -37,9 +37,11 @@ public class Data {
      */
     public static String encode(Object obj) {
         String encodeData = EMPTY_STRING;
+
         if (Validation.isValidCode(obj.toString())) {
             encodeData = Base64Utils.encodeToString((obj.toString()).getBytes());
         }
+
         return encodeData;
     }
 
@@ -51,6 +53,7 @@ public class Data {
      */
     public static int decode(Object obj) {
         int decode = 0;
+
         if (Validation.isValidString(obj.toString())) {
             String str = new String(Base64Utils.decodeFromString(obj.toString()));
             try {
@@ -59,6 +62,7 @@ public class Data {
                 decode = 0;
             }
         }
+
         return decode;
     }
 
@@ -69,6 +73,7 @@ public class Data {
      */
     public static void encodeMovieList(List<Movie> movies) {
         movieIterator = movies.listIterator();
+
         while (movieIterator.hasNext()) {
             Movie movie = movieIterator.next();
             if (movie.getId() != 0) {
@@ -87,6 +92,7 @@ public class Data {
      */
     public static void encodeUserList(List<User> users) {
         userIterator = users.listIterator();
+
         while (userIterator.hasNext()) {
             User user = userIterator.next();
             if (user.getId() != 0) {
@@ -105,6 +111,7 @@ public class Data {
      */
     public static void encodeReviewList(List<Review> reviews) {
         reviewIterator = reviews.listIterator();
+
         while (reviewIterator.hasNext()) {
             Review review = reviewIterator.next();
             if (review.getId() != 0) {

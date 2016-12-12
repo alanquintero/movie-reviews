@@ -140,6 +140,11 @@ public final class Consts {
     // Pattern
     public static final String EMAIL_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 
+    // Log
+    public static final String LOG_URL_REQUEST = "Request URL to -> ";
+    public static final String LOG_INVALID_INPUT = "Invalid Input Data";
+    public static final String LOG_ERROR_DB = "Error in DB -> ";
+
     // Type
     public static final String TYPE_CLOB = "org.hibernate.type.StringClobType";
 

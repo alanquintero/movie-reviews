@@ -12,6 +12,7 @@ import static com.alanquintero.mp.util.Consts.*;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,8 @@ public class RegisterController {
 
     @Autowired
     private UserService userService;
+
+    private static final Logger logger = Logger.getLogger(RegisterController.class);
 
     /**
      * Construct user object model
@@ -64,7 +67,9 @@ public class RegisterController {
      */
     @RequestMapping(method = RequestMethod.POST)
     public String doRegister(@Valid @ModelAttribute(USER) User user, BindingResult result) {
+        logger.info(LOG_URL_REQUEST + REGISTER_URL);
         String pageResult = DEFAULT_URL;
+
         if (result.hasErrors()) {
             pageResult = REGISTER_PAGE;
         } else {
@@ -76,6 +81,7 @@ public class RegisterController {
                 pageResult = REGISTER_PAGE;
             }
         }
+
         return pageResult;
     }
 
@@ -88,7 +94,9 @@ public class RegisterController {
     @RequestMapping(VALIDATE_USERNAME_URL)
     @ResponseBody
     public String checkUsername(@RequestParam String userName) {
+        logger.info(LOG_URL_REQUEST + REGISTER_URL + VALIDATE_USERNAME_URL);
         Boolean existentUserName = userService.searchUserByName(userName) == null;
+
         return existentUserName.toString();
     }
 
@@ -101,7 +109,9 @@ public class RegisterController {
     @RequestMapping(VALIDATE_EMAIL_URL)
     @ResponseBody
     public String checkUserEmail(@RequestParam String userEmail) {
+        logger.info(LOG_URL_REQUEST + REGISTER_URL + VALIDATE_EMAIL_URL);
         Boolean existentEmail = userService.searchUserByEmail(userEmail) == null;
+
         return existentEmail.toString();
     }
 

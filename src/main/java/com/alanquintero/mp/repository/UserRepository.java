@@ -36,7 +36,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      * @param String
      * @return User
      */
-    @Query("SELECT u FROM User u WHERE lower(u.email) like lower(:" + USER_EMAIL_PARAM + ")")
+    @Query("SELECT u FROM User u WHERE lower(u.email) LIKE lower(:" + USER_EMAIL_PARAM + ")")
     public User findUserByEmail(@Param(USER_EMAIL_PARAM) String userEmail);
 
 }

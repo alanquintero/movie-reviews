@@ -12,6 +12,7 @@ import static com.alanquintero.mp.util.Consts.*;
 
 import java.security.Principal;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,8 +32,10 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    private static final Logger logger = Logger.getLogger(AdminController.class);
+
     /**
-     * Find all users
+     * Find all Users
      * 
      * @param Principal
      * @param Model
@@ -40,13 +43,15 @@ public class AdminController {
      */
     @RequestMapping
     public String users(Principal principal, Model model) {
+        logger.info(LOG_URL_REQUEST + USERS_URL);
         model.addAttribute(ADMIN, principal.getName());
         model.addAttribute(USERS, userService.getAllUsers());
+
         return USERS_PAGE;
     }
 
     /**
-     * Delete one user by user id
+     * Delete one User by user id
      * 
      * @param Model
      * @param String
@@ -54,7 +59,9 @@ public class AdminController {
      */
     @RequestMapping(DELETE_USER_URL)
     public String removeUser(Model model, @PathVariable String code) {
+        logger.info(LOG_URL_REQUEST + DELETE_USER_URL);
         model.addAttribute(MESSAGE, userService.deleteUser(code));
+
         return DELETE_USER_PAGE;
     }
 

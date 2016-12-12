@@ -34,9 +34,11 @@ public class Validation {
      */
     public static boolean isValidString(String word) {
         boolean isValid = false;
+
         if ((word != null) && (!word.equals(EMPTY_STRING))) {
             isValid = true;
         }
+
         return isValid;
     }
 
@@ -49,9 +51,11 @@ public class Validation {
      */
     public static boolean validateWordLen(String word, int len) {
         boolean isValid = false;
+
         if (word.length() >= len) {
             isValid = true;
         }
+
         return isValid;
     }
 
@@ -64,6 +68,7 @@ public class Validation {
     public static boolean validateEmail(String email) {
         Pattern p = Pattern.compile(EMAIL_PATTERN);
         Matcher m = p.matcher(email);
+
         return m.matches();
     }
 
@@ -79,6 +84,7 @@ public class Validation {
             Movie movie = Message.setMovieNotFound();
             movies.add(movie);
         }
+
         return movies;
     }
 
@@ -95,6 +101,7 @@ public class Validation {
             users = new ArrayList<User>();
             users.add(user);
         }
+
         return users;
     }
 
@@ -121,9 +128,11 @@ public class Validation {
      */
     public static boolean isValidCode(String code) {
         boolean isValid = false;
+
         if ((!code.equals(EMPTY_STRING)) && (!code.equals(ZERO_STRING))) {
             isValid = true;
         }
+
         return isValid;
     }
 

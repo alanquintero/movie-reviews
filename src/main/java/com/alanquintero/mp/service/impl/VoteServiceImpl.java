@@ -8,8 +8,11 @@
  *******************************************************/
 package com.alanquintero.mp.service.impl;
 
+import static com.alanquintero.mp.util.Consts.LOG_INVALID_INPUT;
+
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +47,8 @@ public class VoteServiceImpl implements VoteService {
 
     @Autowired
     private ProfileDao profileDao;
+
+    private static final Logger logger = Logger.getLogger(VoteServiceImpl.class);
 
     /**
      * Check if user has already voted, if not it will create a new one else
@@ -93,6 +98,8 @@ public class VoteServiceImpl implements VoteService {
                 voteDao.saveOrUpdateVote(vote);
                 movieDao.saveOrUpdateMovie(movie);
             }
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return newRating;

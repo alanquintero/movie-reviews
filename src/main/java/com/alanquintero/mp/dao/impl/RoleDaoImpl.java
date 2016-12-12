@@ -8,6 +8,9 @@
  *******************************************************/
 package com.alanquintero.mp.dao.impl;
 
+import static com.alanquintero.mp.util.Consts.LOG_ERROR_DB;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,6 +28,8 @@ public class RoleDaoImpl implements RoleDao {
     @Autowired
     private RoleRepository roleRepository;
 
+    private static final Logger logger = Logger.getLogger(RoleDaoImpl.class);
+
     /**
      * Search Role by Role Name
      * 
@@ -34,11 +39,13 @@ public class RoleDaoImpl implements RoleDao {
     @Override
     public Role searchRoleByRoleName(String roleName) {
         Role role = null;
+
         try {
             role = roleRepository.findRoleByName(roleName);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(LOG_ERROR_DB, e);
         }
+
         return role;
     }
 

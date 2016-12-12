@@ -40,7 +40,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      * @param String
      * @return List_Movie
      */
-    @Query("SELECT m FROM Movie m WHERE lower(m.title) like lower(:movie_title)")
+    @Query("SELECT m FROM Movie m WHERE lower(m.title) LIKE lower(:" + MOVIE_TITLE_PARAM + ")")
     public List<Movie> findAllMovies(@Param(MOVIE_TITLE_PARAM) String movieTitle);
 
     /**
@@ -58,7 +58,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      * @param int
      * @return Movie
      */
-    @Query("SELECT m FROM Movie m WHERE id = :movie_id")
+    @Query("SELECT m FROM Movie m WHERE id = :" + MOVIE_ID_PARAM)
     public Movie getMovieById(@Param(MOVIE_ID_PARAM) int movieId);
 
     /**
@@ -68,7 +68,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      * @param Pageable
      * @return List_Movie
      */
-    @Query("SELECT m FROM Movie m WHERE lower(m.title) like lower(:movie_title)")
+    @Query("SELECT m FROM Movie m WHERE lower(m.title) LIKE lower(:" + MOVIE_TITLE_PARAM + ")")
     public List<Movie> getSearchMovies(@Param(MOVIE_TITLE_PARAM) String movieTitle, Pageable topSix);
 
     /**
@@ -87,7 +87,8 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      * @param int
      * @return Movie
      */
-    @Query("SELECT m FROM Movie m WHERE lower(m.title) LIKE lower(:movie_title) AND m.year = :movie_year")
+    @Query("SELECT m FROM Movie m WHERE lower(m.title) LIKE lower(:" + MOVIE_TITLE_PARAM + ") " + "AND m.year = :"
+            + MOVIE_YEAR_PARAM)
     public Movie findMovieByTitleAndYear(@Param(MOVIE_TITLE_PARAM) String movieTitle,
             @Param(MOVIE_YEAR_PARAM) int movieYear);
 
@@ -98,7 +99,8 @@ public interface MovieRepository extends JpaRepository<Movie, Integer> {
      * @param int
      * @return Movie
      */
-    @Query("SELECT m FROM Movie m WHERE id != :movie_id AND lower(m.title) LIKE lower(:movie_title) AND m.year = :movie_year")
+    @Query("SELECT m FROM Movie m WHERE id != :" + MOVIE_ID_PARAM + " AND lower(m.title) LIKE lower(:"
+            + MOVIE_TITLE_PARAM + ") AND m.year = :" + MOVIE_YEAR_PARAM)
     public Movie findMovieByValues(@Param(MOVIE_ID_PARAM) int movieId, @Param(MOVIE_TITLE_PARAM) String movieTitle,
             @Param(MOVIE_YEAR_PARAM) int movieYear);
 

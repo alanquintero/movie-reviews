@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,8 @@ public class MovieController {
 
     @Autowired
     private VoteService voteService;
+
+    private static final Logger logger = Logger.getLogger(MovieController.class);
 
     /**
      * Construct movie object model
@@ -86,7 +89,9 @@ public class MovieController {
      */
     @RequestMapping(MOVIE_URL)
     public String searchMovieDetails(Model model, @PathVariable String code) {
+        logger.info(LOG_URL_REQUEST + MOVIE_URL);
         model.addAttribute(MOVIE, movieService.searchMovieDetailsById(code));
+
         return MOVIE_PAGE;
     }
 
@@ -99,7 +104,9 @@ public class MovieController {
      */
     @RequestMapping(value = RESULT_MOVIE_URL)
     public String searchMovieByTitle(Model model, @PathVariable String movieTitle) {
+        logger.info(LOG_URL_REQUEST + RESULT_MOVIE_URL);
         model.addAttribute(MOVIE, movieService.searchMovieByTitle(movieTitle));
+
         return RESULT;
     }
 
@@ -111,7 +118,9 @@ public class MovieController {
      */
     @RequestMapping(value = POPULAR_MOVIES_URL)
     public String searchByEmptyTitle(Model model) {
+        logger.info(LOG_URL_REQUEST + POPULAR_MOVIES_URL);
         model.addAttribute(MOVIE, movieService.getPopularMovies());
+
         return RESULT;
     }
 
@@ -123,7 +132,9 @@ public class MovieController {
      */
     @RequestMapping(MOVIES_URL)
     public String getAllMovies(Model model) {
+        logger.info(LOG_URL_REQUEST + MOVIES_URL);
         model.addAttribute(MOVIES, movieService.getAllMovies());
+
         return MOVIES_PAGE;
     }
 
@@ -136,7 +147,9 @@ public class MovieController {
      */
     @RequestMapping(DELETE_MOVIE_URL)
     public String removeMovie(Model model, @PathVariable String code) {
+        logger.info(LOG_URL_REQUEST + DELETE_MOVIE_URL);
         model.addAttribute(MESSAGE, movieService.deteleMovie(code));
+
         return REDIRECT_MOVIES_PAGE;
     }
 
@@ -149,8 +162,10 @@ public class MovieController {
     @RequestMapping(value = AUTOCOMPLETE_MOVIES_URL, method = RequestMethod.GET)
     @ResponseBody
     public String searchAutocompleteMovies(@RequestParam String movieTitle) throws JsonProcessingException {
+        logger.info(LOG_URL_REQUEST + AUTOCOMPLETE_MOVIES_URL);
         ObjectMapper mapper = new ObjectMapper();
         List<MovieModel> movies = movieService.searchAutocompleteMovies(movieTitle);
+
         return mapper.writeValueAsString(movies);
     }
 
@@ -165,7 +180,9 @@ public class MovieController {
     @RequestMapping(value = RATE_MOVIE, method = RequestMethod.GET)
     @ResponseBody
     public String voteMovie(Principal principal, @RequestParam int rating, @RequestParam String code) {
+        logger.info(LOG_URL_REQUEST + RATE_MOVIE);
         String returnPage = EMPTY_STRING;
+
         if (principal != null) {
             int newRating = voteService.rateMovie(principal.getName(), code, rating);
             if (newRating != 0) {
@@ -176,6 +193,7 @@ public class MovieController {
         } else {
             returnPage = REDIRECT_LOGIN_PAGE;
         }
+
         return returnPage;
     }
 
@@ -186,9 +204,11 @@ public class MovieController {
      * @param Movie
      * @return String
      */
-    @RequestMapping(value = { MOVIES_URL }, method = RequestMethod.POST)
+    @RequestMapping(value = MOVIES_URL, method = RequestMethod.POST)
     public String doAddOrUpdateMovie(Model model, @Valid @ModelAttribute(MOVIE) Movie movie) {
+        logger.info(LOG_URL_REQUEST + MOVIES_URL);
         String resultPage = EMPTY_STRING;
+
         if (movie != null) {
             if (!movieService.checkIfMovieExists(movie)) {
                 resultPage = REDIRECT_MOVIES_FAIL_PAGE;
@@ -198,6 +218,7 @@ public class MovieController {
                 resultPage = REDIRECT_MOVIES_FAIL_PAGE;
             }
         }
+
         return resultPage;
     }
 

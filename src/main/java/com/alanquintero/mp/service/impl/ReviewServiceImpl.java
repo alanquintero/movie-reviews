@@ -12,6 +12,7 @@ import static com.alanquintero.mp.util.Consts.*;
 
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.method.P;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,6 +50,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
     private ProfileDao profileDao;
 
+    private static final Logger logger = Logger.getLogger(ReviewServiceImpl.class);
+
     /**
      * Add or Update a Review
      * 
@@ -82,6 +85,8 @@ public class ReviewServiceImpl implements ReviewService {
                 review.setMovie(movie);
                 reviewDao.saveOrUpdateReview(review);
             }
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return inPage;
@@ -101,6 +106,8 @@ public class ReviewServiceImpl implements ReviewService {
         if ((review != null) && (Validation.isValidString(review.getCode()))) {
             review.setId(Data.decode(review.getCode()));
             success = reviewDao.deteleReview(review);
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return Message.setSuccessOrFail(success);
@@ -118,6 +125,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         if (review == null) {
             review = Message.setReviewFail();
+            logger.info(LOG_INVALID_INPUT);
         }
         review.setCode(Data.encode(review.getId()));
 

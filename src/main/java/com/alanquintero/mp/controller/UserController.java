@@ -14,6 +14,7 @@ import java.security.Principal;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +45,8 @@ public class UserController {
     @Autowired
     private ReviewService reviewService;
 
+    private static final Logger logger = Logger.getLogger(UserController.class);
+
     /**
      * Construct review object model
      * 
@@ -63,6 +66,7 @@ public class UserController {
      */
     @RequestMapping(PROFILE_URL)
     public String profile(Principal principal, Model model) {
+        logger.info(LOG_URL_REQUEST + PROFILE_URL);
         String userName = principal.getName();
 
         model.addAttribute(USER, userService.searchUserWithReviewsByName(userName));
@@ -79,6 +83,7 @@ public class UserController {
      */
     @RequestMapping(DELETE_PROFILE_URL)
     public String removeReview(Model model, @PathVariable String code) {
+        logger.info(LOG_URL_REQUEST + DELETE_PROFILE_URL);
         Review review = reviewService.searchReviewById(code);
 
         model.addAttribute(MESSAGE, reviewService.deteleReview(review));
@@ -109,8 +114,10 @@ public class UserController {
             }
             String inPage = reviewService.saveOrUpdateReview(review, userName);
             if (inPage.equals(IN_PROFILE)) {
+                logger.info(LOG_URL_REQUEST + PROFILE_URL);
                 resultPage = REDIRECT_PROFILE_PAGE;
             } else {
+                logger.info(LOG_URL_REQUEST + MOVIE_URL);
                 resultPage = REDIRECT_MOVIE_PAGE;
             }
         } else if (user != null && user.getProfile() != null) {
@@ -137,6 +144,7 @@ public class UserController {
      */
     @RequestMapping(value = RESULT_MOVIE_URL, method = RequestMethod.POST)
     public String doAddReviewResult(Principal principal, Model model, @ModelAttribute(REVIEW) Review review) {
+        logger.info(LOG_URL_REQUEST + RESULT_MOVIE_URL);
         String userName = principal.getName();
 
         model.addAttribute(MESSAGE, reviewService.saveOrUpdateReview(review, userName));
@@ -153,6 +161,7 @@ public class UserController {
      */
     @RequestMapping(SETTINGS_URL)
     public String settings(Principal principal, Model model) {
+        logger.info(LOG_URL_REQUEST + SETTINGS_URL);
         String userName = principal.getName();
 
         model.addAttribute(USER, userService.searchUserWithReviewsByName(userName));
@@ -170,6 +179,7 @@ public class UserController {
     @RequestMapping(value = CHECK_PWD_URL, method = RequestMethod.POST)
     @ResponseBody
     public String checkUserPassword(@RequestParam String userEmail, @RequestParam String userPassword) {
+        logger.info(LOG_URL_REQUEST + CHECK_PWD_URL);
         Boolean correctPwd = userService.checkUserPassword(userEmail, userPassword);
 
         return correctPwd.toString();
@@ -184,6 +194,7 @@ public class UserController {
      */
     @RequestMapping(value = SETTINGS_URL, method = RequestMethod.POST)
     public String updatePassword(Principal principal, @ModelAttribute(USER) User user) {
+        logger.info(LOG_URL_REQUEST + SETTINGS_URL);
         String resultPage = EMPTY_STRING;
         String userName = principal.getName();
 
@@ -206,6 +217,7 @@ public class UserController {
      */
     @RequestMapping(USERS_URL + USER_URL)
     public String userDetail(Principal principal, Model model, @PathVariable String code) {
+        logger.info(LOG_URL_REQUEST + USERS_URL + USER_URL);
         String resultPage = EMPTY_STRING;
         String userName = principal.getName();
         User user = userService.searchUserWithReviewsById(code);

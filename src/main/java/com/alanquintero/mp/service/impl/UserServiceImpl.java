@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -58,6 +59,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleDao roleDao;
 
+    private static final Logger logger = Logger.getLogger(UserServiceImpl.class);
+
     /**
      * Get all Users
      * 
@@ -86,6 +89,7 @@ public class UserServiceImpl implements UserService {
 
         if (user == null) {
             user = Message.setUserFail();
+            logger.info(LOG_INVALID_INPUT);
         }
         user.setCode(Data.encode(user.getId()));
 
@@ -120,9 +124,9 @@ public class UserServiceImpl implements UserService {
                 profile.setCode(Data.encode(profile.getId()));
                 user.setProfile(profile);
             }
-        }
-        if (user == null) {
+        } else {
             user = Message.setUserFail();
+            logger.info(LOG_INVALID_INPUT);
         }
         user.setCode(Data.encode(user.getId()));
 
@@ -159,6 +163,8 @@ public class UserServiceImpl implements UserService {
                 profile.setUser(newUser);
                 success = userDao.saveProfile(profile);
             }
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return success;
@@ -186,6 +192,7 @@ public class UserServiceImpl implements UserService {
         if (userResponse == null) {
             userResponse = Message.setUserFail();
             userResponse.setCode(EMPTY_STRING);
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return userResponse;
@@ -205,6 +212,8 @@ public class UserServiceImpl implements UserService {
 
         if (!user.getName().equals(MSG_FAIL)) {
             success = userDao.deleteUser(user.getId());
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return Message.setSuccessOrFail(success);
@@ -255,6 +264,8 @@ public class UserServiceImpl implements UserService {
                     success = true;
                 }
             }
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return success;
@@ -288,6 +299,8 @@ public class UserServiceImpl implements UserService {
             if (user != null) {
                 success = userDao.updateUserPassword(user, newPassword);
             }
+        } else {
+            logger.info(LOG_INVALID_INPUT);
         }
 
         return success;
