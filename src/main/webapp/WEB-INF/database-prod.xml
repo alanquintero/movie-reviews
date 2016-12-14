@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean class="java.net.URI" id="dbUrl">
-		<constructor-arg value="#{systemEnvironment['DATABASE_URL']}" />
+		<constructor-arg value="#{systemEnvironment['HEROKU_POSTGRESQL_PURPLE_URL']}" />
 	</bean>
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
@@ -14,9 +14,7 @@
 		<property name="password" value="#{ @dbUrl.getUserInfo().split(':')[1] }" />
 	</bean>
 
-	<bean
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		id="emf">
+	<bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="emf">
 		<property name="packagesToScan" value="com.alanquintero.mp.entity" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaProperties">

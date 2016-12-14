@@ -79,7 +79,7 @@
 	</context-param>
 
 	<context-param>
-		<param-name>spring.profile.default</param-name>
+		<param-name>spring.profiles.default</param-name>
 		<param-value>prod</param-value>
 	</context-param>
 
