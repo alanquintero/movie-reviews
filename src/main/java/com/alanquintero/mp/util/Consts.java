@@ -95,6 +95,9 @@ public final class Consts {
     public static final String ROLE_ENTITY = "roles";
     public static final String USER_ENTITY = "user";
 
+    // DB Table
+    public static final String USER_TABLE = "mp_user";
+
     // DB Fields
     public static final String PUBLISHED_DATE_FIELD = "publishedDate";
     public static final String RATING_FIELD = "rating";

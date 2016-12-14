@@ -27,12 +27,12 @@
 		<authentication-provider>
 			<password-encoder hash="bcrypt" />
 			<jdbc-user-service data-source-ref="dataSource"
-				authorities-by-username-query="SELECT user.name, role.name from User
-												JOIN user_role ON user.id = user_role.users_id
-												JOIN role ON user_role.roles_id = role.id
-												JOIN profile ON user_role.roles_id = role.id
-												WHERE user.name = ?"
-				users-by-username-query="SELECT name, password, enabled FROM user WHERE name = ?" />
+				authorities-by-username-query="SELECT mp_user.name, role.name from mp_user
+												JOIN mp_user_role ON mp_user.id = mp_user_role.users_id
+												JOIN role ON mp_user_role.roles_id = role.id
+												JOIN profile ON mp_user_role.roles_id = role.id
+												WHERE mp_user.name = ?"
+				users-by-username-query="SELECT name, password, enabled FROM mp_user WHERE name = ?" />
 		</authentication-provider>
 	</authentication-manager>
 

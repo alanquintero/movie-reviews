@@ -24,7 +24,8 @@
 			    User Name:
 			</label>
 			<div class="col-sm-10">
-				<form:input path="name" cssClass="form-control" placeholder="userName" maxlength="30" />
+				<form:input path="name" cssClass="form-control" placeholder="userName" maxlength="30" 
+				    autocomplete="off" />
 				<form:errors path="name" />
 			</div>
 		</div>
@@ -34,7 +35,8 @@
 			    Email:
 			</label>
 			<div class="col-sm-10">
-				<form:input path="email" cssClass="form-control" placeholder="someone@example.com" maxlength="30" />
+				<form:input path="email" cssClass="form-control" placeholder="someone@example.com" maxlength="30" 
+				    autocomplete="off" />
 				<form:errors path="email" />
 			</div>
 		</div>

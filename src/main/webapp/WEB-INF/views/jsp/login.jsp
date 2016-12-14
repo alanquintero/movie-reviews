@@ -18,7 +18,7 @@
 		    User Name
 		</label> 
 		<input type="text" name="username" class="form-control"
-			placeholder="User Name" maxlength="30" required autofocus> 
+			placeholder="User Name" maxlength="30" autocomplete="off" required autofocus> 
 		
 		<label for="inputPassword" class="sr-only">
 		    Password

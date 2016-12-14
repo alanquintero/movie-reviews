@@ -16,7 +16,7 @@
 		</label>
 		<form:input path="profile.code" id="profile" type="hidden" value="${user.profile.code}" />
 		<form:input path="profile.quote" cssClass="form-control" id="quote" placeholder="Write your Favorite Movie Quote"
-		    value="${user.profile.quote}" maxlength="50" disabled="true" />
+		    value="${user.profile.quote}" maxlength="50" autocomplete="off" disabled="true" />
 
 		<div id="save" style="display: none;">
 			<button type="button" class="btn btn-default btn-sm" onclick="saveQuote();">
@@ -144,7 +144,7 @@
 							     </label>
 							    <div class="col-sm-10">
 								    <form:input path="title" cssClass="form-control" placeholder="Title" maxlength="50" 
-								        id="title" />
+								        id="title" autocomplete="off" />
 								    <form:errors path="title" />
 							    </div>
 						    </div>
@@ -154,7 +154,7 @@
 							    </label>
 							    <div class="col-sm-10">
 								    <form:textarea path="comment" cssClass="form-control" placeholder="Comment" rows="3" 
-								        maxlength="150" id="comment" />
+								        maxlength="150" id="comment" autocomplete="off" />
 								    <form:errors path="comment" />
 							    </div>
 						    </div>

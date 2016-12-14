@@ -107,8 +107,8 @@
 								</label>
 								<div class="col-sm-10">
 									<form:input path="code" type="hidden" id="movie.code" />
-									<form:input path="title" id="movie.title"
-										cssClass="form-control" placeholder="Title" maxlength="50" />
+									<form:input path="title" id="movie.title" cssClass="form-control"
+										 placeholder="Title" maxlength="50" autocomplete="off" />
 									<form:errors path="title" />
 								</div>
 							</div>
@@ -117,8 +117,8 @@
 								    Year:
 								</label>
 								<div class="col-sm-10">
-									<form:input type="number" path="year" id="movie.year"
-										cssClass="form-control" placeholder="Year" maxlength="4" />
+									<form:input type="number" path="year" id="movie.year" cssClass="form-control"
+										 placeholder="Year" maxlength="4" autocomplete="off" />
 									<form:errors path="year" />
 								</div>
 							</div>
@@ -127,8 +127,8 @@
 								    Image URL:
 								</label>
 								<div class="col-sm-10">
-									<form:input path="image" id="movie.image"
-										cssClass="form-control" placeholder="Image URL" maxlength="200" />
+									<form:input path="image" id="movie.image" cssClass="form-control" 
+										placeholder="Image URL" maxlength="200" autocomplete="off" />
 									<form:errors path="image" />
 								</div>
 							</div>
@@ -137,8 +137,8 @@
 								    Trailer URL:
 								</label>
 								<div class="col-sm-10">
-									<form:input path="trailer" id="movie.trailer"
-										cssClass="form-control" placeholder="Trailer URL" maxlength="200" />
+									<form:input path="trailer" id="movie.trailer" cssClass="form-control" 
+										placeholder="Trailer URL" maxlength="200" autocomplete="off" />
 									<form:errors path="trailer" />
 								</div>
 							</div>
@@ -147,8 +147,8 @@
 								    Synopsis:
 								</label>
 								<div class="col-sm-10">
-									<form:textarea path="synopsis" id="movie.synopsis"
-										cssClass="form-control" placeholder="Synopsis" rows="3" maxlength="350" />
+									<form:textarea path="synopsis" id="movie.synopsis" cssClass="form-control"
+										 placeholder="Synopsis" rows="3" maxlength="350"  autocomplete="off"/>
 									<form:errors path="synopsis" />
 								</div>
 							</div>

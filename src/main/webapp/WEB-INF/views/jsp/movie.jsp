@@ -142,7 +142,8 @@
 								    Title:
 								</label>
 								<div class="col-sm-10">
-							        <form:input path="title" cssClass="form-control"  placeholder="Title" maxlength="50" />
+							        <form:input path="title" cssClass="form-control"  placeholder="Title" maxlength="50" 
+							            autocomplete="off" />
 									<form:errors path="title" />
 								</div>
 							</div>
@@ -152,7 +153,7 @@
 								</label>
 								<div class="col-sm-10">
 									<form:textarea path="comment" cssClass="form-control" placeholder="Comment" 
-									    rows="3" maxlength="350" />
+									    rows="3" maxlength="350" autocomplete="off" />
 									<form:errors path="comment" />
 								</div>
 							</div>
