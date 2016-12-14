@@ -62,7 +62,7 @@ public class AdminController {
         logger.info(LOG_URL_REQUEST + DELETE_USER_URL);
         model.addAttribute(MESSAGE, userService.deleteUser(code));
 
-        return DELETE_USER_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 
 }

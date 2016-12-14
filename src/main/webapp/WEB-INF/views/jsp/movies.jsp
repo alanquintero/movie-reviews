@@ -14,12 +14,12 @@
 			Add Movie
 		</button>
 
-		<c:if test="${param.success eq true }">
+		<c:if test="${success eq true }">
 			<div id="message" class="alert alert-success">
 			    Successful!
 			</div>
 		</c:if>
-		<c:if test="${param.success eq false }">
+		<c:if test="${success eq false }">
 			<div id="message" class="alert alert-danger">
 			    Sorry! Movie already exists.
 			</div>

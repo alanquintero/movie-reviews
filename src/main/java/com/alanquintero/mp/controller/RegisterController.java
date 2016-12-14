@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alanquintero.mp.entity.User;
 import com.alanquintero.mp.service.UserService;
@@ -63,20 +64,22 @@ public class RegisterController {
      * 
      * @param User
      * @param BindingResult
+     * @param RedirectAttributes
      * @return String
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String doRegister(@Valid @ModelAttribute(USER) User user, BindingResult result) {
+    public String doRegister(@Valid @ModelAttribute(USER) User user, BindingResult result,
+            RedirectAttributes redirectAttributes) {
         logger.info(LOG_URL_REQUEST + REGISTER_URL);
         String pageResult = DEFAULT_URL;
 
         if (result.hasErrors()) {
             pageResult = REGISTER_PAGE;
         } else {
-
             boolean success = userService.saveUser(user);
             if (success == true) {
-                pageResult = REGISTER_SUCCESS_PAGE;
+                redirectAttributes.addFlashAttribute(SUCCESS, true);
+                pageResult = REDIRECT_REGISTER_PAGE;
             } else {
                 pageResult = REGISTER_PAGE;
             }

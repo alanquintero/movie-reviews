@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alanquintero.mp.entity.Review;
 import com.alanquintero.mp.entity.User;
@@ -99,11 +100,13 @@ public class UserController {
      * @param Review
      * @param User
      * @param BindingResult
+     * @param RedirectAttributes
      * @return String
      */
     @RequestMapping(value = { MOVIE_URL, PROFILE_URL }, method = RequestMethod.POST)
     public String doAddOrUpdateReviewOrQuote(Principal principal, Model model,
-            @Valid @ModelAttribute(REVIEW) Review review, @ModelAttribute(USER) User user, BindingResult result) {
+            @Valid @ModelAttribute(REVIEW) Review review, @ModelAttribute(USER) User user, BindingResult result,
+            RedirectAttributes redirectAttributes) {
         String resultPage = EMPTY_STRING;
         String userName = principal.getName();
 
@@ -122,12 +125,15 @@ public class UserController {
             }
         } else if (user != null && user.getProfile() != null) {
             if (userService.saveOrUpdateQuote(user, userName)) {
-                resultPage = REDIRECT_PROFILE_SUCCESS_PAGE;
+                redirectAttributes.addFlashAttribute(SUCCESS, true);
+                resultPage = REDIRECT_PROFILE_PAGE;
             } else {
-                resultPage = REDIRECT_PROFILE_FAIL_PAGE;
+                redirectAttributes.addFlashAttribute(false);
+                resultPage = REDIRECT_PROFILE_PAGE;
             }
         } else {
-            resultPage = REDIRECT_PROFILE_FAIL_PAGE;
+            redirectAttributes.addFlashAttribute(SUCCESS, false);
+            resultPage = REDIRECT_PROFILE_PAGE;
         }
 
         return resultPage;
@@ -190,18 +196,22 @@ public class UserController {
      * 
      * @param Principal
      * @param User
+     * @param RedirectAttributes
      * @return String
      */
     @RequestMapping(value = SETTINGS_URL, method = RequestMethod.POST)
-    public String updatePassword(Principal principal, @ModelAttribute(USER) User user) {
+    public String updatePassword(Principal principal, @ModelAttribute(USER) User user,
+            RedirectAttributes redirectAttributes) {
         logger.info(LOG_URL_REQUEST + SETTINGS_URL);
         String resultPage = EMPTY_STRING;
         String userName = principal.getName();
 
         if (userService.updateUserPassword(userName, user.getNewPassword())) {
-            resultPage = REDIRECT_SETTINGS_SUCCESS_PAGE;
+            redirectAttributes.addFlashAttribute(SUCCESS, true);
+            resultPage = REDIRECT_SETTINGS_PAGE;
         } else {
-            resultPage = REDIRECT_SETTINGS_FAIL_PAGE;
+            redirectAttributes.addFlashAttribute(SUCCESS, false);
+            resultPage = REDIRECT_SETTINGS_PAGE;
         }
 
         return resultPage;

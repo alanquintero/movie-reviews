@@ -228,22 +228,31 @@ public class MovieServiceImpl implements MovieService {
     public boolean saveOrUpdateMovie(Movie movie) {
         boolean success = false;
 
-        if (Validation.isValidURL(movie.getImage()) && Validation.isValidURL(movie.getTrailer())
+        if (Validation.isValidString(movie.getImage()) && Validation.isValidString(movie.getTrailer())
                 && Validation.isValidString(movie.getSynopsis())) {
+            Movie movieToSave = new Movie();
             if (!Validation.isValidString(movie.getCode())) {
-                movie.setRating(0);
-                movie.setVote(0);
-                movie.setId(0);
+                movieToSave.setRating(0);
+                movieToSave.setVote(0);
+                movieToSave.setId(0);
             } else {
-                movie = searchMovieDetailsById(movie.getCode());
+                movieToSave = searchMovieDetailsById(movie.getCode());
             }
-            movie.setCode(EMPTY_STRING);
-            movie.setTitle(Format.removeBlanks(movie.getTitle()));
-            if (!movie.getTrailer().contains(FORMAT_YT_EMBED)) {
-                movie.setTrailer(Format.getYoutubeUrl(movie.getTrailer()));
-
+            movieToSave.setCode(EMPTY_STRING);
+            movieToSave.setTitle(Format.removeBlanks(movie.getTitle()));
+            movieToSave.setYear(movie.getYear());
+            if (Validation.isValidURL(movie.getImage())) {
+                movieToSave.setImage(movie.getImage());
+            } else {
+                movieToSave.setImage(MSG_INVALID_URL);
             }
-            success = movieDao.saveOrUpdateMovie(movie);
+            movieToSave.setSynopsis(movie.getSynopsis());
+            if ((Validation.isValidURL(movie.getTrailer())) && (!movie.getTrailer().contains(FORMAT_YT_EMBED))) {
+                movieToSave.setTrailer(Format.getYoutubeUrl(movie.getTrailer()));
+            } else {
+                movieToSave.setTrailer(MSG_INVALID_URL);
+            }
+            success = movieDao.saveOrUpdateMovie(movieToSave);
         } else {
             logger.info(LOG_INVALID_INPUT);
         }

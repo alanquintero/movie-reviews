@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alanquintero.mp.entity.Movie;
 import com.alanquintero.mp.entity.Review;
@@ -201,21 +202,26 @@ public class MovieController {
      * Add or Update a Movie
      * 
      * @param Model
+     * @param RedirectAttributes
      * @param Movie
      * @return String
      */
     @RequestMapping(value = MOVIES_URL, method = RequestMethod.POST)
-    public String doAddOrUpdateMovie(Model model, @Valid @ModelAttribute(MOVIE) Movie movie) {
+    public String doAddOrUpdateMovie(Model model, RedirectAttributes redirectAttributes,
+            @Valid @ModelAttribute(MOVIE) Movie movie) {
         logger.info(LOG_URL_REQUEST + MOVIES_URL);
         String resultPage = EMPTY_STRING;
 
         if (movie != null) {
             if (movieService.checkIfMovieExists(movie)) {
-                resultPage = REDIRECT_MOVIES_FAIL_PAGE;
+                redirectAttributes.addFlashAttribute(SUCCESS, false);
+                resultPage = REDIRECT_MOVIES_PAGE;
             } else if (movieService.saveOrUpdateMovie(movie)) {
-                resultPage = REDIRECT_MOVIES_SUCCESS_PAGE;
+                redirectAttributes.addFlashAttribute(SUCCESS, true);
+                resultPage = REDIRECT_MOVIES_PAGE;
             } else {
-                resultPage = REDIRECT_MOVIES_FAIL_PAGE;
+                redirectAttributes.addFlashAttribute(SUCCESS, false);
+                resultPage = REDIRECT_MOVIES_PAGE;
             }
         }
 

@@ -71,9 +71,14 @@
 			</div>
 		</div>
 
-		<c:if test="${param.success eq true }">
+		<c:if test="${success eq true }">
 			<div class="alert alert-success">
 			    Saved!
+			</div>
+		</c:if>
+		<c:if test="${success eq false }">
+			<div class="alert alert-danger">
+			    Sorry! Something went wrong. Please try again later.
 			</div>
 		</c:if>
 

@@ -6,11 +6,18 @@
 <div>
 
 	<form:form commandName="user" cssClass="form-horizontal registrationForm">
-		<c:if test="${param.success eq true }">
+		
+		<c:if test="${success eq true }">
 			<div class="alert alert-success">
-			    Registration Successful!
+			    Registration Successful! Please Log in!
 			</div>
 		</c:if>
+		<c:if test="${success eq false }">
+			<div class="alert alert-danger">
+			    Sorry! Something went wrong. Please try again later.
+			</div>
+		</c:if>
+		
 		
 		<h3 class="text-center">
 			Register 

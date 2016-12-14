@@ -26,6 +26,7 @@ public final class Consts {
     public static final String MSG_MOVIE_NOT_FOUND = "Movie not Found!";
     public static final String MSG_SUCCESS = "Success";
     public static final String MSG_FAIL = "Sorry! Something went wrong";
+    public static final String MSG_INVALID_URL = "Invalid URL";
 
     // Model
     public static final String USERS = "users";
@@ -63,28 +64,23 @@ public final class Consts {
     // Page
     public static final String USERS_PAGE = "users";
     public static final String USER_PAGE = "user-detail";
-    public static final String DELETE_USER_PAGE = "redirect:/users.html";
     public static final String INDEX_PAGE = "index";
     public static final String LOGIN_PAGE = "login";
     public static final String MOVIE_PAGE = "movie";
     public static final String MOVIES_PAGE = "movies";
     public static final String SETTINGS_PAGE = "settings";
     public static final String REGISTER_PAGE = "register";
-    public static final String REGISTER_SUCCESS_PAGE = "redirect:/register.html?success=true";
     public static final String PROFILE_PAGE = "profile";
 
     // Redirect Page
+    public static final String REDIRECT_REGISTER_PAGE = "redirect:/register.html";
     public static final String REDIRECT_LOGIN_PAGE = "/login.html";
+    public static final String REDIRECT_USERS_PAGE = "redirect:/users.html";
     public static final String REDIRECT_PROFILE_PAGE = "redirect:/profile.html";
-    public static final String REDIRECT_PROFILE_SUCCESS_PAGE = "redirect:/profile.html?success=true";
-    public static final String REDIRECT_PROFILE_FAIL_PAGE = "redirect:/profile.html?success=false";
-    public static final String REDIRECT_SETTINGS_SUCCESS_PAGE = "redirect:/settings.html?success=true";
-    public static final String REDIRECT_SETTINGS_FAIL_PAGE = "redirect:/settings.html?success=false";
+    public static final String REDIRECT_SETTINGS_PAGE = "redirect:/settings.html";
     public static final String REDIRECT_MOVIE_PAGE = "redirect:/movie/{code}.html";
     public static final String REDIRECT_RESULT_MOVIE_PAGE = "redirect:/result/{movieTitle}.html";
     public static final String REDIRECT_MOVIES_PAGE = "redirect:/movies.html";
-    public static final String REDIRECT_MOVIES_SUCCESS_PAGE = "redirect:/movies.html?success=true";
-    public static final String REDIRECT_MOVIES_FAIL_PAGE = "redirect:/movies.html?success=false";
 
     // In Page
     public static final String IN_PROFILE = "PROFILE";
@@ -159,5 +155,6 @@ public final class Consts {
     // Others
     public static final String EMPTY_STRING = "";
     public static final String ZERO_STRING = "0";
+    public static final String SUCCESS = "success";
 
 }

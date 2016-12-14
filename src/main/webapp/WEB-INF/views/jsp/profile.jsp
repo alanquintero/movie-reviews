@@ -37,7 +37,7 @@
 		<span id="message"></span>
 	</div>
 	
-	<c:if test="${param.success eq true }">
+	<c:if test="${success eq true }">
 		<div id="success" class="alert alert-success alert-dismissible">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">
 			   &times;
@@ -45,12 +45,12 @@
 			Successful!
 		</div>
 	</c:if>
-	<c:if test="${param.success eq false }">
+	<c:if test="${success eq false }">
 		<div id="success" class="alert alert-danger alert-dismissible">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">
 			    &times;
 			</a>
-			Sorry! Something were wrong!
+			Sorry! Something were wrong! Please try again later.
 		</div>
 	</c:if>
 
