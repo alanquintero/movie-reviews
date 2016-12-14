@@ -119,6 +119,22 @@ public class InitDBService {
             userProfile.setQuote("Be the force be with you.");
             userProfile.setUser(user);
             profileRepository.save(userProfile);
+            
+            User userTest = new User();
+            userTest.setName("test");
+            userTest.setPassword(encoder.encode("test123"));
+            roles = new ArrayList<Role>();
+            roles.add(roleUser);
+            userTest.setRoles(roles);
+            userTest.setEnabled(true);
+            userTest.setEmail("test@test.com");
+            userRepository.save(userTest);
+
+            Profile testProfile = new Profile();
+            testProfile.setQuote("I am not here.");
+            testProfile.setUser(userTest);
+            profileRepository.save(testProfile);
+            
 
             Review review1 = new Review();
             review1.setTitle("Great movie!");

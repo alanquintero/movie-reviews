@@ -29,7 +29,7 @@ import com.alanquintero.mp.service.VoteService;
  * @purpose Class used to test VoteServiceImpl class.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(CONF_CONTEXT)
+@ContextConfiguration({ CONF_DB, CONF_CONTEXT })
 @PrepareForTest(Logger.class)
 public class VoteServiceImplTest {
 

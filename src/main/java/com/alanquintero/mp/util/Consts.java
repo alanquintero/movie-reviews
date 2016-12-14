@@ -130,6 +130,7 @@ public final class Consts {
 
     // Configuration
     public static final String CONF_CONTEXT = "file:src/main/webapp/WEB-INF/applicationContext.xml";
+    public static final String CONF_DB = "file:src/main/webapp/WEB-INF/database-dev.xml";
 
     // Symbol
     public static final String PERCENT = "%";

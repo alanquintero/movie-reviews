@@ -34,7 +34,7 @@ import com.alanquintero.mp.service.MovieService;
  * @purpose Class used to test MovieServiceImpl class.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(CONF_CONTEXT)
+@ContextConfiguration({ CONF_DB, CONF_CONTEXT })
 @PrepareForTest(Logger.class)
 public class MovieServiceImplTest {
 

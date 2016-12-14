@@ -32,7 +32,7 @@ import com.alanquintero.mp.service.ReviewService;
  * @purpose Class used to test ReviewServiceImpl class.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(CONF_CONTEXT)
+@ContextConfiguration({ CONF_DB, CONF_CONTEXT })
 @PrepareForTest(Logger.class)
 public class ReviewServiceImplTest {
 
