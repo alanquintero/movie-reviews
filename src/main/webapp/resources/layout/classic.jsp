@@ -42,7 +42,7 @@
 
         <link rel="stylesheet" type="text/css" href="/resources/css/searchResults.css" />
         
-        <link rel="icon" href="../../../resources/img/moviePick.JPG">
+        <link rel="icon" href="../../../resources/img/MP.JPG">
 
     </head>
     <body>
@@ -66,7 +66,7 @@
 					    </button>
 					    <div class="${current == 'index' ? 'active' : ''}">
 						    <a class="navbar-brand" href="<spring:url value="/"/>">
-						        MOVIE PICK
+						        Movie Picked
 						    </a>
 					    </div>
 				    </div>

@@ -3,7 +3,7 @@
 
 <div>
 
-	<h1>Welcome to Movie Pick</h1>
+	<h1>Welcome to Movie Picked</h1>
 	
 	<h2>Most Voted Movies!</h2>
 

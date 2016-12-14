@@ -10,61 +10,61 @@
 	</definition>
 	
 	<definition name="index" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/index.jsp" />
 		<put-attribute name="current" value="index" />
 	</definition>
 	
 	<definition name="users" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/users.jsp" />
 		<put-attribute name="current" value="users" />
 	</definition>
 	
 	<definition name="profile" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/profile.jsp" />
 		<put-attribute name="current" value="profile" />
 	</definition>
 	
 	<definition name="register" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/register.jsp" />
 		<put-attribute name="current" value="register" />
 	</definition>
 	
 	<definition name="login" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/login.jsp" />
 		<put-attribute name="current" value="login" />
 	</definition>
 	
 	<definition name="user-detail" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/user-detail.jsp" />
 		<put-attribute name="current" value="users" />
 	</definition>
 	
 	<definition name="movie" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/movie.jsp" />
 		<put-attribute name="current" value="movie" />
 	</definition>
 	
 	<definition name="result" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/result.jsp" />
 		<put-attribute name="current" value="result" />
 	</definition>
 	
 	<definition name="movies" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/movies.jsp" />
 		<put-attribute name="current" value="movies" />
 	</definition>
 	
 	<definition name="settings" extends="common">
-		<put-attribute name="title" value="Movie Pick" />
+		<put-attribute name="title" value="Movie Picked" />
 		<put-attribute name="body" value="/WEB-INF/views/jsp/settings.jsp" />
 		<put-attribute name="current" value="settings" />
 	</definition>

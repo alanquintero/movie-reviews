@@ -16,6 +16,22 @@
 
 	<dependencies>
 
+		<!-- ***** PostgreSQL ***** -->
+
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901.jdbc4</version>
+		</dependency>
+
+		<!-- ***** DBCP ***** -->
+
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 		<!-- ***** Mockito ***** -->
 
 		<dependency>

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-Movie Pick Version 1.0 &copy; 
+Movie Picked Version 1.0 &copy; 
 <br>
 Created By
 <br>
