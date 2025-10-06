@@ -1,3 +1,29 @@
-/target/
-/target/
-/bin/
+# IDE folders
+/.idea/
+/.settings/
+*.iml
+
+# Build outputs
+/build/
+/out/
+
+# Gradle
+.gradle/
+**/build/
+
+# Local configuration files
+/local.properties
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# APKs or app bundles
+*.apk
+*.aab
+
+# Other
+captures/
