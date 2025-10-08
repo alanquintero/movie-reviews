@@ -1,0 +1,36 @@
+<div th:fragment="body">
+    <div class="container">
+        <h1 class="text-center">Welcome to Movie Reviews</h1>
+        <h2>Top Rated Movies!</h2>
+
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Number of Ratings</th>
+                <th>Rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(movie)}">
+                <td colspan="3">There are no movies</td>
+            </tr>
+            <tr th:each="m : ${movie}" th:if="${m.code != null}">
+                <td>
+                    <img th:src="@{/img/movies/{name}(name=${m.imageUrl})}"
+                         alt="img" style="float: left; width: 100px; height: 120px; margin-right: 10px;">
+                    <a th:href="@{/movie/{code}.html(code=${m.code})}">
+                        <span th:text="${m.title}"></span>
+                        <small class="text-muted">(<span th:text="${m.releaseYear}"></span>)</small>
+                    </a>
+                </td>
+                <td th:text="${m.rating}"></td>
+                <td>
+                    <img th:src="@{/resources/img/{vote}stars.JPG(vote=${m.rating})}"
+                         alt="img" style="float: left;">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

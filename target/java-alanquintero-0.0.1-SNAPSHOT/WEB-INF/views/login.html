@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign In</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/css/signin.css}" />
+</head>
+<body>
+
+<div class="container">
+
+    <form class="form-signin" th:action="@{/login}" method="post">
+        <h2 class="form-signin-heading">Please sign in</h2>
+
+        <label for="inputUserName" class="sr-only">User Name</label>
+        <input type="text" userName="username" class="form-control"
+               placeholder="User Name" maxlength="30" autocomplete="off" required autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" userName="password" class="form-control"
+               placeholder="Password" maxlength="30" required>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">
+            Sign in
+        </button>
+    </form>
+
+</div>
+
+</body>
+</html>
