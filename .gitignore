@@ -1,7 +1,14 @@
-# IDE folders
+# Eclipse files
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
 /.idea/
-/.settings/
-*.iml
+/*.iml
+
+# Maven
+/target/
 
 # Build outputs
 /build/
