@@ -47,7 +47,7 @@ public class InitDBService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitDBService.class);
 
-    public static final String JSON_FILE = "top1000imdb.json";
+    public static final String JSON_FILE = "top_movies_imdb.json";
 
     private final GenreRepository genreRepository;
     private final MovieRepository movieRepository;
@@ -114,7 +114,11 @@ public class InitDBService {
             movie.setTitle(movieDto.getTitle());
             movie.setReleaseYear(movieDto.getReleaseYear());
             movie.setOverview(movieDto.getOverview());
-            movie.setPosterLink(movieDto.getPosterLink());
+            if(movieDto.getPosterLink() == null || movieDto.getPosterLink().isEmpty()) {
+                movie.setPosterLink("img/placeholder.png");
+            } else {
+                movie.setPosterLink("posters/" + movieDto.getPosterLink());
+            }
             movie.setCertificate(movieDto.getCertificate());
             movie.setRunTime(movieDto.getRunTime());
             movie.setImdbRating(movieDto.getImdbRating());

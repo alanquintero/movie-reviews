@@ -40,7 +40,7 @@ function movieCardHtml(m) {
   const year = m.releaseYear ?? '';
   const rating = m.imdbRating ?? '';
   const votes = numberWithCommas(m.numberOfVotes) ?? '';
-  const poster = m.posterLink ?? m.thumbnail ?? '/img/placeholder.png';
+  const poster = m.posterLink ?? 'img/placeholder.png';
   return `
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="card movie-card h-100" data-id="${id}" style="cursor:pointer">
@@ -49,8 +49,9 @@ function movieCardHtml(m) {
         </div>
         <div class="card-body">
           <h5 class="card-title mb-1">${title}</h5>
-          <p class="card-text small text-muted mb-0">${year ? `Year: ${year}` : ''}</p>
-          <p class="card-text small text-muted">Rating: ${rating} | Votes: ${votes}</p>
+          <p class="card-text small text-muted mb-0">${year ? `Year: ${year}` : ''} <i class="bi bi-film"></i></p>
+          <p class="card-text small text-muted mb-1">Rating: ${rating} <i class="bi bi-star-fill"></i></p>
+          <p class="card-text small text-muted mb-1">Votes: ${votes} <i class="bi bi-hand-thumbs-up-fill"></i></p>
         </div>
       </div>
     </div>`;

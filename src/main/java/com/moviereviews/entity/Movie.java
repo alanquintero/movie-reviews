@@ -23,6 +23,8 @@ public class Movie {
 
     private String title;
 
+    private String originalTitle;
+
     private int releaseYear;
 
     @Lob
@@ -80,6 +82,14 @@ public class Movie {
 
     public void setTitle(final String title) {
         this.title = title;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
 
     public int getReleaseYear() {

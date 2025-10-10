@@ -18,6 +18,9 @@ public class MovieDto {
     @JsonProperty("Series_Title")
     private String title;
 
+    @JsonProperty("Original_Title")
+    private String originalTitle;
+
     @JsonProperty("Poster_Link")
     private String posterLink;
 
@@ -60,6 +63,14 @@ public class MovieDto {
 
     public void setTitle(final String title) {
         this.title = title;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
     }
 
     public String getPosterLink() {
