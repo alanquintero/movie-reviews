@@ -1,0 +1,5 @@
+/* small tweaks */
+body { background: #f8f9fa; }
+.card { transition: transform 0.12s ease; }
+.card:hover { transform: translateY(-6px); box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+.movie-card img { display: block; }

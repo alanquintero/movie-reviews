@@ -33,8 +33,8 @@ class MovieControllerTest {
     @Test
     void getTopRatedMovies() throws Exception {
         // Mock data
-        final TopMovieDto movie1 = new TopMovieDto("The Shawshank Redemption", "path/image1.jpg", "Movie 1", 1994, 9.3, 2343110, 80, List.of("Drama"));
-        final TopMovieDto movie2 = new TopMovieDto("The Godfather", "path/image2.jpg", "Movie 2", 1972, 9.0, 1620367, 100, List.of("Crime", "Drama"));
+        final TopMovieDto movie1 = new TopMovieDto("The Shawshank Redemption", "path/image1.jpg", 1994, 9.3, 2343110);
+        final TopMovieDto movie2 = new TopMovieDto("The Godfather", "path/image2.jpg", 1972, 9.0, 1620367);
 
         final List<TopMovieDto> mockMovies = List.of(movie1, movie2);
         when(movieService.getTopRatedMovies()).thenReturn(mockMovies);
@@ -46,8 +46,6 @@ class MovieControllerTest {
                 .andExpect(jsonPath("$.size()").value(2))
                 .andExpect(jsonPath("$[0].title").value("The Shawshank Redemption"))
                 .andExpect(jsonPath("$[0].imdbRating").value(9.3))
-                .andExpect(jsonPath("$[0].genres").isArray())
-                .andExpect(jsonPath("$[0].genres").isNotEmpty())
                 .andExpect(jsonPath("$[1].title").value("The Godfather"));
 
         // Verify service call

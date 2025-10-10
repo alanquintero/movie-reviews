@@ -19,14 +19,9 @@ public class MovieMapper {
         return new TopMovieDto(
                 movie.getTitle(),
                 movie.getPosterLink(),
-                movie.getOverview(),
                 movie.getReleaseYear(),
                 movie.getImdbRating(),
-                movie.getNumberOfVotes(),
-                movie.getMetaScore(),
-                movie.getGenres().stream()
-                        .map(Genre::getGenre)
-                        .collect(Collectors.toList())
+                movie.getNumberOfVotes()
         );
     }
 }
