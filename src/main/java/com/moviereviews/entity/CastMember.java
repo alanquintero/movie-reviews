@@ -6,7 +6,7 @@ package com.moviereviews.entity;
 
 import jakarta.persistence.*;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Entity representing a Cast Member.
@@ -21,23 +21,16 @@ public class CastMember {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
+    private String castMemberName;
 
     @ManyToMany(mappedBy = "cast")
-    private List<Movie> movies;
+    private Set<Movie> movies;
 
     public CastMember() {
     }
 
-    public CastMember(final String firstName) {
-        this.firstName = firstName;
-    }
-
-    public CastMember(final String firstName, final String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public CastMember(final String castMemberName) {
+        this.castMemberName = castMemberName;
     }
 
     public Long getId() {
@@ -48,27 +41,19 @@ public class CastMember {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getCastMemberName() {
+        return castMemberName;
     }
 
-    public void setFirstName(final String firstName) {
-        this.firstName = firstName;
+    public void setCastMemberName(String castMemberName) {
+        this.castMemberName = castMemberName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(final String lastName) {
-        this.lastName = lastName;
-    }
-
-    public List<Movie> getMovies() {
+    public Set<Movie> getMovies() {
         return movies;
     }
 
-    public void setMovies(List<Movie> movies) {
+    public void setMovies(Set<Movie> movies) {
         this.movies = movies;
     }
 
@@ -76,18 +61,11 @@ public class CastMember {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CastMember castMember)) return false;
-        if (firstName != null && lastName != null) {
-            return firstName.equals(castMember.firstName)
-                    && lastName.equals(castMember.lastName);
-        }
-        return firstName != null && firstName.equals(castMember.firstName);
+        return castMemberName != null && castMemberName.equals(castMember.castMemberName);
     }
 
     @Override
     public int hashCode() {
-        if (firstName != null && lastName != null) {
-            return firstName.hashCode() + lastName.hashCode();
-        }
-        return firstName != null ? firstName.hashCode() : 0;
+        return castMemberName != null ? castMemberName.hashCode() : 0;
     }
 }

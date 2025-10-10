@@ -6,15 +6,18 @@ package com.moviereviews.config;
 
 import com.moviereviews.dto.MovieDto;
 import com.moviereviews.entity.CastMember;
+import com.moviereviews.entity.Director;
 import com.moviereviews.entity.Genre;
 import com.moviereviews.entity.Movie;
 import com.moviereviews.repository.CastMemberRepository;
+import com.moviereviews.repository.DirectorRepository;
 import com.moviereviews.repository.GenreRepository;
 import com.moviereviews.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +29,7 @@ class InitDBServiceTest {
 
     private GenreRepository genreRepository;
     private MovieRepository movieRepository;
+    private DirectorRepository directorRepository;
     private CastMemberRepository castMemberRepository;
     private InitDBService initDBService;
 
@@ -33,9 +37,10 @@ class InitDBServiceTest {
     void setUp() {
         genreRepository = mock(GenreRepository.class);
         movieRepository = mock(MovieRepository.class);
+        directorRepository = mock(DirectorRepository.class);
         castMemberRepository = mock(CastMemberRepository.class);
 
-        initDBService = new InitDBService(genreRepository, movieRepository, castMemberRepository);
+        initDBService = new InitDBService(genreRepository, movieRepository, directorRepository, castMemberRepository);
     }
 
     @Test
@@ -56,6 +61,7 @@ class InitDBServiceTest {
 
         // Then
         // Verify that repositories were called
+        verify(directorRepository, atLeastOnce()).saveAll(any(Collection.class));
         verify(castMemberRepository, atLeastOnce()).saveAll(any(Set.class));
         verify(genreRepository, atLeastOnce()).saveAll(any(Set.class));
         verify(movieRepository, atLeastOnce()).saveAll(any(List.class));
@@ -67,22 +73,28 @@ class InitDBServiceTest {
         initDBService.init();
 
         // Then
+        // Capture saved directors
+        ArgumentCaptor<Collection<Director>> directorCaptor = ArgumentCaptor.forClass(Collection.class);
+        verify(directorRepository).saveAll(directorCaptor.capture());
+        final Collection<Director> savedDirector = directorCaptor.getValue();
+        assertFalse(savedDirector.isEmpty(), "Directors should not be empty");
+
         // Capture saved cast members
         ArgumentCaptor<Set<CastMember>> castCaptor = ArgumentCaptor.forClass(Set.class);
         verify(castMemberRepository).saveAll(castCaptor.capture());
-        Set<CastMember> savedCast = castCaptor.getValue();
+        final Set<CastMember> savedCast = castCaptor.getValue();
         assertFalse(savedCast.isEmpty(), "Cast members should not be empty");
 
         // Capture saved genres
         ArgumentCaptor<Set<Genre>> genreCaptor = ArgumentCaptor.forClass(Set.class);
         verify(genreRepository).saveAll(genreCaptor.capture());
-        Set<Genre> savedGenres = genreCaptor.getValue();
+        final Set<Genre> savedGenres = genreCaptor.getValue();
         assertFalse(savedGenres.isEmpty(), "Genres should not be empty");
 
         // Capture saved movies
         ArgumentCaptor<List<Movie>> movieCaptor = ArgumentCaptor.forClass(List.class);
         verify(movieRepository).saveAll(movieCaptor.capture());
-        List<Movie> savedMovies = movieCaptor.getValue();
+        final List<Movie> savedMovies = movieCaptor.getValue();
         assertFalse(savedMovies.isEmpty(), "Movies should not be empty");
     }
 }

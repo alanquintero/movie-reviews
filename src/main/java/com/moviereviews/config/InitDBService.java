@@ -8,9 +8,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.moviereviews.dto.MovieDto;
 import com.moviereviews.entity.CastMember;
+import com.moviereviews.entity.Director;
 import com.moviereviews.entity.Genre;
 import com.moviereviews.entity.Movie;
 import com.moviereviews.repository.CastMemberRepository;
+import com.moviereviews.repository.DirectorRepository;
 import com.moviereviews.repository.GenreRepository;
 import com.moviereviews.repository.MovieRepository;
 import jakarta.annotation.PostConstruct;
@@ -20,10 +22,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Service responsible for initializing the database with movie data from a JSON file.
@@ -47,15 +47,17 @@ public class InitDBService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InitDBService.class);
 
-    public static final String JSON_FILE = "movies-2020s.json";
+    public static final String JSON_FILE = "top1000imdb.json";
 
     private final GenreRepository genreRepository;
     private final MovieRepository movieRepository;
+    private final DirectorRepository directorRepository;
     private final CastMemberRepository castMemberRepository;
 
-    public InitDBService(final GenreRepository genreRepository, final MovieRepository movieRepository, final CastMemberRepository castMemberRepository) {
+    public InitDBService(final GenreRepository genreRepository, final MovieRepository movieRepository, final DirectorRepository directorRepository, final CastMemberRepository castMemberRepository) {
         this.genreRepository = genreRepository;
         this.movieRepository = movieRepository;
+        this.directorRepository = directorRepository;
         this.castMemberRepository = castMemberRepository;
     }
 
@@ -69,45 +71,74 @@ public class InitDBService {
 
         LOGGER.info("Constructing entities...");
         final Set<Genre> genres = new HashSet<>();
+        final Map<String, Director> directorMap = new HashMap<>();
         final Set<CastMember> castMembers = new HashSet<>();
-        final List<Movie> movies = new ArrayList<>();
         for (final MovieDto movieDto : movieDtoList) {
+            // ******* Director *******
+            directorMap.putIfAbsent(movieDto.getDirector(), new Director(movieDto.getDirector()));
+
             // ******* Cast Member *******
             for (final String castMember : movieDto.getCast()) {
-                // Limit name to two parts, firstname (everything before first space) and lastname the rest of the string (everything after first space)
-                final String[] parts = castMember.split(" ", 2); // Split by space, limit to 2 parts
-                if (parts.length == 1) {
-                    // only has firstName
-                    castMembers.add(new CastMember(parts[0]));
-                } else if (parts.length > 1) {
-                    // has firstName and lastName
-                    castMembers.add(new CastMember(parts[0], parts[1]));
-                }
+                castMembers.add(new CastMember(castMember));
             }
 
             // ******* Genre *******
             for (final String genre : movieDto.getGenres()) {
                 genres.add(new Genre(genre));
             }
+        }
+        LOGGER.info("Inserting Director, Cast Member, and Genre data into the DB");
+        LOGGER.info("Directors: {}", directorMap.size());
+        LOGGER.info("Cast members: {}", castMembers.size());
+        LOGGER.info("Genres: {}", genres.size());
+        directorRepository.saveAll(directorMap.values());
+        castMemberRepository.saveAll(castMembers);
+        genreRepository.saveAll(genres);
 
-            // ******* Movie *******
+        // Re-fetch persisted entities to ensure we’re using managed instances
+        final List<Director> persistedDirectors = directorRepository.findAll();
+        final List<CastMember> persistedCast = castMemberRepository.findAll();
+        final List<Genre> persistedGenres = genreRepository.findAll();
+        // Convert lists to lookup maps for fast access
+        final Map<String, Director> persistedDirectorMap = persistedDirectors.stream()
+                .collect(Collectors.toMap(Director::getDirectorName, d -> d));
+        final Map<String, CastMember> persistedCastMap = persistedCast.stream()
+                .collect(Collectors.toMap(CastMember::getCastMemberName, c -> c));
+        final Map<String, Genre> persistedGenreMap = persistedGenres.stream()
+                .collect(Collectors.toMap(Genre::getGenre, g -> g));
+
+        final List<Movie> movies = new ArrayList<>();
+
+        for (final MovieDto movieDto : movieDtoList) {
             final Movie movie = new Movie();
             movie.setTitle(movieDto.getTitle());
             movie.setReleaseYear(movieDto.getReleaseYear());
-            movie.setHref(movieDto.getHref());
-            movie.setExtract(movieDto.getExtract());
-            movie.setThumbnail(movieDto.getThumbnail());
-            movie.setThumbnailWidth(movieDto.getThumbnailWidth());
-            movie.setThumbnailHeight(movieDto.getThumbnailHeight());
+            movie.setOverview(movieDto.getOverview());
+            movie.setPosterLink(movieDto.getPosterLink());
+            movie.setCertificate(movieDto.getCertificate());
+            movie.setRunTime(movieDto.getRunTime());
+            movie.setImdbRating(movieDto.getImdbRating());
+            movie.setMetaScore(movieDto.getMetaScore());
+            movie.setNumberOfVotes(movieDto.getNumberOfVotes());
+            movie.setGross(movieDto.getGross());
+
+            movie.setDirector(persistedDirectorMap.get(movieDto.getDirector()));
+
+            final Set<CastMember> movieCast = movieDto.getCast().stream()
+                    .map(persistedCastMap::get)
+                    .collect(Collectors.toSet());
+            movie.setCast(movieCast);
+
+            final Set<Genre> movieGenres = movieDto.getGenres().stream()
+                    .map(persistedGenreMap::get)
+                    .collect(Collectors.toSet());
+            movie.setGenres(movieGenres);
+
             movies.add(movie);
         }
 
-        LOGGER.info("Inserting data into the DB");
-        LOGGER.info("Cast members: {}", castMembers.size());
-        LOGGER.info("Genres: {}", genres.size());
+        LOGGER.info("Inserting Movie data into the DB");
         LOGGER.info("Movies: {}", movies.size());
-        castMemberRepository.saveAll(castMembers);
-        genreRepository.saveAll(genres);
         movieRepository.saveAll(movies);
     }
 

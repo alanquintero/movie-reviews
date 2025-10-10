@@ -15,48 +15,138 @@ import java.util.List;
  */
 public class MovieDto {
 
+    @JsonProperty("Series_Title")
     private String title;
 
-    @JsonProperty("year")
+    @JsonProperty("Poster_Link")
+    private String posterLink;
+
+    @JsonProperty("Overview")
+    private String overview;
+
+    @JsonProperty("Released_Year")
     private int releaseYear;
 
+    @JsonProperty("Certificate")
+    private String certificate;
+
+    @JsonProperty("Runtime")
+    private String runTime;
+
+    @JsonProperty("IMDB_Rating")
+    private double imdbRating;
+
+    @JsonProperty("Meta_score")
+    private int metaScore;
+
+    @JsonProperty("No_of_Votes")
+    private int numberOfVotes;
+
+    @JsonProperty("Gross")
+    private String gross;
+
+    @JsonProperty("Director")
+    private String director;
+
+    @JsonProperty("cast")
     private List<String> cast;
 
+    @JsonProperty("genres")
     private List<String> genres;
-
-    private String href;
-
-    private String extract;
-
-    private String thumbnail;
-
-    @JsonProperty("thumbnail_width")
-    private int thumbnailWidth;
-
-    @JsonProperty("thumbnail_height")
-    private int thumbnailHeight;
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
+    }
+
+    public String getPosterLink() {
+        return posterLink;
+    }
+
+    public void setPosterLink(final String posterLink) {
+        this.posterLink = posterLink;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(final String overview) {
+        this.overview = overview;
     }
 
     public int getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(final int releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(final String certificate) {
+        this.certificate = certificate;
+    }
+
+    public String getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(final String runTime) {
+        this.runTime = runTime;
+    }
+
+    public double getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(final double imdbRating) {
+        this.imdbRating = imdbRating;
+    }
+
+    public int getMetaScore() {
+        return metaScore;
+    }
+
+    public void setMetaScore(final int metaScore) {
+        this.metaScore = metaScore;
+    }
+
+    public int getNumberOfVotes() {
+        return numberOfVotes;
+    }
+
+    public void setNumberOfVotes(final int numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
+    }
+
+    public String getGross() {
+        return gross;
+    }
+
+    public void setGross(final String gross) {
+        this.gross = gross;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public void setDirector(final String director) {
+        this.director = director;
     }
 
     public List<String> getCast() {
         return cast;
     }
 
-    public void setCast(List<String> cast) {
+    public void setCast(final List<String> cast) {
         this.cast = cast;
     }
 
@@ -64,47 +154,7 @@ public class MovieDto {
         return genres;
     }
 
-    public void setGenres(List<String> genres) {
+    public void setGenres(final List<String> genres) {
         this.genres = genres;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public void setHref(String href) {
-        this.href = href;
-    }
-
-    public String getExtract() {
-        return extract;
-    }
-
-    public void setExtract(String extract) {
-        this.extract = extract;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public int getThumbnailWidth() {
-        return thumbnailWidth;
-    }
-
-    public void setThumbnailWidth(int thumbnailWidth) {
-        this.thumbnailWidth = thumbnailWidth;
-    }
-
-    public int getThumbnailHeight() {
-        return thumbnailHeight;
-    }
-
-    public void setThumbnailHeight(int thumbnailHeight) {
-        this.thumbnailHeight = thumbnailHeight;
     }
 }

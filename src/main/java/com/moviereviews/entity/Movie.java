@@ -25,6 +25,28 @@ public class Movie {
 
     private int releaseYear;
 
+    @Lob
+    private String overview;
+
+    @Column(length = 1000)
+    private String posterLink;
+
+    private String certificate;
+
+    private String runTime;
+
+    private double imdbRating;
+
+    private int metaScore;
+
+    private int numberOfVotes;
+
+    private String gross;
+
+    @ManyToOne
+    @JoinColumn(name = "director_id")
+    private Director director;
+
     @ManyToMany
     @JoinTable(
             name = "movie_castmember", // join table name
@@ -39,20 +61,7 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"), // FK to movie
             inverseJoinColumns = @JoinColumn(name = "genre_id") // FK to genre
     )
-
     private Set<Genre> genres;
-
-    private String href;
-
-    @Lob
-    private String extract;
-
-    @Column(length = 1000)
-    private String thumbnail;
-
-    private int thumbnailWidth;
-
-    private int thumbnailHeight;
 
     public Movie() {
     }
@@ -81,6 +90,78 @@ public class Movie {
         this.releaseYear = releaseYear;
     }
 
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(final String overview) {
+        this.overview = overview;
+    }
+
+    public String getPosterLink() {
+        return posterLink;
+    }
+
+    public void setPosterLink(final String posterLink) {
+        this.posterLink = posterLink;
+    }
+
+    public String getCertificate() {
+        return certificate;
+    }
+
+    public void setCertificate(final String certificate) {
+        this.certificate = certificate;
+    }
+
+    public String getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(final String runTime) {
+        this.runTime = runTime;
+    }
+
+    public double getImdbRating() {
+        return imdbRating;
+    }
+
+    public void setImdbRating(final double imdbRating) {
+        this.imdbRating = imdbRating;
+    }
+
+    public int getMetaScore() {
+        return metaScore;
+    }
+
+    public void setMetaScore(final int metaScore) {
+        this.metaScore = metaScore;
+    }
+
+    public int getNumberOfVotes() {
+        return numberOfVotes;
+    }
+
+    public void setNumberOfVotes(final int numberOfVotes) {
+        this.numberOfVotes = numberOfVotes;
+    }
+
+    public String getGross() {
+        return gross;
+    }
+
+    public void setGross(final String gross) {
+        this.gross = gross;
+    }
+
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(final Director director) {
+        this.director = director;
+    }
+
     public Set<CastMember> getCast() {
         return cast;
     }
@@ -95,45 +176,5 @@ public class Movie {
 
     public void setGenres(final Set<Genre> genres) {
         this.genres = genres;
-    }
-
-    public String getHref() {
-        return href;
-    }
-
-    public void setHref(final String href) {
-        this.href = href;
-    }
-
-    public String getExtract() {
-        return extract;
-    }
-
-    public void setExtract(final String extract) {
-        this.extract = extract;
-    }
-
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(final String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
-    public int getThumbnailWidth() {
-        return thumbnailWidth;
-    }
-
-    public void setThumbnailWidth(final int thumbnailWidth) {
-        this.thumbnailWidth = thumbnailWidth;
-    }
-
-    public int getThumbnailHeight() {
-        return thumbnailHeight;
-    }
-
-    public void setThumbnailHeight(final int thumbnailHeight) {
-        this.thumbnailHeight = thumbnailHeight;
     }
 }

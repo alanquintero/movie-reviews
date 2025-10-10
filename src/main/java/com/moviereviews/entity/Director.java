@@ -9,28 +9,28 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 /**
- * Entity representing a Genre.
+ * Entity representing a Director.
  *
  * @author Alan Quintero
  */
 @Entity
-@Table(name = "genre")
-public class Genre {
+@Table(name = "director")
+public class Director {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String genre;
+    private String directorName;
 
-    @ManyToMany(mappedBy = "genres")
+    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Movie> movies;
 
-    public Genre() {
+    public Director() {
     }
 
-    public Genre(final String genre) {
-        this.genre = genre;
+    public Director(final String directorName) {
+        this.directorName = directorName;
     }
 
     public Long getId() {
@@ -41,12 +41,12 @@ public class Genre {
         this.id = id;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getDirectorName() {
+        return directorName;
     }
 
-    public void setGenre(final String genre) {
-        this.genre = genre;
+    public void setDirectorName(final String directorName) {
+        this.directorName = directorName;
     }
 
     public Set<Movie> getMovies() {
@@ -60,12 +60,12 @@ public class Genre {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Genre genreObj)) return false;
-        return genre != null && genre.equals(genreObj.genre);
+        if (!(o instanceof Director director)) return false;
+        return directorName != null && directorName.equals(director.directorName);
     }
 
     @Override
     public int hashCode() {
-        return genre != null ? genre.hashCode() : 0;
+        return directorName != null ? directorName.hashCode() : 0;
     }
 }
