@@ -23,7 +23,7 @@ public class Genre {
 
     private String genre;
 
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.LAZY)
     private Set<Movie> movies;
 
     public Genre() {

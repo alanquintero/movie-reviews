@@ -23,7 +23,7 @@ public class CastMember {
 
     private String castMemberName;
 
-    @ManyToMany(mappedBy = "cast")
+    @ManyToMany(mappedBy = "cast", fetch = FetchType.LAZY)
     private Set<Movie> movies;
 
     public CastMember() {

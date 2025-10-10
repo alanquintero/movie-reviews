@@ -23,7 +23,7 @@ public class Director {
 
     private String directorName;
 
-    @OneToMany(mappedBy = "director", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "director", fetch = FetchType.LAZY)
     private Set<Movie> movies;
 
     public Director() {
