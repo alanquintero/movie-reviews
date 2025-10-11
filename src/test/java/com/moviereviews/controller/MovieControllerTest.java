@@ -4,7 +4,7 @@
  */
 package com.moviereviews.controller;
 
-import com.moviereviews.dto.TopMovieDto;
+import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,10 +33,10 @@ class MovieControllerTest {
     @Test
     void getTopRatedMovies() throws Exception {
         // Mock data
-        final TopMovieDto movie1 = new TopMovieDto("The Shawshank Redemption", "path/image1.jpg", 1994, 9.3, 2343110);
-        final TopMovieDto movie2 = new TopMovieDto("The Godfather", "path/image2.jpg", 1972, 9.0, 1620367);
+        final MovieSummaryDto movie1 = new MovieSummaryDto("The Shawshank Redemption", "path/image1.jpg", 1994, 9.3, 2343110);
+        final MovieSummaryDto movie2 = new MovieSummaryDto("The Godfather", "path/image2.jpg", 1972, 9.0, 1620367);
 
-        final List<TopMovieDto> mockMovies = List.of(movie1, movie2);
+        final List<MovieSummaryDto> mockMovies = List.of(movie1, movie2);
         when(movieService.getTopRatedMovies()).thenReturn(mockMovies);
 
         // Perform GET request

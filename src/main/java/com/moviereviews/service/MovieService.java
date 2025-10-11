@@ -4,7 +4,7 @@
  */
 package com.moviereviews.service;
 
-import com.moviereviews.dto.TopMovieDto;
+import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.entity.Movie;
 import com.moviereviews.mapper.MovieMapper;
 import com.moviereviews.repository.MovieRepository;
@@ -37,7 +37,7 @@ public class MovieService {
      *
      * @return list of top-rated movies
      */
-    public List<TopMovieDto> getTopRatedMovies() {
+    public List<MovieSummaryDto> getTopRatedMovies() {
         LOGGER.info("getTopRatedMovies");
         final List<Movie> topRatedMovies = movieRepository.findTopRatedMovies(PageRequest.of(0, 15));
         return topRatedMovies.stream()

@@ -4,7 +4,7 @@
  */
 package com.moviereviews.controller;
 
-import com.moviereviews.dto.TopMovieDto;
+import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.service.MovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +39,8 @@ public class MovieController {
      * @return List of Movie objects as JSON.
      */
     @GetMapping("/top-rated")
-    public List<TopMovieDto> getTopRatedMovies() {
-        final List<TopMovieDto> movies = movieService.getTopRatedMovies();
+    public List<MovieSummaryDto> getTopRatedMovies() {
+        final List<MovieSummaryDto> movies = movieService.getTopRatedMovies();
         LOGGER.info("Movies: {}", movies);
         return movies;
     }

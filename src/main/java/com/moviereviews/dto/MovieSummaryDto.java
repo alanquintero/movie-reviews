@@ -5,11 +5,11 @@
 package com.moviereviews.dto;
 
 /**
- * DTO class to store the data of the top-rated movies.
+ * DTO class to store some data of movies.
  *
  * @author Alan Quintero
  */
-public class TopMovieDto {
+public class MovieSummaryDto {
 
     private String title;
 
@@ -21,7 +21,7 @@ public class TopMovieDto {
 
     private int numberOfVotes;
 
-    public TopMovieDto(final String title, final String posterLink, final int releaseYear, final double imdbRating, final int numberOfVotes) {
+    public MovieSummaryDto(final String title, final String posterLink, final int releaseYear, final double imdbRating, final int numberOfVotes) {
         this.title = title;
         this.posterLink = posterLink;
         this.releaseYear = releaseYear;

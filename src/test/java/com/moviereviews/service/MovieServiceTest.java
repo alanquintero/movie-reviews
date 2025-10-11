@@ -4,7 +4,7 @@
  */
 package com.moviereviews.service;
 
-import com.moviereviews.dto.TopMovieDto;
+import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.entity.Movie;
 import com.moviereviews.repository.MovieRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +50,7 @@ class MovieServiceTest {
         when(movieRepository.findTopRatedMovies(PageRequest.of(0, 15))).thenReturn(mockMovies);
 
         // Call service
-        List<TopMovieDto> topMovies = movieService.getTopRatedMovies();
+        List<MovieSummaryDto> topMovies = movieService.getTopRatedMovies();
 
         // Verify repository call
         verify(movieRepository, times(1)).findTopRatedMovies(PageRequest.of(0, 15));
@@ -58,11 +58,11 @@ class MovieServiceTest {
         // Assert mapping
         assertEquals(2, topMovies.size());
 
-        TopMovieDto dto1 = topMovies.get(0);
+        MovieSummaryDto dto1 = topMovies.get(0);
         assertEquals("The Shawshank Redemption", dto1.getTitle());
         assertEquals(9.3, dto1.getImdbRating());
 
-        TopMovieDto dto2 = topMovies.get(1);
+        MovieSummaryDto dto2 = topMovies.get(1);
         assertEquals("The Godfather", dto2.getTitle());
         assertEquals(9.2, dto2.getImdbRating());
     }

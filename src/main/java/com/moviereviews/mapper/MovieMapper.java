@@ -4,19 +4,16 @@
  */
 package com.moviereviews.mapper;
 
-import com.moviereviews.dto.TopMovieDto;
-import com.moviereviews.entity.Genre;
+import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.entity.Movie;
-
-import java.util.stream.Collectors;
 
 /**
  * Utility class for converting {@link Movie} entities to various DTOs.
  */
 public class MovieMapper {
 
-    public static TopMovieDto toTopMovieDTO(final Movie movie) {
-        return new TopMovieDto(
+    public static MovieSummaryDto toTopMovieDTO(final Movie movie) {
+        return new MovieSummaryDto(
                 movie.getTitle(),
                 movie.getPosterLink(),
                 movie.getReleaseYear(),
