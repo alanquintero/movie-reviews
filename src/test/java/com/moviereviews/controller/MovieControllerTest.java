@@ -4,6 +4,7 @@
  */
 package com.moviereviews.controller;
 
+import com.moviereviews.dto.MovieDetailsDto;
 import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.service.MovieService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -33,8 +36,8 @@ class MovieControllerTest {
     @Test
     void getTopRatedMovies() throws Exception {
         // Mock data
-        final MovieSummaryDto movie1 = new MovieSummaryDto("The Shawshank Redemption", "path/image1.jpg", 1994, 9.3, 2343110);
-        final MovieSummaryDto movie2 = new MovieSummaryDto("The Godfather", "path/image2.jpg", 1972, 9.0, 1620367);
+        final MovieSummaryDto movie1 = new MovieSummaryDto(1L, "The Shawshank Redemption", "path/image1.jpg", 1994, 9.3, 2343110);
+        final MovieSummaryDto movie2 = new MovieSummaryDto(2L, "The Godfather", "path/image2.jpg", 1972, 9.0, 1620367);
 
         final List<MovieSummaryDto> mockMovies = List.of(movie1, movie2);
         when(movieService.getTopRatedMovies()).thenReturn(mockMovies);
@@ -50,5 +53,29 @@ class MovieControllerTest {
 
         // Verify service call
         verify(movieService, times(1)).getTopRatedMovies();
+    }
+
+    @Test
+    void getMovieDetails() throws Exception {
+        // Mock data
+        final Set<String> cast = new HashSet<>();
+        cast.add("Tim Robbins");
+        cast.add("Morgan Freeman");
+        final Set<String> genre = new HashSet<>();
+        genre.add("Drama");
+        final MovieDetailsDto movie = new MovieDetailsDto(1L, "The Shawshank Redemption", "path/image1.jpg", 1994, 9.3, 2343110, null, "movie1", "A", "142 min",
+                80, "28,341,469", "Frank Darabont", cast, genre);
+
+        when(movieService.getMovieById(1)).thenReturn(movie);
+
+        // Perform GET request
+        mockMvc.perform(get("/api/v1/movies/1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("The Shawshank Redemption"))
+                .andExpect(jsonPath("$.imdbRating").value(9.3));
+
+        // Verify service call
+        verify(movieService, times(1)).getMovieById(anyLong());
     }
 }

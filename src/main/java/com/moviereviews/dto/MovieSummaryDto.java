@@ -11,6 +11,8 @@ package com.moviereviews.dto;
  */
 public class MovieSummaryDto {
 
+    private Long id;
+
     private String title;
 
     private String posterLink;
@@ -21,12 +23,24 @@ public class MovieSummaryDto {
 
     private int numberOfVotes;
 
-    public MovieSummaryDto(final String title, final String posterLink, final int releaseYear, final double imdbRating, final int numberOfVotes) {
+    public MovieSummaryDto() {
+    }
+
+    public MovieSummaryDto(final Long id, final String title, final String posterLink, final int releaseYear, final double imdbRating, final int numberOfVotes) {
+        this.id = id;
         this.title = title;
         this.posterLink = posterLink;
         this.releaseYear = releaseYear;
         this.imdbRating = imdbRating;
         this.numberOfVotes = numberOfVotes;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
