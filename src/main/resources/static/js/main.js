@@ -4,15 +4,18 @@ const moviesRow = document.getElementById('moviesRow');
 const loading = document.getElementById('loading');
 const error = document.getElementById('error');
 const searchBox = document.getElementById('searchBox');
+const movieModal = new bootstrap.Modal(document.getElementById('movieDetailsModal'));
+const modalContent = document.getElementById('movieDetailsContent');
 
 async function init() {
+  showLoading();
   try {
     const movies = await fetchTopRated();
     renderMovies(movies);
   } catch (e) {
     showError(e);
   } finally {
-    loading.style.display = 'none';
+    hideLoading();
   }
 }
 
@@ -22,25 +25,20 @@ function renderMovies(movies) {
     return;
   }
 
-  moviesRow.innerHTML = movies.map(m => movieCardHtml(m)).join('');
-  // add click handlers to cards
+  moviesRow.innerHTML = movies.map(movieCardHtml).join('');
   document.querySelectorAll('.movie-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const id = card.dataset.id;
-      // TODO go to movie details page
-      window.location.href = `/movie.html?id=${encodeURIComponent(id)}`;
-    });
+    card.addEventListener('click', () => showMovieDetails(card.dataset.id));
   });
 }
 
 function movieCardHtml(m) {
-  // tolerant access (works with different DTO field names)
   const id = m.id ?? '';
   const title = escapeHtml(m.title ?? 'Untitled');
   const year = m.releaseYear ?? '';
   const rating = m.imdbRating ?? '';
   const votes = numberWithCommas(m.numberOfVotes) ?? '';
   const poster = m.posterLink ?? 'img/placeholder.png';
+
   return `
     <div class="col-sm-6 col-md-4 col-lg-3">
       <div class="card movie-card h-100" data-id="${id}" style="cursor:pointer">
@@ -57,13 +55,79 @@ function movieCardHtml(m) {
     </div>`;
 }
 
+async function showMovieDetails(id) {
+  modalContent.innerHTML = '<p class="text-center">Loading...</p>';
+  movieModal.show();
+
+  try {
+    const res = await fetch(`/api/v1/movies/${id}`);
+    if (!res.ok) throw new Error('Movie not found');
+    const movie = await res.json();
+    const poster = movie.posterLink ?? 'img/placeholder.png';
+
+    modalContent.innerHTML = `
+      <div class="row">
+        <div class="col-md-4">
+          <img src="${poster}" class="img-fluid" alt="${movie.title}">
+        </div>
+        <div class="col-md-8">
+          <h3>${movie.title} (${movie.releaseYear})</h3>
+          ${movie.originalTitle ? `<p><strong>Original Title:</strong> ${escapeHtml(movie.originalTitle)}</p>` : ''}
+          <p><strong>Genres:</strong> ${movie.genres.join(', ')}</p>
+          <p><strong>Certificate:</strong> ${movie.certificate}</p>
+          <p><strong>Run time:</strong> ${movie.runTime}</p>
+          <p><strong>Overview:</strong> ${movie.overview}</p>
+          <p><strong>IMDB Rating:</strong> ${movie.imdbRating}</p>
+          <p><strong>MetaScore:</strong> ${movie.metaScore}</p>
+          <p><strong>Votes:</strong> ${numberWithCommas(movie.numberOfVotes)}</p>
+          <p><strong>Director:</strong> ${movie.director}</p>
+          <p><strong>Cast:</strong> ${movie.cast.join(', ')}</p>
+          <p><strong>Gross: $</strong> ${movie.gross}</p>
+        </div>
+      </div>`;
+  } catch (e) {
+    modalContent.innerHTML = `<div class="alert alert-danger">Failed to load movie details: ${e.message}</div>`;
+  }
+}
+
+// Search
+let searchTimeout;
+searchBox.addEventListener('input', (ev) => {
+  const q = ev.target.value.trim();
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(async () => {
+    if (q.length < 2) {
+      init();
+      return;
+    }
+    showLoading();
+    try {
+      const results = await searchByTitle(q);
+      renderMovies(results);
+    } catch (e) {
+      showError(e);
+    } finally {
+      hideLoading();
+    }
+  }, 350);
+});
+
 function numberWithCommas(number) {
-    return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? '';
 }
 
 function escapeHtml(str) {
   if (!str) return '';
   return String(str).replace(/[&<>"']/g, s => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[s]);
+}
+
+function showLoading() {
+  loading.style.display = 'block';
+  error.classList.add('d-none');
+}
+
+function hideLoading() {
+  loading.style.display = 'none';
 }
 
 function showError(e) {
@@ -72,28 +136,5 @@ function showError(e) {
   error.textContent = 'Failed to load movies. ' + (e.message || e);
 }
 
-// TODO complete the search functionality
-let searchTimeout;
-searchBox.addEventListener('input', (ev) => {
-  const q = ev.target.value.trim();
-  clearTimeout(searchTimeout);
-  if (q.length < 2) {
-    // reload top movies when query is short
-    searchTimeout = setTimeout(init, 300);
-    return;
-  }
-  searchTimeout = setTimeout(async () => {
-    try {
-      loading.style.display = 'block';
-      const results = await searchByTitle(q);
-      renderMovies(results);
-    } catch (e) {
-      showError(e);
-    } finally {
-      loading.style.display = 'none';
-    }
-  }, 350);
-});
-
-// kick it off
+// Initialize
 init();

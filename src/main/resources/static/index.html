@@ -1,45 +1,63 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Top Rated Movies</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>Movie Reviews</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="/img/logo.png">
+    <link rel="icon" href="img/logo.png">
 
-    <!-- Bootstrap-->
-    <link href="/vendor/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="vendor/bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Bootstrap icons -->
-    <link rel="stylesheet" href="/vendor/bootstrap-icons-1.11.0/bootstrap-icons.css">
+    <link rel="stylesheet" href="vendor/bootstrap-icons-1.11.0/bootstrap-icons.css">
 
-    <!-- Your custom styles -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
+<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="/">Movie Reviews</a>
         <div class="collapse navbar-collapse">
             <form class="d-flex ms-auto" onsubmit="return false">
-                <input id="searchBox" class="form-control me-2" type="search" placeholder="Search movies..." aria-label="Search">
+                <input id="searchBox" class="form-control me-2" type="search" placeholder="Search movies..."
+                       aria-label="Search">
             </form>
         </div>
     </div>
 </nav>
 
+<!-- Main content -->
 <main class="container py-4">
     <h1 class="mb-3">Top Rated Movies</h1>
 
     <div id="loading" class="text-center my-4">Loading...</div>
     <div id="error" class="alert alert-danger d-none"></div>
-
     <div id="moviesRow" class="row g-3"></div>
 </main>
 
+<!-- Movie Details Modal -->
+<div class="modal fade" id="movieDetailsModal" tabindex="-1" aria-labelledby="movieDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="movieDetailsLabel">Movie Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="movieDetailsContent">
+                <!-- Movie details injected via JS -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- JS modules -->
-<script type="module" src="/js/main.js"></script>
-<script src="/vendor/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+<script type="module" src="js/main.js"></script>
+<script src="vendor/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
 </body>
 </html>

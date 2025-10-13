@@ -69,7 +69,7 @@ public class MovieDto {
         return originalTitle;
     }
 
-    public void setOriginalTitle(String originalTitle) {
+    public void setOriginalTitle(final String originalTitle) {
         this.originalTitle = originalTitle;
     }
 

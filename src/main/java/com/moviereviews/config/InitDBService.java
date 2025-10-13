@@ -112,9 +112,10 @@ public class InitDBService {
         for (final MovieDto movieDto : movieDtoList) {
             final Movie movie = new Movie();
             movie.setTitle(movieDto.getTitle());
+            movie.setOriginalTitle(movieDto.getOriginalTitle());
             movie.setReleaseYear(movieDto.getReleaseYear());
             movie.setOverview(movieDto.getOverview());
-            if(movieDto.getPosterLink() == null || movieDto.getPosterLink().isEmpty()) {
+            if (movieDto.getPosterLink() == null || movieDto.getPosterLink().isEmpty()) {
                 movie.setPosterLink("img/placeholder.png");
             } else {
                 movie.setPosterLink("posters/" + movieDto.getPosterLink());
