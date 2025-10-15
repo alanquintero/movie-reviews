@@ -15,6 +15,7 @@ import com.moviereviews.repository.CastMemberRepository;
 import com.moviereviews.repository.DirectorRepository;
 import com.moviereviews.repository.GenreRepository;
 import com.moviereviews.repository.MovieRepository;
+import com.moviereviews.search.SearchManager;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -22,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,12 +56,14 @@ public class InitDBService {
     private final MovieRepository movieRepository;
     private final DirectorRepository directorRepository;
     private final CastMemberRepository castMemberRepository;
+    private final SearchManager searchManager;
 
-    public InitDBService(final GenreRepository genreRepository, final MovieRepository movieRepository, final DirectorRepository directorRepository, final CastMemberRepository castMemberRepository) {
+    public InitDBService(final GenreRepository genreRepository, final MovieRepository movieRepository, final DirectorRepository directorRepository, final CastMemberRepository castMemberRepository, final SearchManager searchManager) {
         this.genreRepository = genreRepository;
         this.movieRepository = movieRepository;
         this.directorRepository = directorRepository;
         this.castMemberRepository = castMemberRepository;
+        this.searchManager = searchManager;
     }
 
     @PostConstruct
@@ -139,8 +144,18 @@ public class InitDBService {
                     .collect(Collectors.toSet());
             movie.setGenres(movieGenres);
 
+            // Add movie to the Trie
+            try {
+                final String titleEncoded = URLEncoder.encode(movie.getTitle().toLowerCase(), StandardCharsets.UTF_8);
+                searchManager.insert(titleEncoded);
+            } catch (Exception ex) {
+                LOGGER.error("Could not insert the movie: {}", movie.getTitle(), ex);
+            }
+
             movies.add(movie);
         }
+        // Uncomment for manual testing
+        // searchManager.print();
 
         LOGGER.info("Inserting Movie data into the DB");
         LOGGER.info("Movies: {}", movies.size());

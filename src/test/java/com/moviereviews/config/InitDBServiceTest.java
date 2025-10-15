@@ -13,6 +13,7 @@ import com.moviereviews.repository.CastMemberRepository;
 import com.moviereviews.repository.DirectorRepository;
 import com.moviereviews.repository.GenreRepository;
 import com.moviereviews.repository.MovieRepository;
+import com.moviereviews.search.SearchManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -39,8 +40,9 @@ class InitDBServiceTest {
         movieRepository = mock(MovieRepository.class);
         directorRepository = mock(DirectorRepository.class);
         castMemberRepository = mock(CastMemberRepository.class);
+        final SearchManager searchManager = mock(SearchManager.class);
 
-        initDBService = new InitDBService(genreRepository, movieRepository, directorRepository, castMemberRepository);
+        initDBService = new InitDBService(genreRepository, movieRepository, directorRepository, castMemberRepository, searchManager);
     }
 
     @Test
