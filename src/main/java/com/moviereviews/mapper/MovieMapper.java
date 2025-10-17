@@ -5,11 +5,14 @@
 package com.moviereviews.mapper;
 
 import com.moviereviews.dto.MovieDetailsDto;
+import com.moviereviews.dto.MovieSearchResultDto;
 import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.entity.CastMember;
 import com.moviereviews.entity.Genre;
 import com.moviereviews.entity.Movie;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,5 +41,13 @@ public class MovieMapper {
                 movie.getOriginalTitle(), movie.getOverview(), movie.getCertificate(), movie.getRunTime(),
                 movie.getMetaScore(), movie.getGross(), movie.getDirector().getDirectorName(), cast, genre
         );
+    }
+
+    public static List<MovieSearchResultDto> toMovieSearchResultDto(final List<Movie> movies) {
+        final List<MovieSearchResultDto> movieSearchResultDtos = new ArrayList<>();
+        for (final Movie movie : movies) {
+            movieSearchResultDtos.add(new MovieSearchResultDto(movie.getId(), movie.getTitle()));
+        }
+        return movieSearchResultDtos;
     }
 }

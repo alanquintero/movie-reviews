@@ -11,6 +11,7 @@ import com.moviereviews.entity.Director;
 import com.moviereviews.entity.Genre;
 import com.moviereviews.entity.Movie;
 import com.moviereviews.repository.MovieRepository;
+import com.moviereviews.search.TrieManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
@@ -30,8 +31,9 @@ class MovieServiceTest {
 
     @BeforeEach
     void setUp() {
+        final TrieManager trieManager = mock(TrieManager.class);
         movieRepository = mock(MovieRepository.class);
-        movieService = new MovieService(movieRepository);
+        movieService = new MovieService(trieManager, movieRepository);
     }
 
     @Test

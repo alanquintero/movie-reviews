@@ -32,6 +32,8 @@ public class TrieNode {
     // Used for indicating the end of a string
     private boolean isEndOfWord;
 
+    private long movieId;
+
     public TrieNode() {
         this(false);
     }
@@ -47,6 +49,14 @@ public class TrieNode {
 
     public void setEndOfWord(final boolean endOfWord) {
         isEndOfWord = endOfWord;
+    }
+
+    public long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(final long movieId) {
+        this.movieId = movieId;
     }
 
     public boolean containsNode(final char c) {

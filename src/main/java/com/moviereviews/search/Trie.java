@@ -4,8 +4,8 @@
  */
 package com.moviereviews.search;
 
-import org.hibernate.annotations.View;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -54,7 +54,7 @@ public class Trie {
      *
      * @param word the movie title.
      */
-    public void insertWord(final String word) {
+    public void insertWord(final String word, final long movieId) {
         TrieNode currentNode = rootNode;
 
         int index = 0;
@@ -75,6 +75,42 @@ public class Trie {
             index++;
         }
         currentNode.setEndOfWord(true);
+        currentNode.setMovieId(movieId);
+    }
+
+    /**
+     * Returns the list of Movie ids based on the given movie title prefix.
+     *
+     * @param prefix the movie title prefix.
+     * @return list of movie ids.
+     */
+    public List<Long> search(final String prefix) {
+        if (prefix.length() < 2) {
+            return null;
+        }
+        TrieNode currentNode = rootNode;
+
+        for (final char c : prefix.toCharArray()) {
+            if (currentNode.containsNode(c)) {
+                currentNode = currentNode.getNode(c);
+            } else {
+                break;
+            }
+        }
+
+        final List<Long> movieIds = new ArrayList<>();
+        getMoviesIdForTrieNode(currentNode, movieIds);
+        return movieIds;
+    }
+
+    private void getMoviesIdForTrieNode(final TrieNode currentNode, final List<Long> movieIds) {
+        if (currentNode.isEndOfWord()) {
+            movieIds.add(currentNode.getMovieId());
+        }
+        final Map<Character, TrieNode> children = currentNode.getChildren();
+        for (final Character key : children.keySet()) {
+            getMoviesIdForTrieNode(children.get(key), movieIds);
+        }
     }
 
     /**

@@ -15,7 +15,7 @@ import com.moviereviews.repository.CastMemberRepository;
 import com.moviereviews.repository.DirectorRepository;
 import com.moviereviews.repository.GenreRepository;
 import com.moviereviews.repository.MovieRepository;
-import com.moviereviews.search.SearchManager;
+import com.moviereviews.search.TrieManager;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -56,14 +56,14 @@ public class InitDBService {
     private final MovieRepository movieRepository;
     private final DirectorRepository directorRepository;
     private final CastMemberRepository castMemberRepository;
-    private final SearchManager searchManager;
+    private final TrieManager trieManager;
 
-    public InitDBService(final GenreRepository genreRepository, final MovieRepository movieRepository, final DirectorRepository directorRepository, final CastMemberRepository castMemberRepository, final SearchManager searchManager) {
+    public InitDBService(final GenreRepository genreRepository, final MovieRepository movieRepository, final DirectorRepository directorRepository, final CastMemberRepository castMemberRepository, final TrieManager trieManager) {
         this.genreRepository = genreRepository;
         this.movieRepository = movieRepository;
         this.directorRepository = directorRepository;
         this.castMemberRepository = castMemberRepository;
-        this.searchManager = searchManager;
+        this.trieManager = trieManager;
     }
 
     @PostConstruct
@@ -144,22 +144,25 @@ public class InitDBService {
                     .collect(Collectors.toSet());
             movie.setGenres(movieGenres);
 
-            // Add movie to the Trie
-            try {
-                final String titleEncoded = URLEncoder.encode(movie.getTitle().toLowerCase(), StandardCharsets.UTF_8);
-                searchManager.insert(titleEncoded);
-            } catch (Exception ex) {
-                LOGGER.error("Could not insert the movie: {}", movie.getTitle(), ex);
-            }
-
             movies.add(movie);
         }
-        // Uncomment for manual testing
-        // searchManager.print();
 
         LOGGER.info("Inserting Movie data into the DB");
         LOGGER.info("Movies: {}", movies.size());
         movieRepository.saveAll(movies);
+
+        final List<Movie> allMovies = movieRepository.findAll();
+        for (final Movie movie : allMovies) {
+            // Add movie to the Trie
+            try {
+                final String titleEncoded = URLEncoder.encode(movie.getTitle().toLowerCase(), StandardCharsets.UTF_8);
+                trieManager.insertMovieTitle(titleEncoded, movie.getId());
+            } catch (Exception ex) {
+                LOGGER.error("Could not insert the movie: {}", movie.getTitle(), ex);
+            }
+        }
+        // Uncomment for manual testing
+        // searchManager.print();
     }
 
     List<MovieDto> getListOfMovies() {

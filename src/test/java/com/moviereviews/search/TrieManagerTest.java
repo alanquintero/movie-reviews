@@ -1,3 +1,7 @@
+/**
+ * Copyright 2025 Alan Quintero
+ * Source: https://github.com/alanquintero/movie-reviews
+ */
 package com.moviereviews.search;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -7,13 +11,13 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SearchManagerTest {
+class TrieManagerTest {
 
-    private SearchManager searchManager;
+    private TrieManager trieManager;
 
     @BeforeEach
     void setUp() {
-        searchManager = new SearchManager();
+        trieManager = new TrieManager();
     }
 
     @Test
@@ -22,10 +26,10 @@ class SearchManagerTest {
         final String word = "test";
 
         // When
-        searchManager.insert(word);
+        trieManager.insertMovieTitle(word, 1L);
 
         // Then
-        TrieNode current = searchManager.getTrieNode();
+        TrieNode current = trieManager.getTrieNode();
         assertNotNull(current);
         final Map<Character, TrieNode> children = current.getChildren();
         assertNotNull(children);
@@ -41,12 +45,12 @@ class SearchManagerTest {
         final String word3 = "cat";
 
         // When
-        searchManager.insert(word1);
-        searchManager.insert(word2);
-        searchManager.insert(word3);
+        trieManager.insertMovieTitle(word1, 1L);
+        trieManager.insertMovieTitle(word2, 2L);
+        trieManager.insertMovieTitle(word3, 3L);
 
         // Then
-        TrieNode current = searchManager.getTrieNode();
+        TrieNode current = trieManager.getTrieNode();
         assertNotNull(current);
         final Map<Character, TrieNode> children = current.getChildren();
         assertNotNull(children);
