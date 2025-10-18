@@ -6,9 +6,8 @@ export async function fetchTopRated() {
   return res.json();
 }
 
-export async function searchByTitle(q) {
-  if (!q) return [];
-  const res = await fetch(`${API_BASE}/search?title=${encodeURIComponent(q)}`);
-  if (!res.ok) throw new Error(`Search failed: ${res.status}`);
+export async function searchByTitle(prefix) {
+  const res = await fetch(`${API_BASE}/search?titlePrefix=${encodeURIComponent(prefix)}`);
+  if (!res.ok) throw new Error('Failed to search movies');
   return res.json();
 }

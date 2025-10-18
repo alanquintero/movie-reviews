@@ -90,28 +90,6 @@ async function showMovieDetails(id) {
   }
 }
 
-// Search
-let searchTimeout;
-searchBox.addEventListener('input', (ev) => {
-  const q = ev.target.value.trim();
-  clearTimeout(searchTimeout);
-  searchTimeout = setTimeout(async () => {
-    if (q.length < 2) {
-      init();
-      return;
-    }
-    showLoading();
-    try {
-      const results = await searchByTitle(q);
-      renderMovies(results);
-    } catch (e) {
-      showError(e);
-    } finally {
-      hideLoading();
-    }
-  }, 350);
-});
-
 function numberWithCommas(number) {
   return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? '';
 }
@@ -129,6 +107,55 @@ function showLoading() {
 function hideLoading() {
   loading.style.display = 'none';
 }
+
+// Search
+let searchTimeout;
+
+searchBox.addEventListener('input', (ev) => {
+  const q = ev.target.value.trim();
+  clearTimeout(searchTimeout);
+  suggestions.innerHTML = '';
+
+  if (q.length < 2) {
+    suggestions.style.display = 'none';
+    return;
+  }
+
+  searchTimeout = setTimeout(async () => {
+    try {
+      const results = await searchByTitle(q);
+      showSuggestions(results);
+    } catch (e) {
+      console.error(e);
+    }
+  }, 300);
+});
+
+function showSuggestions(movies) {
+  if (!movies || movies.length === 0) {
+    suggestions.innerHTML = `<li class="list-group-item list-group-item-action">
+     No movies found!
+    </li>`
+    return;
+  }
+
+  suggestions.innerHTML = movies.map(m => `
+    <li class="list-group-item list-group-item-action" data-id="${m.id}">
+      ${escapeHtml(m.title)}
+    </li>
+  `).join('');
+
+  suggestions.style.display = 'block';
+
+  document.querySelectorAll('#suggestions li').forEach(li => {
+    li.addEventListener('click', () => {
+      const id = li.dataset.id;
+      searchBox.value = li.textContent;
+      suggestions.style.display = 'none';
+      showMovieDetails(id);
+    });
+  });
+};
 
 function showError(e) {
   console.error(e);

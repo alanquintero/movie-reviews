@@ -5,14 +5,12 @@
 package com.moviereviews.controller;
 
 import com.moviereviews.dto.MovieDetailsDto;
+import com.moviereviews.dto.MovieSearchResultDto;
 import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.service.MovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -60,5 +58,20 @@ public class MovieController {
         final MovieDetailsDto movie = movieService.getMovieById(id);
         LOGGER.info("Movie: {}", movie);
         return movie;
+    }
+
+    /**
+     * Retrieves the movie details if movie found.
+     * Endpoint: GET /api/v1/movies/search?prefix={titlePrefix}
+     *
+     * @param titlePrefix the movie title prefix
+     * @return the movie search result if movies found
+     */
+    @GetMapping("/search")
+    public List<MovieSearchResultDto> searchMovieByTitlePrefix(@RequestParam final String titlePrefix) {
+        LOGGER.info("searchMovieByTitlePrefix: " + titlePrefix);
+        final List<MovieSearchResultDto> movies = movieService.searchMovieByTitlePrefix(titlePrefix);
+        LOGGER.info("Movies: {}", movies);
+        return movies;
     }
 }

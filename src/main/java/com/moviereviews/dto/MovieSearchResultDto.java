@@ -35,4 +35,12 @@ public class MovieSearchResultDto {
     public void setTitle(final String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return "MovieSearchResultDto{" +
+                "title='" + title + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

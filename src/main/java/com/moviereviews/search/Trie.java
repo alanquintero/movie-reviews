@@ -4,6 +4,8 @@
  */
 package com.moviereviews.search;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -86,17 +88,24 @@ public class Trie {
      */
     public List<Long> search(final String prefix) {
         final List<Long> movieIds = new ArrayList<>();
-        if (prefix.length() < 2) {
+        final String prefixEncoded = URLEncoder.encode(prefix.toLowerCase(), StandardCharsets.UTF_8);
+        if (prefixEncoded.length() < 2) {
             return movieIds;
         }
         TrieNode currentNode = rootNode;
 
-        for (final char c : prefix.toCharArray()) {
+        int indexCount = 0;
+        for (final char c : prefixEncoded.toCharArray()) {
             if (currentNode.containsNode(c)) {
+                indexCount++;
                 currentNode = currentNode.getNode(c);
             } else {
                 break;
             }
+        }
+        if (indexCount != prefixEncoded.length()) {
+            // Prefix not found
+            return movieIds;
         }
 
         getMoviesIdForTrieNode(currentNode, movieIds);
