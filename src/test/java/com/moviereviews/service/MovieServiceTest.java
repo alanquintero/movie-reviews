@@ -5,6 +5,7 @@
 package com.moviereviews.service;
 
 import com.moviereviews.dto.MovieDetailsDto;
+import com.moviereviews.dto.MovieSearchResultDto;
 import com.moviereviews.dto.MovieSummaryDto;
 import com.moviereviews.entity.CastMember;
 import com.moviereviews.entity.Director;
@@ -16,22 +17,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class MovieServiceTest {
 
+    private TrieManager trieManager;
     private MovieRepository movieRepository;
     private MovieService movieService;
 
     @BeforeEach
     void setUp() {
-        final TrieManager trieManager = mock(TrieManager.class);
+        trieManager = mock(TrieManager.class);
         movieRepository = mock(MovieRepository.class);
         movieService = new MovieService(trieManager, movieRepository);
     }
@@ -120,5 +119,56 @@ class MovieServiceTest {
         final MovieDetailsDto movieDetailsDto = movieService.getMovieById(1L);
 
         assertNull(movieDetailsDto);
+    }
+
+    @Test
+    public void searchMovieByTitlePrefix() {
+        // Given
+        final List<Long> moviesIds = new ArrayList<>();
+        moviesIds.add(1L);
+        moviesIds.add(2L);
+        moviesIds.add(3L);
+        when(trieManager.searchMovieByTitlePrefix(anyString())).thenReturn(moviesIds);
+        final List<Movie> movieResult = new ArrayList<>();
+        final Movie movie1 = new Movie();
+        movie1.setId(1L);
+        movie1.setTitle("The Shawshank Redemption");
+        movie1.setImdbRating(9.3);
+        movieResult.add(movie1);
+        final Movie movie2 = new Movie();
+        movie2.setId(2L);
+        movie2.setTitle("The Godfather");
+        movie2.setImdbRating(9.0);
+        movieResult.add(movie2);
+        final Movie movie3 = new Movie();
+        movie3.setId(3L);
+        movie3.setTitle("The Godfather II");
+        movie3.setImdbRating(9.1);
+        movieResult.add(movie3);
+        when(movieRepository.findAllById(moviesIds)).thenReturn(movieResult);
+
+        // When
+        final List<MovieSearchResultDto> movies = movieService.searchMovieByTitlePrefix("the");
+
+        // Then
+        assertNotNull(movies);
+        assertFalse(movies.isEmpty());
+        assertEquals(3, movies.size());
+        assertEquals(1L, movies.get(0).getId());
+        assertEquals(3L, movies.get(1).getId());
+        assertEquals(2L, movies.get(2).getId());
+    }
+
+    @Test
+    public void searchMovieByTitlePrefix_noMoviesFound() {
+        // Given
+        when(trieManager.searchMovieByTitlePrefix(anyString())).thenReturn(List.of());
+
+        // When
+        final List<MovieSearchResultDto> movies = movieService.searchMovieByTitlePrefix("the");
+
+        // Then
+        assertNotNull(movies);
+        assertTrue(movies.isEmpty());
     }
 }

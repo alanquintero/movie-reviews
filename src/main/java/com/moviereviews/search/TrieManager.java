@@ -55,6 +55,13 @@ public class TrieManager {
     }
 
     /**
+     * Use it ONLY for testing.
+     */
+    public void clear() {
+        trie.clear();
+    }
+
+    /**
      * Use it ONLY for manual testing.
      */
     public TrieNode getTrieNode() {

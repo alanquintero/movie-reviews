@@ -85,8 +85,9 @@ public class Trie {
      * @return list of movie ids.
      */
     public List<Long> search(final String prefix) {
+        final List<Long> movieIds = new ArrayList<>();
         if (prefix.length() < 2) {
-            return null;
+            return movieIds;
         }
         TrieNode currentNode = rootNode;
 
@@ -98,7 +99,6 @@ public class Trie {
             }
         }
 
-        final List<Long> movieIds = new ArrayList<>();
         getMoviesIdForTrieNode(currentNode, movieIds);
         return movieIds;
     }
@@ -112,6 +112,14 @@ public class Trie {
             getMoviesIdForTrieNode(children.get(key), movieIds);
         }
     }
+
+    /**
+     * Use it ONLY for testing.
+     */
+    public void clear() {
+        trie = new Trie();
+    }
+
 
     /**
      * Use it ONLY for testing.

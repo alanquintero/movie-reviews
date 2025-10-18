@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -75,12 +76,12 @@ public class MovieService {
         LOGGER.info("searchMovieByTitlePrefix");
         final List<Long> moviesIds = trieManager.searchMovieByTitlePrefix(titlePrefix);
 
-        if(moviesIds == null || moviesIds.isEmpty()) {
-            return null;
+        if (moviesIds.isEmpty()) {
+            return new ArrayList<>();
         }
         final List<Movie> movies = movieRepository.findAllById(moviesIds);
-        if(movies.isEmpty()) {
-            return null;
+        if (movies.isEmpty()) {
+            return new ArrayList<>();
         }
         // Sort desc the movies found by IMDb rating and collects the top 5
         final List<Movie> sortedMovies = movies.stream().sorted(Comparator.comparingDouble(Movie::getImdbRating).reversed()).limit(5).toList();

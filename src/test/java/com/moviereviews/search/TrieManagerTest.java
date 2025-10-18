@@ -4,9 +4,11 @@
  */
 package com.moviereviews.search;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +20,11 @@ class TrieManagerTest {
     @BeforeEach
     void setUp() {
         trieManager = new TrieManager();
+    }
+
+    @AfterEach
+    void tearDown() {
+        trieManager.clear();
     }
 
     @Test
@@ -58,6 +65,39 @@ class TrieManagerTest {
         checkTrieContainsWord(current, word1);
         checkTrieContainsWord(current, word2);
         checkTrieContainsWord(current, word3);
+    }
+
+    @Test
+    void searchMovieByTitlePrefix() {
+        // Given
+        trieManager.insertMovieTitle("test", 1L);
+        trieManager.insertMovieTitle("tester", 2L);
+        trieManager.insertMovieTitle("cat", 3L);
+        trieManager.insertMovieTitle("terminator", 4L);
+        trieManager.insertMovieTitle("testing", 5L);
+
+        // When
+        final List<Long> movieIds = trieManager.searchMovieByTitlePrefix("te");
+
+        // Then
+        assertNotNull(movieIds);
+        assertFalse(movieIds.isEmpty());
+        assertEquals(4, movieIds.size());
+        assertTrue(movieIds.contains(1L));
+        assertTrue(movieIds.contains(2L));
+        assertTrue(movieIds.contains(4L));
+        assertTrue(movieIds.contains(5L));
+        assertFalse(movieIds.contains(3L));
+    }
+
+    @Test
+    void searchMovieByTitlePrefix_noMoviesFound() {
+        // Given & When
+        final List<Long> movieIds = trieManager.searchMovieByTitlePrefix("te");
+
+        // Then
+        assertNotNull(movieIds);
+        assertTrue(movieIds.isEmpty());
     }
 
     private void checkTrieContainsWord(TrieNode current, final String word) {
