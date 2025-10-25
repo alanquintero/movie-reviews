@@ -17,6 +17,8 @@ It’s built with **Spring Boot**, and **JavaScript**, featuring a **Trie** data
 
 ![Search movie](docs/search.gif)
 
+![Search movie click](docs/search-click.gif)
+
 ### 📚 Movie List
 
 * View all movies with pagination.
@@ -24,6 +26,10 @@ It’s built with **Spring Boot**, and **JavaScript**, featuring a **Trie** data
 * Clean, responsive, and simple UI.
 
 ![Sort movies](docs/sort.gif)
+
+### 👉 Click on any movie to see the full movie information
+
+![Click](docs/click.gif)
 
 ### 💾 Dataset
 
