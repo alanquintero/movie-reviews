@@ -22,13 +22,20 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="/">Movie Reviews</a>
+        <a class="navbar-brand fw-bold" href="#">Movie Reviews</a>
         <div class="collapse navbar-collapse">
-            <form class="d-flex ms-auto" onsubmit="return false">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a id="topMoviesLink" class="nav-link active" href="#">Top Rated Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a id="allMoviesLink" class="nav-link" href="#">All Movies</a>
+                </li>
+            </ul>
+            <form class="d-flex ms-auto position-relative" onsubmit="return false">
                 <input id="searchBox" class="form-control me-2" type="search" placeholder="Search movies..."
                        aria-label="Search">
-                <ul id="suggestions" class="list-group position-absolute w-100"
-                    style="top:100%; z-index: 1000;"></ul>
+                <ul id="suggestions" class="list-group position-absolute w-100" style="top:100%; z-index: 1000;"></ul>
             </form>
         </div>
     </div>
@@ -36,11 +43,45 @@
 
 <!-- Main content -->
 <main class="container py-4">
-    <h1 class="mb-3">Top Rated Movies</h1>
 
-    <div id="loading" class="text-center my-4">Loading...</div>
-    <div id="error" class="alert alert-danger d-none"></div>
-    <div id="moviesRow" class="row g-3"></div>
+    <!-- Top Rated Movies Section -->
+    <section id="topMoviesSection">
+        <h1 class="mb-3">Top Rated Movies</h1>
+        <div id="loading" class="text-center my-4">Loading...</div>
+        <div id="error" class="alert alert-danger d-none"></div>
+        <div id="moviesRow" class="row g-3"></div>
+    </section>
+
+    <!-- All Movies Section -->
+    <section id="allMoviesSection" class="d-none">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">All Movies</h1>
+            <div>
+                <label for="sortSelect" class="me-2 fw-bold">Sort by:</label>
+                <select id="sortSelect" class="form-select d-inline-block w-auto">
+                    <option value="imdbRating,desc">Rating (High → Low)</option>
+                    <option value="imdbRating,asc">Rating (Low -> High)</option>
+                    <option value="title,asc">Title (A → Z)</option>
+                    <option value="title,desc">Title (Z → A)</option>
+                    <option value="releaseYear,desc">Release Year (Newest → Oldest)</option>
+                    <option value="releaseYear,asc">Release Year (Oldest → Newest)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="d-flex justify-content-center mt-4">
+            <ul id="pagination-top" class="pagination mb-0"></ul>
+        </nav>
+
+        <div id="allMoviesList" class="list-group"></div>
+
+        <!-- Pagination -->
+        <nav class="d-flex justify-content-center mt-4">
+            <ul id="pagination-bottom" class="pagination mb-0"></ul>
+        </nav>
+    </section>
+
 </main>
 
 <!-- Movie Details Modal -->
@@ -58,8 +99,8 @@
     </div>
 </div>
 
-<!-- JS modules -->
+<!-- JS -->
 <script type="module" src="js/main.js"></script>
-<script src="vendor/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+<script src="vendor/bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -7,9 +7,13 @@ package com.moviereviews.controller;
 import com.moviereviews.dto.MovieDetailsDto;
 import com.moviereviews.dto.MovieSearchResultDto;
 import com.moviereviews.dto.MovieSummaryDto;
+import com.moviereviews.entity.Movie;
 import com.moviereviews.service.MovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,6 +62,19 @@ public class MovieController {
         final MovieDetailsDto movie = movieService.getMovieById(id);
         LOGGER.info("Movie: {}", movie);
         return movie;
+    }
+
+    /**
+     * Returns paginated and sorted list of all movies.
+     * Example: /api/v1/movies/all?page=0&size=50&sort=imdbRating,desc
+     *
+     * @param pageable The Pageable with the sorting information
+     * @return The Pageable with movies.
+     */
+    @GetMapping("/all")
+    public ResponseEntity<Page<MovieSummaryDto>> getAllMovies(final Pageable pageable) {
+        Page<MovieSummaryDto> movies = movieService.getAllMovies(pageable);
+        return ResponseEntity.ok(movies);
     }
 
     /**

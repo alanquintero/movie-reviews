@@ -13,7 +13,9 @@ import com.moviereviews.repository.MovieRepository;
 import com.moviereviews.search.TrieManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -64,6 +66,17 @@ public class MovieService {
         LOGGER.info("getMovieById");
         final Optional<Movie> movieOpt = movieRepository.findById(id);
         return movieOpt.map(MovieMapper::toMovieDetailsDto).orElse(null);
+    }
+
+    /**
+     * Returns a Pageable with movies sorted by the given setup.
+     *
+     * @param pageable The Pageable with the sorting information
+     * @return The Pageable with movies.
+     */
+    public Page<MovieSummaryDto> getAllMovies(final Pageable pageable) {
+        final Page<Movie> movies = movieRepository.findAll(pageable);
+        return movies.map(MovieMapper::toMovieSummaryDto);
     }
 
     /**
