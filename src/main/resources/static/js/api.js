@@ -1,7 +1,7 @@
 const API_BASE = '/api/v1/movies';
 
 export async function fetchTopRated() {
-    const res = await fetch(`${API_BASE}/top-rated`);
+    const res = await fetch(`${API_BASE}/top`);
     if (!res.ok) throw new Error(`Failed to load top movies: ${res.status} ${res.statusText}`);
     return res.json();
 }

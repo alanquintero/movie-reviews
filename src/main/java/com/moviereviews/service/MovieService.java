@@ -14,7 +14,6 @@ import com.moviereviews.search.TrieManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -41,19 +40,6 @@ public class MovieService {
     public MovieService(final TrieManager trieManager, final MovieRepository movieRepository) {
         this.trieManager = trieManager;
         this.movieRepository = movieRepository;
-    }
-
-    /**
-     * Return the top-rated 15 movies based on IMDB raring.
-     *
-     * @return list of top-rated movies
-     */
-    public List<MovieSummaryDto> getTopRatedMovies() {
-        LOGGER.info("getTopRatedMovies");
-        final List<Movie> topRatedMovies = movieRepository.findTopRatedMovies(PageRequest.of(0, 15));
-        return topRatedMovies.stream()
-                .map(MovieMapper::toMovieSummaryDto)
-                .toList();
     }
 
     /**

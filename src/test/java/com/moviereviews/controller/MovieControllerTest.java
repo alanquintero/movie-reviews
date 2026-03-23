@@ -34,28 +34,6 @@ class MovieControllerTest {
     }
 
     @Test
-    void getTopRatedMovies() throws Exception {
-        // Mock data
-        final MovieSummaryDto movie1 = new MovieSummaryDto(1L, "The Shawshank Redemption", "path/image1.jpg", 1994, 9.3, 2343110);
-        final MovieSummaryDto movie2 = new MovieSummaryDto(2L, "The Godfather", "path/image2.jpg", 1972, 9.0, 1620367);
-
-        final List<MovieSummaryDto> mockMovies = List.of(movie1, movie2);
-        when(movieService.getTopRatedMovies()).thenReturn(mockMovies);
-
-        // Perform GET request
-        mockMvc.perform(get("/api/v1/movies/top-rated")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(2))
-                .andExpect(jsonPath("$[0].title").value("The Shawshank Redemption"))
-                .andExpect(jsonPath("$[0].imdbRating").value(9.3))
-                .andExpect(jsonPath("$[1].title").value("The Godfather"));
-
-        // Verify service call
-        verify(movieService, times(1)).getTopRatedMovies();
-    }
-
-    @Test
     void getMovieDetails() throws Exception {
         // Mock data
         final Set<String> cast = new HashSet<>();

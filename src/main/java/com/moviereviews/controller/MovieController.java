@@ -7,7 +7,6 @@ package com.moviereviews.controller;
 import com.moviereviews.dto.MovieDetailsDto;
 import com.moviereviews.dto.MovieSearchResultDto;
 import com.moviereviews.dto.MovieSummaryDto;
-import com.moviereviews.entity.Movie;
 import com.moviereviews.service.MovieService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,19 +36,6 @@ public class MovieController {
     }
 
     /**
-     * Retrieves top-rated movies based on IMDB rating.
-     * Endpoint: GET /api/v1/movies/top-rated
-     *
-     * @return List of Movie objects as JSON.
-     */
-    @GetMapping("/top-rated")
-    public List<MovieSummaryDto> getTopRatedMovies() {
-        final List<MovieSummaryDto> movies = movieService.getTopRatedMovies();
-        LOGGER.info("Movies: {}", movies);
-        return movies;
-    }
-
-    /**
      * Retrieves the movie details if movie found.
      * Endpoint: GET /api/v1/movies/{id}
      *
@@ -60,7 +46,7 @@ public class MovieController {
     public MovieDetailsDto getMovieDetails(@PathVariable final long id) {
         LOGGER.info("getMovieDetails");
         final MovieDetailsDto movie = movieService.getMovieById(id);
-        LOGGER.info("Movie: {}", movie);
+        LOGGER.debug("Movie: {}", movie);
         return movie;
     }
 
@@ -88,7 +74,7 @@ public class MovieController {
     public List<MovieSearchResultDto> searchMovieByTitlePrefix(@RequestParam final String titlePrefix) {
         LOGGER.info("searchMovieByTitlePrefix: " + titlePrefix);
         final List<MovieSearchResultDto> movies = movieService.searchMovieByTitlePrefix(titlePrefix);
-        LOGGER.info("Movies: {}", movies);
+        LOGGER.debug("Movies: {}", movies);
         return movies;
     }
 }
