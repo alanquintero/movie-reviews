@@ -40,7 +40,7 @@ class InitDBServiceTest {
         movieRepository = mock(MovieRepository.class);
         directorRepository = mock(DirectorRepository.class);
         castMemberRepository = mock(CastMemberRepository.class);
-        final TrieManager trieManager = mock(TrieManager.class);
+        final TrieManager trieManager = new TrieManager();
 
         initDBService = new InitDBService(genreRepository, movieRepository, directorRepository, castMemberRepository, trieManager);
     }
