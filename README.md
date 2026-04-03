@@ -87,6 +87,16 @@ mvn clean install
 mvn spring-boot:run
 ```
 
+### Run tests
+```bash
+mvn test
+```bash
+
+### Run tests with coverage (jacoco)
+```bash
+mvn clean verify
+```bash
+
 ### 4️⃣ Open in browser
 
 Visit 👉 [http://localhost:8080](http://localhost:8080)
