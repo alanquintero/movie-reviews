@@ -3,9 +3,10 @@
 .project
 .settings/
 
-# IntelliJ IDEA
+# IDEs
 /.idea/
 /*.iml
+.vscode/
 
 # Maven
 /target/

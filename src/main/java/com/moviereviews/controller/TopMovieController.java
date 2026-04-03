@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -31,29 +32,20 @@ public class TopMovieController {
 
     /**
      * Retrieves top-rated movies based on IMDB rating.
-     * Endpoint: GET /api/v1/movies/top
+     * Endpoint: GET /api/v1/top
      *
      * @return List of Movie objects as JSON.
      */
     @GetMapping
-    public ResponseEntity<List<MovieSummaryDto>> getTopRatedMovies() {
-        final List<MovieSummaryDto> movies = topMovieService.getTopRatedMovies();
+    public ResponseEntity<List<MovieSummaryDto>> getTopRatedMovies(@RequestParam(name = "n") Optional<Integer> n) {
+        final List<MovieSummaryDto> movies;
+        if(n.isPresent()) {
+            movies = topMovieService.getTopNRatedMovies(n.get());
+        } else {
+            movies = topMovieService.getTopRatedMovies();
+        }
         LOGGER.debug("Movies: {}", movies);
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
-
-    /**
-     * Retrieves top-rated movies based on IMDB rating.
-     * Endpoint: GET /api/v1/movies/top?n=5
-     *
-     * @return List of Movie objects as JSON.
-     */
-    @GetMapping
-    public ResponseEntity<List<MovieSummaryDto>> getTopNRatedMovies(@RequestParam(name = "n") int n) {
-        final List<MovieSummaryDto> movies = topMovieService.getTopNRatedMovies(n);
-        LOGGER.debug("Movies: {}", movies);
-        return new ResponseEntity<>(movies, HttpStatus.OK);
-    }
-
 
 }
