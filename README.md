@@ -90,12 +90,12 @@ mvn spring-boot:run
 ### Run tests
 ```bash
 mvn test
-```bash
+```
 
 ### Run tests with coverage (jacoco)
 ```bash
 mvn clean verify
-```bash
+```
 
 ### 4️⃣ Open in browser
 
