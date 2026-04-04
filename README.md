@@ -100,3 +100,32 @@ mvn clean verify
 ### 4️⃣ Open in browser
 
 Visit 👉 [http://localhost:8080](http://localhost:8080)
+
+
+---
+
+## 📨 Kafka (Optional)
+
+Run Kafka locally with Docker:
+
+```bash
+docker compose up -d
+```
+
+Spring Boot connects to Kafka using:
+
+```properties
+spring.kafka.bootstrap-servers=localhost:29092
+```
+
+**Notes**
+
+* App runs at `http://localhost:8080`
+* Kafka runs at `localhost:29092`
+* If running the app inside Docker, use:
+
+  ```properties
+  spring.kafka.bootstrap-servers=kafka:9092
+  ```
+
+---
